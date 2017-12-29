@@ -54,6 +54,12 @@
             {
                 <tr style="border-bottom:1px solid black;">
                     @{
+                        string newMedicineName = string.Empty;
+                        if (item.NameOfMedicine.Equals("Other"))
+                        {
+                            newMedicineName = item.newmedicine;
+                        }
+                        else { newMedicineName = item.NameOfMedicine; }
 
                         string medicineDetails = string.Empty;
                         int quantity = 1;
@@ -61,30 +67,30 @@
                         {
                             case "Solution":
                             case "Syrup":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine;
                                 break;
                             case "Tablet":
                             case "Capsule":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " mg";
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine + "..." + item.Weight + " mg";
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Creame":
                             case "Ointment":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " grm";
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine + "..." + item.Weight + " grm";
                                 break;
                             case "Injection":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine;
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Saline":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " ml";
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine + "..." + item.Weight + " ml";
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Drops":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine;
                                 break;
                             case "Other":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight;
+                                medicineDetails = newMedicineName + "..." + item.TypeOfMedicine + "..." + item.Weight;
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                         }
@@ -149,7 +155,7 @@
 
 
             </tr>
-            
+
         </tbody>
     </table>
 
