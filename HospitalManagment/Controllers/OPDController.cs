@@ -156,7 +156,14 @@ namespace HospitalManagment.Controllers
                 case "Save History":
                     using (HospitalEntities ent = new HospitalEntities())
                     {
+
                         History patientHistory = new HospitalManagment.History();
+                        if (opd.history != null && opd.history.HistoryId > 0)
+                        {
+                            patientHistory = (from histry in ent.Histories
+                                              where histry.HistoryId == opd.history.HistoryId
+                                              select histry).FirstOrDefault();
+                        }
                         patientHistory.EDD = Convert.ToDateTime(((string[])opd.history.EDD)[0]);
                         patientHistory.EDDCorrectedByUSG = Convert.ToDateTime(((string[])opd.history.EDDCorrectedByUSG)[0]);
                         patientHistory.FirstTTInjection = Convert.ToDateTime(((string[])opd.history.FirstTTInjection)[0]);
@@ -176,7 +183,11 @@ namespace HospitalManagment.Controllers
                         patientHistory.Gravidity = opd.history.Gravidity;
                         patientHistory.LivingChildren = opd.history.LivingChildren;
                         patientHistory.Abortions = opd.history.Abortions;
-                        ent.Histories.Add(patientHistory);
+                        if (opd.history != null && opd.history.HistoryId <= 0)
+                        {
+                            ent.Histories.Add(patientHistory);
+
+                        }
                         ent.SaveChanges();
                     }
                     ModelState.AddModelError("Error", "History details saved successfully!");
@@ -290,7 +301,13 @@ namespace HospitalManagment.Controllers
                     return View(opd);
 
                 case "Print Prescription":
-                    return View("PrintPrescription", opd);
+                    if (opd.prscriptionList != null && opd.prscriptionList.Count > 0)
+                        return View("PrintPrescription", opd);
+                    else
+                    {
+                        ModelState.AddModelError("Error", "Please save prescription!");
+                        return View();
+                    }
             }
             return View();
         }
@@ -521,7 +538,7 @@ namespace HospitalManagment.Controllers
                 }
             }
 
-            
+
             Response.Redirect("~\\File\\Report.pdf");
 
         }

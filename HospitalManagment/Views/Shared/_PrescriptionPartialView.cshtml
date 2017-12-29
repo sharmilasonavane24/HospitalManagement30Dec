@@ -67,7 +67,7 @@
         var listName = "prscriptionList";
         //var prscriptionList;
         var opdId = @Html.Raw(Json.Encode(Model.OPDID));
-        if (  opdId > 0) {
+        if (opdId > 0) {
             var qtd = 0;
             addRow();
             //if (Model.prscriptionList == null)
@@ -85,52 +85,53 @@
 
             }*@
 
-             var index = 1;
-        $("#tablePost > tbody > tr").each(function () {
-            debugger;
-            var hv = $('#PrescriptionID' + index).val();
-            index += 1;
-            if (hv == undefined) {
-                var PrescriptionID = $(this).data("PrescriptionID");
-                var medicineName = $(this).data("medicinename");
-                var Dosage = $(this).data("dosage");
-                var numberOfDays = $(this).data("numberofdays");
-                var comment = $(this).data("comment");
-                var ManagementPlan = $(this).data("managementplan");
+            var index = 1;
 
-                var weight = $(this).data("weight");
-                var TypeOfMedicine = $(this).data("typeofmedicine");
-                var newMedicine = $(this).data("newmedicine");
+                $("#tablePost > tbody > tr").each(function () {
+                    debugger;
+                    var hv = $('#PrescriptionID' + index).val();
+                    index += 1;
+                    if (hv == undefined) {
+                        var PrescriptionID = $(this).data("PrescriptionID");
+                        var medicineName = $(this).data("medicinename");
+                        var Dosage = $(this).data("dosage");
+                        var numberOfDays = $(this).data("numberofdays");
+                        var comment = $(this).data("comment");
+                        var ManagementPlan = $(this).data("managementplan");
 
-
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + medicineName + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + Dosage + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + numberOfDays + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + comment + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].ManagementPlan' value= '" + ManagementPlan + "' > ");
-
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + weight + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + newMedicine + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + TypeOfMedicine + "' > ");
-            }
-            else
-            {
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + $(this).find("td").eq(0).text().trim()  + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + $(this).find("td").eq(1).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + $(this).find("td").eq(2).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + $(this).find("td").eq(3).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].ManagementPlan' value= '" + $(this).find("td").eq(4).text().trim() + "' > ");
-
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(7).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
-                $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
+                        var weight = $(this).data("weight");
+                        var TypeOfMedicine = $(this).data("typeofmedicine");
+                        var newMedicine = $(this).data("newmedicine");
 
 
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + medicineName + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + Dosage + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + numberOfDays + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + comment + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].ManagementPlan' value= '" + ManagementPlan + "' > ");
 
-            }
-            qtd += 1;
-        });
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + weight + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + newMedicine + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + TypeOfMedicine + "' > ");
+                    }
+                    else {
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + $(this).find("td").eq(0).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + $(this).find("td").eq(1).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + $(this).find("td").eq(2).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + $(this).find("td").eq(3).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].ManagementPlan' value= '" + $(this).find("td").eq(4).text().trim() + "' > ");
+
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(7).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
+
+
+
+                    }
+                    qtd += 1;
+                });
+
         }
         else {
             alert("Please save clinical examination!");
@@ -210,12 +211,12 @@
 
                     <div class="col-md-10">
                         @{
-                    var typeOfMedicine = TempData.Peek("TypeOfMedicine") as SelectList;
-                    if (typeOfMedicine != null)
-                    {
-                        @Html.DropDownList("TypeOfMedicine", typeOfMedicine, "Tablet")
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
-            }
+                            var typeOfMedicine = TempData.Peek("TypeOfMedicine") as SelectList;
+                            if (typeOfMedicine != null)
+                            {
+                                @Html.DropDownList("TypeOfMedicine", typeOfMedicine, "Tablet")
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
+                            }
                         }
                         @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
                     </div>
@@ -225,12 +226,12 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         @{
-                    var data = TempData.Peek("MedicineNames") as SelectList;
-                    if (data != null)
-                    {
-                        @Html.DropDownList("NameOfMedicine", data, "Select Medicine", new { style = "width: 150px;" })
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
-            }
+                            var data = TempData.Peek("MedicineNames") as SelectList;
+                            if (data != null)
+                            {
+                                @Html.DropDownList("NameOfMedicine", data, "Select Medicine", new { style = "width: 150px;" })
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
+                            }
                         }
                     </div>
                 </div>
@@ -376,6 +377,3 @@
         </table>
     </div>
 </div>
-
-
-
