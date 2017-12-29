@@ -23,6 +23,7 @@ namespace HospitalManagment
         public System.DateTime CreatedDateTime { get; set; }
         public int MedcineNamesId { get; set; }
         public Nullable<System.DateTime> NextAppoinmentDate { get; set; }
+        public string ManagementPlan { get; set; }
     
         public virtual MedcineName MedcineName { get; set; }
         public virtual OPD OPD { get; set; }

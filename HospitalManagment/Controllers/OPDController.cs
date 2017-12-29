@@ -6,6 +6,8 @@ using HospitalManagment.Models;
 using System.Globalization;
 using HospitalManagment.CustomValidation;
 using System.Text;
+using System.Web;
+using System.IO;
 
 namespace HospitalManagment.Controllers
 {
@@ -235,6 +237,7 @@ namespace HospitalManagment.Controllers
                                 {
                                     prescription.Quantity = Convert.ToString(item.NumberOfDays * item.Dosage);
                                 }
+                                 
                                 ent.Prescriptions.Add(prescription);
                                 ent.SaveChanges();
                                 item.PrescriptionID = prescription.PrescriptionID;
@@ -252,8 +255,8 @@ namespace HospitalManagment.Controllers
 
                         HospitalManagment.OPD oPD = new HospitalManagment.OPD();
                         var person = (from pers in ent.People
-                                                           where pers.PersonId == opd.PersonId
-                                                           select pers
+                                      where pers.PersonId == opd.PersonId
+                                      select pers
                                                             ).FirstOrDefault();
                         if (opd.OPDID > 0)
                         {
@@ -385,6 +388,107 @@ namespace HospitalManagment.Controllers
             }
         }
 
+        public ActionResult ActionName(int OpdId)
+        {
+            try
+            {
+                // ElementViewModel model = new ElementViewModel();
+                Investigations model = new Investigations();
+                model.OpdId = OpdId;
+                // model.List = new List<ElementViewModelItem> { new ElementViewModelItem { IdElement = 1 }, new ElementViewModelItem { IdElement = 2 } };
+                return PartialView("_InvestigationsPartialView", model);
+            }
+            catch (Exception ex)
+            {
+                return null;
+                //ex.Message.ToString();
+            }
+
+
+        }
+
+
+        //HttpPostedFileBase file,
+
+        [HttpPost]
+        public void UploadFile(HttpPostedFileBase file)
+        {
+            try
+            {
+
+                using (HospitalEntities ent = new HospitalEntities())
+                {
+                    Investigation _investigation = new Investigation();
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string DateWsepath = Server.MapPath("~/" + DateTime.Today.ToString("ddMMyyyy") + "");
+                        if (!System.IO.Directory.Exists(DateWsepath))
+                        {
+                            System.IO.Directory.CreateDirectory(DateWsepath);
+                        }
+
+                        string _FileName = Path.GetFileName(file.FileName);
+                        string _path = Path.Combine(DateWsepath, _FileName);
+
+                        TempData["AllAttachmentinOnePDFPath"] = _path;
+                        file.SaveAs(_path);
+                         
+                    }
+
+                }
+                ViewBag.Message = "File Uploaded Successfully!!";
+                 
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "File upload failed!!";
+                
+            }
+
+            
+        }
+
+        [HttpPost]
+        public void SaveInvestigations(Investigations investigations)
+        {
+            try
+            {
+                using (HospitalEntities ent = new HospitalEntities())
+                {
+                    Investigation _investigation = new Investigation();
+                    var path = TempData["AllAttachmentinOnePDFPath"];
+                    if (path != null && !string.IsNullOrEmpty(Convert.ToString( path)))
+                        _investigation.AllAttachmentinOnePDF = System.IO.File.ReadAllBytes(Convert.ToString(path));
+
+                    _investigation.PersonId = investigations.PersonId;
+                    _investigation.BloodGroup = investigations.BloodGroup;
+                    _investigation.HB = investigations.HB;
+                    _investigation.HBSAvg = investigations.HBSAvg;
+                    _investigation.HIV_II = investigations.HIVNII;
+                    _investigation.HSG = investigations.HSG;
+                    _investigation.OpdId = investigations.OpdId;
+                    _investigation.Other = investigations.Other;
+                    _investigation.RBS = investigations.RBS;
+                    _investigation.SemenAnalysis = investigations.SemenAnalysis;
+                    _investigation.Sr_Creat = investigations.SrCreat;
+                    _investigation.Sr_TSH = investigations.SrTSH;
+                    _investigation.Sr_Urea = investigations.SrUrea;
+                    _investigation.UrineRM = investigations.UrineRM;
+                    _investigation.USG = investigations.USG;
+                    _investigation.VDRL = investigations.VDRL;
+                    ent.Investigations.Add(_investigation);
+                    ent.SaveChanges();
+                }
+                ViewBag.Message = "File Uploaded Successfully!!";
+                 
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "File upload failed!!";
+               
+            }
+        }
         private Decimal GetAge(DateTime birthDate)
         {
             DateTime Now = DateTime.Now;

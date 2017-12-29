@@ -49,11 +49,12 @@
                 <th>Advise</th>
             </tr>
         </thead>
-        <tbody style="width:100%">
+        <tbody style="width:100%">             
             @foreach (var item in Model.prscriptionList)
             {
-                <tr>
+                <tr style="border-bottom:1px solid black;">
                     @{
+                        
                         string medicineDetails = string.Empty;
                         int quantity = 1;
                         switch (item.TypeOfMedicine)
@@ -109,25 +110,56 @@
                         <td width="40%">@item.Comment</td>
                     }
                 </tr>
-                <tr>
-                    <td colspan="3">
-                        Next visit Date and Time -- @Model.prscriptionList[0].NextOpointmentDate
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="text-align:end;">
-                        <br />
-                        <br />
-                        <br />
-                        <label>                     .... Sign</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <input class="ad" type="submit" onclick="window.print();" name="Print" />
-                    </td>
-                </tr>
+
                         }
+            <tr>
+                <td colspan="3">
+
+                    @if (@Model.prscriptionList != null && @Model.prscriptionList[0] != null)
+                    {
+                        var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
+                       
+                        <label>Next visit Date and Time-- @opointmentDateTime</label>
+                    }
+                </td>
+
+
+            </tr>
+
+
+            <tr>
+
+
+                <td colspan="3" style="text-align:end;">
+
+
+                    <br />
+
+
+                    <br />
+
+
+                    <br />
+
+
+                    <label>                     .... Sign</label>
+
+
+                </td>
+
+
+            </tr>
+
+
+            <tr>
+
+
+                <td colspan="3">
+
+
+                    <input class="ad" type="submit" onclick="window.print();" name="Print" />
+                </td>
+            </tr>
         </tbody>
     </table>
 

@@ -31,7 +31,9 @@ namespace HospitalManagment
         public string USG { get; set; }
         public string Other { get; set; }
         public byte[] AllAttachmentinOnePDF { get; set; }
+        public int PersonId { get; set; }
     
         public virtual OPD OPD { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

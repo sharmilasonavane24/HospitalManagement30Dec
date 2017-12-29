@@ -16,6 +16,91 @@
 
         })
     });
+    function SaveInvestigationsWithOutFile() {
+
+        _InvestigationId = $("#investigations_InvestigationId").val();
+        _OpdId = $("#OPDID").val();
+        _BloodGroup = $("#investigations_BloodGroup").val();
+        _HB = $("#investigations_HB").val();
+        _RBS = $("#investigations_RBS").val();
+        _HIVNII = $("#investigations_HIVNII").val();
+        _HBSAvg = $("#investigations_HBSAvg").val();
+        _VDRL = $("#investigations_VDRL").val();
+        _UrineRM = $("#investigations_UrineRM").val();
+        _SrCreat = $("#investigations_SrCreat").val();
+        _SrUrea = $("#investigations_SrUrea").val();
+        _SrTSH = $("#investigations_SrTSH").val();
+        _HSG = $("#investigations_HSG").val();
+        _SemenAnalysis = $("#investigations_SemenAnalysis").val();
+        _USG = $("#investigations_USG").val();
+        _Other = $("#investigations_Other").val();
+        _AllAttachmentinOnePDF = "";
+        _PersonId = $("#PersonId").val();
+        //alert(_AllAttachmentinOnePDF);
+        //    // };
+        var investigations =
+            {
+                InvestigationId: _InvestigationId,
+                OpdId: _OpdId,
+                BloodGroup: _BloodGroup,
+                HB: _HB,
+                RBS: _RBS,
+                HIVNII: _HIVNII,
+                HBSAvg: _HBSAvg,
+                VDRL: _VDRL,
+                UrineRM: _UrineRM,
+                SrCreat: _SrCreat,
+                SrUrea: _SrUrea,
+                SrTSH: _SrTSH,
+                HSG: _HSG,
+                SemenAnalysis: _SemenAnalysis,
+                USG: _USG,
+                Other: _Other,
+                AllAttachmentinOnePDF: _AllAttachmentinOnePDF,
+                PersonId: _PersonId
+            };
+
+        debugger;
+        $.ajax({
+            url: '/HospitalManagment/OPD/SaveInvestigations',
+            type: "POST",
+            //data: { Investigations: investigations },
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ 'investigations': investigations }),
+            dataType: "json",
+            processData: false,
+            async: false,
+            success: function (result) {
+                alert("success");
+                return false;
+            },
+            error: function () {
+                alert("error");
+                return false;
+            }
+        });
+    }
+    function SaveInvestigations() {
+
+        var file = new FormData($('form')[0]);
+        debugger;
+        $.ajax({
+            url: '/HospitalManagment/OPD/UploadFile',
+            type: "POST",
+            data: file,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                alert("success");
+                return false;
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
 
     function changeBMI() {
 
@@ -29,7 +114,38 @@
         else { $("#clinicalExamination_BMI").val(0); }
         $('#clinicalExamination_BMI').attr('readonly', true);
     }
+
+
+    function GetDetails(sender) {
+        debugger;
+
+        var opdId = @Html.Raw(Json.Encode(Model.OPDID));
+        if (  opdId > 0) {
+        $.ajax({
+            type: 'GET',
+            url: "/HospitalManagment/OPD/ActionName",
+            data: encodeURI("OpdId=" + opdId),
+            success: function (view) {
+                debugger;
+                //alert(view);
+                $('#PopUpDetailsResult').html(view);
+                $('#PopUpDetailsResult').dialog();
+
+            }            ,
+            error: function (view) {
+                alert(view);
+                //$('#loaderSelectProducts').css('display', 'none');
+            }
+        });
+        }
+        else {
+            alert("Please save clinical examination!");
+            return false;
+        }
+    }
+
 </script>
+
 <div class="form-horizontal">
     <table border="0">
         <tr>
@@ -157,6 +273,7 @@
                                 </div>
                             </div>
                         </td>
+
                     </tr>
                     <tr>
                         <td>
@@ -182,7 +299,9 @@
                 </table>
             </td>
             <td id="tableText">
-               @Html.Label("Investigations", "Investigations")
+
+
+                @Html.Label("Investigations", "Investigations")
                 <div id="borderBox">
                     <table>
                         <tr><td></td></tr>
@@ -309,6 +428,20 @@
                                     <div class="col-md-10">
                                         @Html.TextAreaFor(model => model.investigations.Other, new { htmlAttributes = new { @class = "medium" } })
                                     </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                                    <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
+
+                                </div>
+
+                                <div class="col-md-10">
+                                    <input type="button" value="Save Investigations" onclick="return SaveInvestigationsWithOutFile();" />
                                 </div>
                             </td>
                         </tr>

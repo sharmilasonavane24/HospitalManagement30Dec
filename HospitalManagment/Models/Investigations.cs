@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace HospitalManagment.Models
 {
@@ -14,7 +15,7 @@ namespace HospitalManagment.Models
         public string HB { get; set; }
         [Display(Name = "RBS: ")]
         public string RBS { get; set; }
-        [Display(Name = "HIV & II: ")]
+        [Display(Name = "HIV I & II: ")]
         public string HIVNII { get; set; }
         [Display(Name = "HBS Avg: ")]
         public string HBSAvg { get; set; }
@@ -38,5 +39,6 @@ namespace HospitalManagment.Models
         public string Other { get; set; }
         [Display(Name = "All Attachments in One PDF: ")]
         public string AllAttachmentinOnePDF { get; set; }
+        public int PersonId { get; set; }
     }
 }

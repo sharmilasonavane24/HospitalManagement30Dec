@@ -19,9 +19,10 @@
             $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + $(this).find("td").eq(1).text().trim() + "' > ");
             $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + $(this).find("td").eq(2).text().trim() + "' > ");
             $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + $(this).find("td").eq(3).text().trim() + "' > ");
-            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
-            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
-            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(4).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(7).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].managementplan' value= '" + $(this).find("td").eq(4).text().trim() + "' > ");
             $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
             index += 1;
             qtd += 1;
@@ -89,7 +90,7 @@
                     <tr>
                         <td>
                             <input id="OPDID" type="hidden" name="OPDID" value="@Model.OPDID" />
-
+                            <input id="PersonId" type="hidden" name="PersonId" value="@Model.PersonId" />
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PersonId, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">

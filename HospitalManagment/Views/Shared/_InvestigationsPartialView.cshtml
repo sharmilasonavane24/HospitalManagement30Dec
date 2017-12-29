@@ -1,142 +1,279 @@
 ﻿@model HospitalManagment.Models.Investigations
-
-<div class="form-horizontal">
-    @*<table>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.BloodGroup, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SrCreat, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.SrCreat, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HB, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.HB, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SrUrea, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.SrUrea, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RBS, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.RBS, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SrTSH, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.SrTSH, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HIVNII, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.HIVNII, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HSG, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.HSG, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.HBSAvg, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.HBSAvg, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.VDRL, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.VDRL, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.USG, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.USG, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.UrineRM, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.UrineRM, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Other, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.Other, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>*@
+<script>
+    $(function () {
+        debugger;
+        $('#file').change(function (event) {
+            var tmppath = URL.createObjectURL(event.target.files[0]);
 
 
+            var name = $("#file").val();
+            // $("#file").val(tmppath);
+            alert(tmppath);
+        });
+    });
+
+    function SaveInvestigations() {
+
+        debugger;
+        _InvestigationId = $("#InvestigationId").val();
+        _OpdId = $("#OpdId").val();
+        _BloodGroup = $("#BloodGroup").val();
+        _HB = $("#HB").val();
+        _RBS = $("#RBS").val();
+        _HIVNII = $("#HIVNII").val();
+        _HBSAvg = $("#HBSAvg").val();
+        _VDRL = $("#VDRL").val();
+        _UrineRM = $("#UrineRM").val();
+        _SrCreat = $("#SrCreat").val();
+        _SrUrea = $("#SrUrea").val();
+        _SrTSH = $("#SrTSH").val();
+        _HSG = $("#HSG").val();
+        _SemenAnalysis = $("#SemenAnalysis").val();
+        _USG = $("#USG").val();
+        _Other = $("#Other").val();
+        _AllAttachmentinOnePDF = ""; _file = new FormData($('form')[0]);
+        //alert(_AllAttachmentinOnePDF);
+        //    // };
+        var investigations =
+            {
+                InvestigationId: _InvestigationId,
+                OpdId: _OpdId,
+                BloodGroup: _BloodGroup,
+                HB: _HB,
+                RBS: _RBS,
+                HIVNII: _HIVNII,
+                HBSAvg: _HBSAvg,
+                VDRL: _VDRL,
+                UrineRM: _UrineRM,
+                SrCreat: _SrCreat,
+                SrUrea: _SrUrea,
+                SrTSH: _SrTSH,
+                HSG: _HSG,
+                SemenAnalysis: _SemenAnalysis,
+                USG: _USG,
+                Other: _Other,
+                AllAttachmentinOnePDF: _AllAttachmentinOnePDF,
+                file: _file
+            };
+
+        //$.post("/HospitalManagment/OPD/SaveInvestigations", file: new FormData($('form')[0])
+        //    { file: new FormData($('form')[0]), investigations: investigations },
+        //    function (data) {
+        //        alert("success");
+        //    }).fail(function () {
+        //        alert("error");
+        //    });
+
+        //var data = JSON.stringify({
+        //    'file': new FormData($('form')[0]),
+        //    'investigations': investigations
+        //});
+        //var file = new FormData($('form')[0]);
+        //$.ajax({
+        //    type: 'POST',
+        //    //contentType: false,
+        //    url: "/HospitalManagment/OPD/UploadFile",
+        //    data: investigations,
+        //    success: function (view) {
+        //        debugger;
+        //        //alert(view);
+        //        alert("success");
+        //        //$('#PopUpDetailsResult').html(view);
+        //        //$('#PopUpDetailsResult').dialog();
+        //    },
+        //    error: function (view) {
+        //        alert(view);
+        //        //$('#loaderSelectProducts').css('display', 'none');
+        //    }
+        //});
+
+        var file = new FormData($('form')[0]);
+
+        //alert(new FormData($('form')[0]));
+        debugger;
+        $.ajax({
+            url: '/HospitalManagment/OPD/UploadFile',
+            type: "POST",
+            data: file,
+            cache: false,
+            //contentType: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                alert("success");
+                return 0;
+            },
+            error: function () {
+                alert("error");
+            }
+        });
 
 
-</div>
+    }
 
 
+</script>
+@using (Ajax.BeginForm("UploadFile", "OPD", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @id = "form" }))
+{
+    <form enctype="multipart/form-data">
+        @Html.AntiForgeryToken();
+        <div class="form-horizontal" id="popup">
+            <label>@ViewBag.Message</label>
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.BloodGroup, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SrCreat, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SrCreat, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HB, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.HB, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SrUrea, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SrUrea, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RBS, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RBS, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SrTSH, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SrTSH, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HIVNII, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.HIVNII, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HSG, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.HSG, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HBSAvg, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.HBSAvg, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VDRL, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.VDRL, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.USG, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.USG, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UrineRM, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.UrineRM, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Other, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Other, new { htmlAttributes = new { @class = "medium" } })
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            @Html.LabelFor(model => model.AllAttachmentinOnePDF, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.TextBoxFor(model => model.AllAttachmentinOnePDF, new { type = "file" }) <br />
+                            <input id="OpdId" type="hidden" name="OpdId" value="@Model.OpdId" />
+                            <input id="InvestigationId" type="hidden" name="InvestigationId" value="@Model.InvestigationId" />
+                            <input type="submit" value="Upload" />
+                        </div>
+
+                        <div class="col-md-10">
+                            @*<input type="button" name="cancel" value="Contact Details" onclick="window.location.href='@Url.Action("UploadFile","OPD")';" />*@
+                            @*<input type="submit" value="Upload file" onclick="SaveInvestigations();" />*@
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+        </div>
+    </form>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+@*@//using (Html.BeginForm("UploadFile", "OPD", FormMethod.Get, new { enctype = "multipart/form-data", @id = "myForm" }))*@ 

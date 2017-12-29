@@ -21,6 +21,7 @@ namespace HospitalManagment
             this.PersonDetails1 = new HashSet<PersonDetail>();
             this.Histories = new HashSet<History>();
             this.OPDs = new HashSet<OPD>();
+            this.Investigations = new HashSet<Investigation>();
         }
     
         public int PersonId { get; set; }
@@ -41,5 +42,6 @@ namespace HospitalManagment
         public virtual ICollection<PersonDetail> PersonDetails1 { get; set; }
         public virtual ICollection<History> Histories { get; set; }
         public virtual ICollection<OPD> OPDs { get; set; }
+        public virtual ICollection<Investigation> Investigations { get; set; }
     }
 }
