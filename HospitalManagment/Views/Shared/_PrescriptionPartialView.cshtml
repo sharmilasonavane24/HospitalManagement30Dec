@@ -63,7 +63,7 @@
     function SaveRow()
     {
         debugger;
-       
+
         var listName = "prscriptionList";
         //var prscriptionList;
         var opdId = @Html.Raw(Json.Encode(Model.OPDID));
@@ -71,7 +71,7 @@
             var qtd = 0;
             addRow();
             //if (Model.prscriptionList == null)
-            {
+            @*{
                 var prscriptionList = @Html.Raw(Json.Encode(Model.prscriptionList));
                 if (prscriptionList.length > 0 && prscriptionList[prscriptionList.length - 1].Dosage <= 0 && prscriptionList[prscriptionList.length - 1].TypeOfMedicine == null) {
                   //  alert(' null');
@@ -83,7 +83,7 @@
                    // qtd = abc.length - 1;
                 }
 
-            }
+            }*@
 
              var index = 1;
         $("#tablePost > tbody > tr").each(function () {
@@ -97,7 +97,6 @@
                 var numberOfDays = $(this).data("numberofdays");
                 var comment = $(this).data("comment");
                 var ManagementPlan = $(this).data("managementplan");
-
                 var weight = $(this).data("weight");
                 var TypeOfMedicine = $(this).data("typeofmedicine");
                 var newMedicine = $(this).data("newmedicine");
@@ -147,7 +146,7 @@
 
             });
         }
-         
+
     }
 
 
@@ -200,12 +199,12 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         @{
-                    var data = TempData.Peek("MedicineNames") as SelectList;
-                    if (data != null)
-                    {
-                        @Html.DropDownList("NameOfMedicine", data, "Select Medicine")
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
-            }
+                            var data = TempData.Peek("MedicineNames") as SelectList;
+                            if (data != null)
+                            {
+                                @Html.DropDownList("NameOfMedicine", data, "Select Medicine")
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
+                            }
                         }
                     </div>
                 </div>
@@ -215,12 +214,12 @@
 
                     <div class="col-md-10">
                         @{
-                    var data1 = TempData.Peek("TypeOfMedicine") as SelectList;
-                    if (data != null)
-                    {
-                        @Html.DropDownList("TypeOfMedicine", data1, "Tablet")
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
-            }
+                            var data1 = TempData.Peek("TypeOfMedicine") as SelectList;
+                            if (data != null)
+                            {
+                                @Html.DropDownList("TypeOfMedicine", data1, "Tablet")
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
+                            }
                         }
                         @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
                     </div>
@@ -264,11 +263,7 @@
 
     <table border="0">
 
-        <tr>
-
-
-           
-        </tr>
+        <tr></tr>
 
 
 
@@ -326,44 +321,44 @@
                         {
                             index++;
                             var trid = string.Concat("tablePost", index);
-                <tr id="@trid">
-                    <td>
-                        @item.NameOfMedicine
-                        @*@Html.LabelFor(test => test.prscriptionList[i].NameOfMedicine)*@
-                    </td>
-                    <td>
-                        @item.Dosage
-                        @*@Html.LabelFor(test => test.prscriptionList[i].Dosage)*@
-                    </td>
-                    <td>
-                        @item.NumberOfDays
-                        @*@Html.LabelFor(test => test.prscriptionList[i].NumberOfDays)*@
-                    </td>
-                    <td>
-                        @item.Comment
-                        @*@Html.LabelFor(test => test.prscriptionList[i].Comment)*@
-                    </td>
-                    <td>
-                        @item.ManagementPlan
-                    </td>
-                    <td>
-                        @item.TypeOfMedicine
-                        @*@Html.LabelFor(test => test.prscriptionList[i].TypeOfMedicine)*@
+                            <tr id="@trid">
+                                <td>
+                                    @item.NameOfMedicine
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].NameOfMedicine)*@
+                                </td>
+                                <td>
+                                    @item.Dosage
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].Dosage)*@
+                                </td>
+                                <td>
+                                    @item.NumberOfDays
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].NumberOfDays)*@
+                                </td>
+                                <td>
+                                    @item.Comment
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].Comment)*@
+                                </td>
+                                <td>
+                                    @item.ManagementPlan
+                                </td>
+                                <td>
+                                    @item.TypeOfMedicine
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].TypeOfMedicine)*@
 
-                    </td>
-                    <td>
-                        @item.Weight
-                        @*@Html.LabelFor(test => test.prscriptionList[i].Weight)*@
-                    </td>
-                    <td>
-                        @item.newmedicine
-                        @*@Html.LabelFor(test => test.prscriptionList[i].newmedicine)*@
-                    </td>
-                    <td>
-                        <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
-                    </td>
-                    @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
-                </tr>
+                                </td>
+                                <td>
+                                    @item.Weight
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].Weight)*@
+                                </td>
+                                <td>
+                                    @item.newmedicine
+                                    @*@Html.LabelFor(test => test.prscriptionList[i].newmedicine)*@
+                                </td>
+                                <td>
+                                    <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
+                                </td>
+                                @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
+                            </tr>
                         }
                     }
                 }
@@ -371,6 +366,3 @@
         </table>
     </div>
 </div>
-
-
-

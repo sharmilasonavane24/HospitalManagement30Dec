@@ -64,7 +64,7 @@
 
         <table>
 
-            <tr style="font-size:medium 10px; font-weight:bold; text-transform:capitalize; float:left; color:firebrick;" >
+            <tr style="font-size:medium 10px; font-weight:bold; text-transform:capitalize; float:left; color:firebrick;">
                 @if (Model != null && Model.history != null && Model.history.HighRiskFactor != null)
                 {
                     <td class="control-label col-md-2">
@@ -82,7 +82,8 @@
                 <li><a href="#tabs-1">OPD Details</a></li>
                 <li><a href="#tabs-2">Patient History</a></li>
                 <li><a href="#tabs-3">Clinical Examination</a></li>
-                <li><a href="#tabs-4">Management & Advice</a></li>
+                <li><a href="#tabs-4">Investigations</a></li>
+                <li><a href="#tabs-5">Management & Advice</a></li>
             </ul>
 
             <div id="tabs-1">
@@ -236,9 +237,22 @@
                 <table>
                     <tr>
                         <td>
+                            @{
+                                @Html.Partial("_InvestigationsPartialView", Model)
+                            }
 
-                            @Html.Partial("_PrescriptionPartialView", Model)
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
+            <div id="tabs-5">
+                <table>
+                    <tr>
+                        <td>
+                            @{
+                                @Html.Partial("_PrescriptionPartialView", Model)
+                            }
                         </td>
                     </tr>
                 </table><table>

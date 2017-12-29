@@ -49,12 +49,12 @@
                 <th>Advise</th>
             </tr>
         </thead>
-        <tbody style="width:100%">             
+        <tbody style="width:100%">
             @foreach (var item in Model.prscriptionList)
             {
                 <tr style="border-bottom:1px solid black;">
                     @{
-                        
+
                         string medicineDetails = string.Empty;
                         int quantity = 1;
                         switch (item.TypeOfMedicine)
@@ -118,7 +118,7 @@
                     @if (@Model.prscriptionList != null && @Model.prscriptionList[0] != null)
                     {
                         var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
-                       
+
                         <label>Next visit Date and Time-- @opointmentDateTime</label>
                     }
                 </td>
@@ -149,23 +149,24 @@
 
 
             </tr>
-
-
-            <tr>
-
-
-                <td colspan="3">
-
-
-                    <input class="ad" type="submit" onclick="window.print();" name="Print" />
-                </td>
-            </tr>
+            
         </tbody>
     </table>
 
+    <table>
+        <tr class="ad">
+            <td width="20%">
+                <input type="button" value="Print" onclick="window.print();" name="Print" />
+            </td>
+            <td width="20%">
+                <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
+            </td>
+            <td width="20%">
+                @Html.ActionLink("Back to List", "Search")
+            </td>
 
-
-
+        </tr>
+    </table>
 
                         }
 
