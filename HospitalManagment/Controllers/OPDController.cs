@@ -117,7 +117,7 @@ namespace HospitalManagment.Controllers
 
                 AddDefaultMedicineName();
             }
-             
+
             return OPD(opd, "Save Examination");
             //return View(opd);
         }
@@ -276,7 +276,7 @@ namespace HospitalManagment.Controllers
                             oPD.BMI = opd.clinicalExamination.BMI;
                             oPD.OtherGeneralFindings = opd.clinicalExamination.OtherGenFindings;
                         }
-                       
+
                         if (opd.OPDID <= 0)
                         {
                             ent.OPDs.Add(oPD);
@@ -495,6 +495,41 @@ namespace HospitalManagment.Controllers
 
             }
         }
+
+        public void OpdSavedAttachmet()
+        {
+            string ToSaveFileTo = Server.MapPath("~\\File\\Report.pdf");
+
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                var data = (from abc in ent.Investigations
+                            where abc.InvestigationId == 9
+                            select abc.AllAttachmentinOnePDF
+                            ).FirstOrDefault();
+                byte[] fileData = (byte[])data;
+
+                using (System.IO.FileStream fs = new System.IO.FileStream(ToSaveFileTo, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+                {
+
+                    using (System.IO.BinaryWriter bw = new System.IO.BinaryWriter(fs))
+
+                    {
+                        bw.Write(fileData);
+
+                        bw.Close();
+                    }
+                }
+            }
+
+            
+            Response.Redirect("~\\File\\Report.pdf");
+
+        }
+
+
+
+
+
         private Decimal GetAge(DateTime birthDate)
         {
             DateTime Now = DateTime.Now;
