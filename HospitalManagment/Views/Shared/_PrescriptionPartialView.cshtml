@@ -243,7 +243,7 @@
             </td>
             <td>
                 <div class="form-group" id="MedicinesWeight">
-                    @*@Html.Label("Weight in mg:")*@
+                   
                     <div class="col-md-10">
                         @Html.TextBox("NewWeight", null, new { @class = "medium" })
 
@@ -256,7 +256,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @*<input type="text" id="Comment" class="form-control" />*@
+            
             <textarea rows="3" id="Comment" class="form-control"></textarea>
         </div>
     </div>
@@ -287,13 +287,12 @@
 
         <div class="col-md-10">
 
-            @*@Html.EditorFor(model => model.prscriptionList[0].Comment, new { id = "prscriptionList[0].Comment", htmlAttributes = new { @class = "form-control", @maxLenght = 50 } })*@
             @Html.ValidationMessageFor(model => model.prscriptionList[0].Comment, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @*<input type="button" value="Add Medicine" border="1" onclick="addRow();" />*@
+            
         </div>
     </div>
     <div>
@@ -321,44 +320,42 @@
                         {
                             index++;
                             var trid = string.Concat("tablePost", index);
-                            <tr id="@trid">
-                                <td>
-                                    @item.NameOfMedicine
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].NameOfMedicine)*@
-                                </td>
-                                <td>
-                                    @item.Dosage
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].Dosage)*@
-                                </td>
-                                <td>
-                                    @item.NumberOfDays
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].NumberOfDays)*@
-                                </td>
-                                <td>
-                                    @item.Comment
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].Comment)*@
-                                </td>
-                                <td>
-                                    @item.ManagementPlan
-                                </td>
-                                <td>
-                                    @item.TypeOfMedicine
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].TypeOfMedicine)*@
+                <tr id="@trid">
+                    <td>
+                        @item.NameOfMedicine
+                        
+                    </td>
+                    <td>
+                        @item.Dosage
+   
+                    </td>
+                    <td>
+                        @item.NumberOfDays
+                    </td>
+                    <td>
+                        @item.Comment
+                        
+                    </td>
+                    <td>
+                        @item.ManagementPlan
+                    </td>
+                    <td>
+                        @item.TypeOfMedicine
+                        
 
-                                </td>
-                                <td>
-                                    @item.Weight
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].Weight)*@
-                                </td>
-                                <td>
-                                    @item.newmedicine
-                                    @*@Html.LabelFor(test => test.prscriptionList[i].newmedicine)*@
-                                </td>
-                                <td>
-                                    <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
-                                </td>
-                                @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
-                            </tr>
+                    </td>
+                    <td>
+                        @item.Weight
+                        
+                    </td>
+                    <td>
+                        @item.newmedicine
+                    </td>
+                    <td>
+                        <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
+                    </td>
+                    @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
+                </tr>
                         }
                     }
                 }
