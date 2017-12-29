@@ -6,7 +6,7 @@
 
 body {
     background-color: #d3e8e0;
-    border-top: solid 10px #000;
+    /*border-top: solid 10px #000;*/
     color: #333;
     font-size: .95em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -350,7 +350,7 @@ aside {
     }
 
     #loginForm .validation-summary-errors li {
-        display: inline;
+         
         list-style: none;
         margin: 0;
     }
@@ -435,7 +435,7 @@ input, textarea {
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    /*width: 80%;*/
+    /*width: 250px;*/
 }
 
 textarea {
@@ -650,7 +650,7 @@ height :30px;
         }
 
         #login li {
-            display: inline;
+            
             list-style: none;
             margin: 0;
             padding: 0;
@@ -830,7 +830,7 @@ height :30px;
 }
 
 
-a:link:after, a:visited:after {
+/*a:link:after, a:visited:after {
     content: "";
 }
 
@@ -848,4 +848,7 @@ a:link:after, a:visited:after {
 #content a:link:after, #content a:visited:after {
     content: " ("attr(href) ") ";
     font-size: 90%;
+}*/
+#loginInputButton{
+    width:250px;
 }

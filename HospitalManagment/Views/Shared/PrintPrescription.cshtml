@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
 
 
-    <br /><br />
+    <br /><br /><br /><br /><br /><br />
 
 
     <table>
@@ -39,20 +39,17 @@
             <td>Contact No.  @Model.Mobile</td>
         </tr>
     </table>
-    <hr style="border-bottom:5px solid black;" />
+    <hr style="border-bottom:3px solid black;" />
 
-    <br /><br />
-    @*<h3>Medicine Details</h3>*@
     <table style="width:100%">
         <thead>
             <tr>
-                <th>Name Of Medicine</th>
-                <th>Quantity</th>
-                <th>Advise</th>
+                <td>Rx</td>
+
             </tr>
         </thead>
         <tbody style="width:100%">
-             
+
             @if (Model.prscriptionList != null && Model.prscriptionList.Count > 0)
             {
                 foreach (var item in Model.prscriptionList)
@@ -127,7 +124,6 @@
                             <tr>
                                 <td colspan="3">
                                     @{var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
-
                                         <label>Next visit Date and Time-- @opointmentDateTime</label>
                                     }
                                 </td>
@@ -142,7 +138,9 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <input class="ad" type="submit" onclick="window.print();" name="Print" />
+
+
+                                    @*<input class="ad" type="submit" onclick="window.print();" name="Print" />*@
                                 </td>
                             </tr>
                                         }
@@ -150,20 +148,20 @@
     </table>
 
 
-    <table>
-        <tr class="ad">
-            <td width="20%">
-                <input type="button" value="Print" onclick="window.print();" name="Print" />
-            </td>
-            <td width="20%">
-                <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
-            </td>
-            <td width="20%">
-                @Html.ActionLink("Back to List", "Search")
-            </td>
+            <table>
+                <tr class="ad">
+                    <td width="20%">
+                        <input type="button" value="Print" onclick="window.print();" name="Print" />
+                    </td>
+                    <td width="20%">
+                        <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
+                    </td>
+                    <td width="20%">
+                        @Html.ActionLink("Back to List", "Search")
+                    </td>
 
-        </tr>
-    </table>
+                </tr>
+            </table>
 
 
 
