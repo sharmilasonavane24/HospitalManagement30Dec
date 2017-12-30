@@ -64,6 +64,8 @@ namespace HospitalManagment.Models
         public List<Prescription> prscriptionList { get; set; }
 
         public ClinicalExamination clinicalExamination { get; set; }
+
+        public Investigations investigations { get; set; }
     }
 
 

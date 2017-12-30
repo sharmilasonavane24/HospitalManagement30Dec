@@ -18,7 +18,7 @@
     });
 
     function changeBMI() {
-       
+
         var height = $("#Height").val();
         var weight = $("#clinicalExamination_CurrentWeight").val();
         if (height > 0) {
@@ -26,161 +26,310 @@
             var calculatedBMI = weight / (height * height)
             $("#clinicalExamination_BMI").val(calculatedBMI.toFixed(2));
         }
-        else { $("#clinicalExamination_BMI").val(0);}
+        else { $("#clinicalExamination_BMI").val(0); }
         $('#clinicalExamination_BMI').attr('readonly', true);
     }
 </script>
 <div class="form-horizontal">
-    <table>
+    <table border="0">
         <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.Pulse, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.clinicalExamination.Pulse, new { htmlAttributes = new { @class = "medium" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.Pulse, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.BP, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.clinicalExamination.BP, new { htmlAttributes = new { @class = "medium" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.BP, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.OtherGenFindings, htmlAttributes: new { @class = "control-label col-md-2" })@Html.Label("")
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.clinicalExamination.OtherGenFindings, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
+            <td id="tableText">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.Pulse, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.clinicalExamination.Pulse, new { htmlAttributes = new { @class = "medium" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.Pulse, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.BP, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.clinicalExamination.BP, new { htmlAttributes = new { @class = "medium" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.BP, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.OtherGenFindings, htmlAttributes: new { @class = "control-label col-md-2" })@Html.Label("")
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.clinicalExamination.OtherGenFindings, new { htmlAttributes = new { @class = "medium" } })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
 
-        <tr>
-            <td>
+                    <tr>
+                        <td>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.CurrentWeight, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.clinicalExamination.CurrentWeight, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.CurrentWeight, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.CurrentWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.clinicalExamination.CurrentWeight, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.CurrentWeight, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "medium" } })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.Label("BMI:")
+                                <div>
+                                    @Html.TextBoxFor(model => model.clinicalExamination.BMI, new { htmlAttributes = new { @class = "medium", @readonly = true } })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.CNS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.CNS, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.CNS, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.CVS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.CVS, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.CVS, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.PS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.PS, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.PS, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.PA, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.PA, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.PA, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.Rs, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.Rs, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.Rs, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.PV, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.PV, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.PV, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.clinicalExamination.positiveFidings, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.clinicalExamination.positiveFidings, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.clinicalExamination.positiveFidings, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-10">
+
+                                    @*@Html.ActionLink("Investigations", "Investigations")*@
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
             </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.Label("BMI:")
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.clinicalExamination.BMI, new { htmlAttributes = new { @class = "form-control" , @readonly = true } })
-                    </div>
+            <td id="tableText">
+               @Html.Label("Investigations", "Investigations")
+                <div id="borderBox">
+                    <table>
+                        <tr><td></td></tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.BloodGroup, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.SrCreat, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.SrCreat, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.HB, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.investigations.HB, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.SrUrea, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.SrUrea, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.RBS, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.RBS, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.SrTSH, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.SrTSH, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.HIVNII, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.HIVNII, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.HSG, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.investigations.HSG, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.HBSAvg, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.HBSAvg, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.investigations.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.VDRL, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.VDRL, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.USG, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.investigations.USG, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.UrineRM, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.investigations.UrineRM, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.investigations.Other, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.investigations.Other, new { htmlAttributes = new { @class = "medium" } })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </td>
         </tr>
     </table>
 
-    <table>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.CNS, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.CNS, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.CNS, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.CVS, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.CVS, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.CVS, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.PS, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.PS, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.PS, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.PA, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.PA, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.PA, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.Rs, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.Rs, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.Rs, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.PV, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.PV, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.PV, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.clinicalExamination.positiveFidings, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.clinicalExamination.positiveFidings, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.clinicalExamination.positiveFidings, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </td>
-            <td>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        
-                        @Html.ActionLink("Investigations", "Investigations")
-                    </div>
-                </div>
-
-            </td>
-        </tr>
-    </table>
 
 
 
-    
+
+</div>
+
+<div class="form-horizontal">
+
+
+
+
+
 </div>
 
 
