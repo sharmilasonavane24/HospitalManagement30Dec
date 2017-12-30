@@ -1,0 +1,133 @@
+﻿@model HospitalManagment.Models.PersonDetails
+
+@{
+    ViewBag.Title = "AddPatientDetails";
+}
+
+<h2>Add Patient Details</h2>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    //Html.BeginForm("SavePatientDetails", "Person")
+
+    <fieldset>
+        <legend>PersonDetails</legend>
+
+        <div>
+            <table>
+                <tr>
+                    <td width="50%">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Firstname)
+
+                            @Html.EditorFor(model => model.Firstname)
+                            @Html.ValidationMessageFor(model => model.Firstname)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.LastName)
+
+                            @Html.EditorFor(model => model.LastName)
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.MiddleName)
+
+                            @Html.EditorFor(model => model.MiddleName)
+                            @Html.ValidationMessageFor(model => model.MiddleName)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.BirthDate)
+
+                            @Html.TextBoxFor(model => model.BirthDate, new { Class = "input-group datepicker" })
+
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Age)
+
+                            @Html.EditorFor(model => model.Age)
+                            @Html.ValidationMessageFor(model => model.Age)
+
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Height)
+
+                            @Html.EditorFor(model => model.Height)
+                            @Html.ValidationMessageFor(model => model.Height)
+                        </div>
+                    </td>
+                    <td width="50%">
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.AdharCardNumber)
+
+                            @Html.TextBoxFor(model => model.AdharCardNumber, new { @type = "number", @maxlength = "12" })
+                            @Html.ValidationMessageFor(model => model.AdharCardNumber)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Profession)
+
+                            @Html.EditorFor(model => model.Profession)
+                            @Html.ValidationMessageFor(model => model.Profession)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Gender)
+
+                            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(BusinessLayer.Gender))))
+                            @Html.ValidationMessageFor(model => model.Gender)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Religion)
+
+                            @Html.EditorFor(model => model.Religion)
+                            @Html.ValidationMessageFor(model => model.Religion)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.ReferredBy)
+
+                            @Html.EditorFor(model => model.ReferredBy)
+                            @Html.ValidationMessageFor(model => model.ReferredBy)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Spouse Details" formaction="SavePatientDetails" formmethod="post" /></td>
+                    <td>
+
+                        <input type="submit" name="cancel" value="Cancel" onclick="location.href='@Url.Action("CancelForm","Person")';"
+                               formWaction="CancelForm" formmethod="post" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        //$(document).ready(function () {
+        //    $('input[type=datetime]').datepicker({
+        //        dateFormat: "dd/M/yy",
+        //        changeMonth: true,
+        //        changeYear: true,
+        //        yearRange: "-60:+0"
+        //    });
+
+        //});
+    </script>
+
+}

@@ -1,0 +1,142 @@
+﻿@model HospitalManagment.Models.OPD
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <br /><br />
+
+    <table width="100%">
+
+        <tr>
+            <td>OPD No:</td>
+            <td>@Model.MonthOPDNo</td>
+            <td>Registration No:</td>
+            <td>@Model.PersonId</td>
+            <td>OPD Date:</td>
+            <td>@DateTime.Now.ToString("dd-MMM-yyyy hh:mm")</td>
+        </tr>
+        <tr>
+            <td>Patient Name:</td>
+            <td>@Model.PatientFullName</td>
+            <td>Age:</td>
+            <td>@Model.Age</td>
+            <td>Gender:</td>
+            <td>@Model.Gender</td>
+        </tr>
+        <tr>
+            <td>Mobile No:</td>
+            <td>@Model.Mobile</td>
+            <td>Weight:</td>
+            <td>@Model.clinicalExamination.CurrentWeight</td>
+            <td>BP</td>
+            <td>@Model.clinicalExamination.BP </td>
+
+        </tr>
+        <tr style="border-bottom:5px solid black;"><td colspan="6"></td></tr>
+
+    </table>
+
+    <br /><br />
+    <h3>Medicine Details</h3>
+    <table style="width:100%">
+        <thead>
+            <tr>
+                <th>Name Of Medicine</th>
+                <th>Quantity</th>
+                <th>Advise</th>
+            </tr>
+        </thead>
+        <tbody style="width:100%">
+            @foreach (var item in Model.prscriptionList)
+            {
+                <tr>
+                    @{
+                        string medicineDetails = string.Empty;
+                        int quantity = 1;
+                        switch (item.TypeOfMedicine)
+                        {
+                            case "Solution":
+                            case "Syrup":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                break;
+                            case "Tablet":
+                            case "Capsule":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " mg";
+                                quantity = item.Dosage * item.NumberOfDays;
+                                break;
+                            case "Creame":
+                            case "Ointment":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " grm";
+                                break;
+                            case "Injection":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                quantity = item.Dosage * item.NumberOfDays;
+                                break;
+                            case "Saline":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " ml";
+                                quantity = item.Dosage * item.NumberOfDays;
+                                break;
+                            case "Drops":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                break;
+                            case "Other":
+                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight;
+                                quantity = item.Dosage * item.NumberOfDays;
+                                break;
+                        }
+
+                        string dosageDetails = string.Empty;
+                        switch (item.Dosage)
+                        {
+                            case 1:
+                                dosageDetails = "In Morning.............. for " + item.NumberOfDays + "...day/days";
+                                break;
+                            case 2:
+                                dosageDetails = "In Morning..........In Night.... for " + item.NumberOfDays + "...day/days";
+                                break;
+                            case 3:
+                                dosageDetails = "In Morning.....In Afternoon.....In Night.... for " + item.NumberOfDays + "...day/days";
+                                break;
+                        }
+
+                        <td width="50%">@medicineDetails <br /> @dosageDetails</td>
+
+                        <td width="10%">@quantity</td>
+
+                        <td width="40%">@item.Comment</td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Next visit Date and Time -- @Model.prscriptionList[0].NextOpointmentDate
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align:end;">
+                        <br />
+                        <br />
+                        <br />
+                        <label>                     .... Sign</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input class="ad" type="submit" onclick="window.print();" name="Print" />
+                    </td>
+                </tr>
+                        }
+        </tbody>
+    </table>
+
+
+
+
+
+                        }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

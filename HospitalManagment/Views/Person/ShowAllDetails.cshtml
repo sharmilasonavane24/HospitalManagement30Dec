@@ -1,0 +1,86 @@
+﻿@model IEnumerable<HospitalManagment.Models.AllPatientDetails>
+
+@{
+    ViewBag.Title = "ShowAllDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShowAllDetails</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (Model != null)
+{
+    <table style="border:solid">
+        <tr style="grid-column:auto;border:thin">
+            <th>
+                @Html.DisplayNameFor(model => model.PatientId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.patientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profession)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ContactId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PatientDetailsId)
+                </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.patientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profession)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ContactId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientDetailsId)
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Edit Contact", "Edit", new { item.ContactId }) |
+                    @Html.ActionLink("Edit Spouse", "Edit", new { item.PatientDetailsId }) |
+                    @Html.ActionLink("Edit Child", "Edit", new { item.PatientDetailsId })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,98 @@
+﻿@model HospitalManagment.Models.PersonDetails
+
+@{
+    ViewBag.Title = "AddSpouseDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Spouse Details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @*@Html.ValidationMessage("Error")*@
+    <fieldset>
+        <legend>SpouseDetails</legend>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Firstname)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Firstname, new { @readonly = "readonly", @Value = Model.Firstname ?? "" })
+                            @Html.ValidationMessageFor(model => model.Firstname)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.LastName)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.LastName, new { @readonly = "readonly", @Value = Model.LastName ?? "" })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.MiddleName)
+                            @*</div>
+                                <div class="editor-field">*@
+
+                            @Html.TextBoxFor(model => model.MiddleName)
+                            @Html.ValidationMessageFor(model => model.MiddleName)
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.AdharCardNumber)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.TextBoxFor(model => model.AdharCardNumber, new { @maxlength = "12", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.AdharCardNumber)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Profession)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Profession)
+                            @Html.ValidationMessageFor(model => model.Profession)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Gender)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(BusinessLayer.Gender))))
+                            @Html.ValidationMessageFor(model => model.Gender)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Religion)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Religion)
+                            @Html.ValidationMessageFor(model => model.Religion)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Child Details" formaction="SaveSpouseDetails" formmethod="post" /></td>
+                    <td>
+                        <input type="button" name="cancel" value="Contact Details" onclick="window.location.href='@Url.Action("AddContactDetails","Person")';" />
+
+                        @*<input type="button" value="Some text" onclick="window.location.href='@Url.Action("AddChildDetails", "Person" )';" />*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </fieldset>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

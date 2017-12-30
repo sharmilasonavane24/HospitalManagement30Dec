@@ -1,0 +1,30 @@
+﻿@{
+    string userName = string.Empty;
+    
+    if (HttpContext.Current.Session["UserDetails"] != null)
+    {
+        HospitalManagment.HospitalEntities en = new HospitalManagment.HospitalEntities();
+        var userDetails = (HospitalManagment.User)Session["UserDetails"];
+        userName = string.Concat(userDetails.FirstName, " ", userDetails.LastName);
+        //userName =  userDetails.
+        <text>
+            Hello, @Html.ActionLink(userName, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+            @using (Html.BeginForm("Logout", "Login", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            }
+        </text>
+    }
+    else
+    {
+        <ul>
+            <li>@Html.ActionLink("Register Now!", "Index", "Registration", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }
+
+
+    
+
+}

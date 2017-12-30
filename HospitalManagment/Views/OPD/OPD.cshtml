@@ -1,0 +1,280 @@
+﻿@model HospitalManagment.Models.OPD
+
+@{
+    ViewBag.Title = "OPD";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/CustomValidation/DateValidations.js"></script>
+<script src="~/Scripts/jquery-ui-timepicker-addon.min.js"></script>
+<link href="~/Content/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
+<h2>OPD</h2>
+<script type=text/javascript>
+
+    function sendPrint() {
+        var index = 1; var listName = "prscriptionList";
+        var qtd = 0;
+        $("#tablePost > tbody > tr").each(function () {
+            var hv = $('#PrescriptionID' + index).val();
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + $(this).find("td").eq(0).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + $(this).find("td").eq(1).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].numberOfDays' value= '" + $(this).find("td").eq(2).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].comment' value= '" + $(this).find("td").eq(3).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(4).text().trim() + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
+            index += 1;
+            qtd += 1;
+        });
+    }
+
+
+    $(function () {
+        $("#TypeOfCheckup").selectmenu();
+    });
+
+
+    $(function () {
+        //debugger;
+        var index = document.getElementById("ActiveTabIndex").value;// $('#').val(index);
+        //alert('selected tab index ' + document.getElementById("ActiveTabIndex").value);
+        $('#tabs').tabs({
+            active: index,
+            activate: function (event, ui) { //bind click event to link
+                index = $('#tabs').tabs().tabs('option', 'active');
+                $('#ActiveTabIndex').val(index);
+                ////selectedIndex = ui.index;
+                //alert('You chose tab index ' + document.getElementById("ActiveTabIndex").value);
+            }
+        });
+    });
+
+</script>
+
+@using (Html.BeginForm("OPD", "OPD", FormMethod.Post, new { @id = "formPost" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <input id="ActiveTabIndex" type="hidden" name="ActiveTabIndex" value="@ViewBag.MyValue" />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <table>
+
+            <tr style="font-size:medium 10px; font-weight:bold; text-transform:capitalize; float:left; color:firebrick;" >
+                @if (Model != null && Model.history != null && Model.history.HighRiskFactor != null)
+                {
+                    <td class="control-label col-md-2">
+                        High Risk:
+                    </td>
+                    <td colspan="5">
+                        @Html.DisplayFor(model => model.history.HighRiskFactor, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                }
+            </tr>
+        </table>
+
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">OPD Details</a></li>
+                <li><a href="#tabs-2">Patient History</a></li>
+                <li><a href="#tabs-3">Clinical Examination</a></li>
+                <li><a href="#tabs-4">Management & Advice</a></li>
+            </ul>
+
+            <div id="tabs-1">
+                <table>
+                    <tr>
+                        <td>
+                            <input id="OPDID" type="hidden" name="OPDID" value="@Model.OPDID" />
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PersonId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.PersonId, new { htmlAttributes = new { @readonly = true, style = "width: 50px" } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MonthOPDNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MonthOPDNo, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PatientFullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.ValidationMessageFor(model => model.PatientFullName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(BusinessLayer.Gender)), Model.Gender), new { @class = "form-control" })
+                                    @*<input id="Gender" type="text" value="@Model.Gender" readonly="readonly" style="display:block" />*@
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Religion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Religion, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.Label("OPD Time:", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <input id="OPDDate" type="text" value="@DateTime.Now.ToString("dd-MM-yy hh:mm")" readonly="readonly" style="width: 150px;" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Occupation, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ReferredBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ReferredBy, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td align="center">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @*<input type="submit" name="submit" value="Verify OPD Details" class="btn btn-default" />*@
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="tabs-2">
+                <table>
+                    <tr>
+                        <td>
+                            @{
+                                @Html.Partial("_HistoryPartialView", Model)
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save History" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="tabs-3">
+                <table>
+                    <tr>
+                        <td>
+                            @{
+                                @Html.Partial("_ClinicalExaminationPartialView", Model)
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save Examination" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="tabs-4">
+                <table>
+                    <tr>
+                        <td>
+
+                            @Html.Partial("_PrescriptionPartialView", Model)
+
+                        </td>
+                    </tr>
+                </table><table>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    <input type="submit" id="savePrescription" value="Save Prescription" onclick="return SaveRow();" name="submit" class="ui-button ui-widget ui-corner-all" />
+
+                                </div>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    <input type="submit" id="PrintPrescription" value="Print Prescription" onclick="return sendPrint();" name="submit" class="ui-button ui-widget ui-corner-all" />
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
+                                }
+<div>
+    @Html.ActionLink("Back to List", "Search")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

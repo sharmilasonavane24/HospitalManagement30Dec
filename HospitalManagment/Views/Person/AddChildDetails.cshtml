@@ -1,0 +1,116 @@
+﻿@model HospitalManagment.Models.PersonDetails
+
+@{
+    ViewBag.Title = "AddChildDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddChildDetails</h2>
+<script type="text/javascript">
+    $(function () {
+        var date = new Date();
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+        $('BirthDate').datepicker({
+            maxDate: new Date(currentYear, currentMonth, currentDate),
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd-M-yy'
+        });
+    });
+</script>
+@using (Html.BeginForm("SaveChildDetails", "Person"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>PersonDetails</legend>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Firstname)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Firstname)
+                            @Html.ValidationMessageFor(model => model.Firstname)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.LastName)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.LastName)
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.MiddleName)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.MiddleName)
+                            @Html.ValidationMessageFor(model => model.MiddleName)
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.BirthDate)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.TextBoxFor(model => model.BirthDate, new { Class = "input-group datepicker", @readonly = true })
+                            @Html.ValidationMessageFor(model => model.BirthDate)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Age)
+                            @*</div>
+            <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Age)
+                            @Html.ValidationMessageFor(model => model.Age)
+                            @*@Html.ValidationMessageFor(model => model.BirthDate)*@
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Gender)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(BusinessLayer.Gender))),
+
+
+                    new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Gender)
+                        </div>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Religion)
+                            @*</div>
+                                <div class="editor-field">*@
+                            @Html.EditorFor(model => model.Religion)
+                            @Html.ValidationMessageFor(model => model.Religion)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="submit" value="Save Child Details" formaction="SaveChildDetails" formmethod="post" /></td>
+                    <td>
+                        <input type="button" name="submit" value="Contact Details" onclick="location.href='@Url.Action("AddContactDetails","Person")';"  />
+                    </td>
+                    @*<td>
+                        <input type="submit" name="cancel" value="Skip" onclick="location.href='@Url.Action("AddContactDetails","Person")';"
+                               formWaction="CancelForm" formmethod="post" />
+                    </td>*@
+                </tr>
+            </table>
+        </div>
+
+
+
+    </fieldset>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

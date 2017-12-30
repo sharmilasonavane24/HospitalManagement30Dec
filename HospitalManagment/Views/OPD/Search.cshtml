@@ -1,0 +1,134 @@
+﻿@model IEnumerable<HospitalManagment.Models.AllPatientDetails>
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Search</h2>
+
+
+<p>
+    @using (Html.BeginForm("Search", "OPD", FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td>Registration No:</td>
+                <td>@Html.TextBox("RegistrationNo", ViewBag.FilterValue as string)</td>
+
+                <td>OPD No:</td>
+                <td>@Html.TextBox("OPDNO", ViewBag.FilterValue as string)<br /></td>
+            </tr>
+            <tr>
+                @*<td>
+                        Last Name:
+                    </td>
+                    <td>
+                        @Html.TextBox("LastName", ViewBag.FilterValue as string)
+                    </td>*@
+                <td>
+                    Mobile:
+                </td>
+                <td>
+                    @Html.TextBox("ContactNumber", ViewBag.FilterValue as string)
+                </td>
+                <td>
+                    First Name:
+                </td>
+                <td>@Html.TextBox("FirstName", ViewBag.FilterValue as string)</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="direction:ltr">
+                    <input type="submit" value="Search" />
+                </td>
+            </tr>
+        </table>
+        @*<p class="editor-label">
+
+
+                City:        @Html.TextBox("City", ViewBag.FilterValue as string)<br />
+                @*//Employee Department @Html.DropDownList("Emp_Dept", "All")
+
+            </p>*@
+    }
+</p>
+@if (Model != null)
+{
+    <table class="showborder">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.patientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profession)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ContactId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PatientDetailsId)
+                </th>*@
+            @*<th></th>*@
+            <th>
+                @Html.DisplayName("Start OPD")
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.patientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profession)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ContactId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientDetailsId)
+                    </td>*@
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+                <td>
+                    @Html.ActionLink("OPD", "OPD", new { item.PatientId })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+<p>
+    @Html.ActionLink("New Patient", "AddPatientDetails", "Person")
+</p>

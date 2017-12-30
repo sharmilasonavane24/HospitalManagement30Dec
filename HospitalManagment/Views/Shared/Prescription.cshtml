@@ -1,0 +1,132 @@
+﻿@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>*@
+@*<script type="text/javascript" language="javascript">
+
+        var indexValue = 0;
+        function addRow() {
+            var test = '<tr><td>a</td></tr>';
+            $("#applyTable").append(test);
+        }
+    </script>
+    <div>
+        <input type="button" value="Add" border="1px" onclick="addRow()" /><br /><br />
+    </div>
+    <div>
+        <table class="myTable" border="1px" align="center" style="width:100px;">
+            <tbody id="applyTable"></tbody>
+        </table>
+    </div>
+
+    ***********@
+<script type="text/javascript">
+    //$(document).ready(function () {
+
+    //    $("#buttonAdicionar").on("click", function ()
+    function addRow() {
+        var nome = $("#textNome").val();
+        var tel = $("#textTel").val();
+
+        $("#tablePost > tbody").append("<tr data-nome='" +
+            nome + "' data-tel='" + tel + "'><td>" +
+            nome + "</td><td>" + tel + "</td></tr>");
+
+        $("#textNome").val('');
+        $("#textTel").val('');
+
+        $("#textNome").focus();
+    }
+
+    //$("#buttonPost").on("click", function ()
+    function SaveRow() {
+         
+        debugger;
+        var listName = "NomeTels";
+
+        var qtd = 0;
+        $("#tablePost > tbody > tr").each(function () {
+            var nome = $(this).data("nome");
+            var tel = $(this).data("tel");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Nome' value= '" + nome + "' > ");
+            $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Telefone' value= '" + tel + "' > ");
+            qtd += 1;
+        });
+    }//);
+        //});
+</script>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form form-horizontal">
+            <div class="form-group">
+                <label>Nome:</label>
+                <input type="text" id="textNome" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Telefone:</label>
+                <input type="text" id="textTel" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <input type="button" value="buttonAdicionar" border="1px" onclick="addRow()" />
+                @*<button id="buttonAdicionar" type="button" class="btn btn-primary">
+                        Adicionar
+                    </button>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-horizontal">
+            <table id="tablePost" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="form-group">
+                <label>&nbsp;</label>
+                @*<button id="buttonPost" type="submit"  onclick="SaveRow();"
+                        class="btn btn-primary">
+                    Postar
+                </button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @*<script type="text/javascript">
+            //$(document).ready(function () {
+
+            //    $("#buttonAdicionar").on("click", function ()
+            function addRow() {
+                var nome = $("#textNome").val();
+                var tel = $("#textTel").val();
+
+                $("#tablePost > tbody").append("<tr data-nome='" +
+                    nome + "' data-tel='" + tel + "'><td>" +
+                    nome + "</td><td>" + tel + "</td></tr>");
+
+                $("#textNome").val('');
+                $("#textTel").val('');
+
+                $("#textNome").focus();
+            }
+
+            $("#buttonPost").on("click", function () {
+                var listName = "NomeTels";
+
+                var qtd = 0;
+                $("#tablePost > tbody > tr").each(function () {
+                    var nome = $(this).data("nome");
+                    var tel = $(this).data("tel");
+                    $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Nome' value= '" + nome + "' > ");
+                    $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Telefone' value= '" + tel + "' > ");
+                    qtd += 1;
+                });
+            });
+            //});
+        </script>*@
+}
