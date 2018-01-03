@@ -71,7 +71,7 @@
             var qtd = 0;
             addRow();
             //if (Model.prscriptionList == null)
-            {
+            @*{
                 var prscriptionList = @Html.Raw(Json.Encode(Model.prscriptionList));
                 if (prscriptionList.length > 0 && prscriptionList[prscriptionList.length - 1].Dosage <= 0 && prscriptionList[prscriptionList.length - 1].TypeOfMedicine == null) {
                   //  alert(' null');
@@ -83,7 +83,7 @@
                    // qtd = abc.length - 1;
                 }
 
-            }
+            }*@
 
              var index = 1;
         $("#tablePost > tbody > tr").each(function () {

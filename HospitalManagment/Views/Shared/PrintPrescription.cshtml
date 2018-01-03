@@ -8,9 +8,9 @@
 
     <br /><br />
 
-    
+
     <table>
-        
+
         <tr>
 
             <td>OPD No:</td>
@@ -35,14 +35,15 @@
     <table>
 
 
-       
+
         <tr>
             <td>Address:</td>
-            <td>@Model.Address</td> <td>Contact No.  @Model.Mobile</td>
-           
+            <td>@Model.Address</td>
+            <td>Contact No.  @Model.Mobile</td>
+
 
         </tr>
- 
+
     </table>
     <hr style="border-bottom:5px solid black;" />
 
@@ -61,14 +62,19 @@
             {
                 <tr style="border-bottom:1px solid black;">
                     @{
-
+                        string newMedicineName = string.Empty;
+                        if (item.NameOfMedicine.Equals("Other"))
+                        {
+                            newMedicineName = item.newmedicine;
+                        }
+                        else { newMedicineName = item.NameOfMedicine; }
                         string medicineDetails = string.Empty;
                         int quantity = 1;
                         switch (item.TypeOfMedicine)
                         {
                             case "Solution":
                             case "Syrup":
-                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine ;
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
                                 break;
                             case "Tablet":
                             case "Capsule":
@@ -110,7 +116,7 @@
                                 break;
                         }
 
-                    <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                         <td width="10%">@quantity</td>
 
@@ -171,6 +177,20 @@
     </table>
 
 
+    <table>
+        <tr class="ad">
+            <td width="20%">
+                <input type="button" value="Print" onclick="window.print();" name="Print" />
+            </td>
+            <td width="20%">
+                <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
+            </td>
+            <td width="20%">
+                @Html.ActionLink("Back to List", "Search")
+            </td>
+
+        </tr>
+    </table>
 
 
 
