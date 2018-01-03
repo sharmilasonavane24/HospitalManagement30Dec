@@ -20,12 +20,7 @@
                 <td>@Html.TextBox("OPDNO", ViewBag.FilterValue as string)<br /></td>
             </tr>
             <tr>
-                @*<td>
-                        Last Name:
-                    </td>
-                    <td>
-                        @Html.TextBox("LastName", ViewBag.FilterValue as string)
-                    </td>*@
+               
                 <td>
                     Mobile:
                 </td>
@@ -43,13 +38,7 @@
                 </td>
             </tr>
         </table>
-        @*<p class="editor-label">
-
-
-                City:        @Html.TextBox("City", ViewBag.FilterValue as string)<br />
-                @*//Employee Department @Html.DropDownList("Emp_Dept", "All")
-
-            </p>*@
+       
     }
 </p>
 @if (Model != null)
@@ -75,13 +64,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.ContactId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientDetailsId)
-                </th>*@
-            @*<th></th>*@
+           
             <th>
                 @Html.DisplayName("Start OPD")
             </th>
@@ -109,17 +92,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.ContactId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientDetailsId)
-                    </td>*@
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>*@
+               
                 <td>
                     @Html.ActionLink("OPD", "OPD", new { item.PatientId })
                 </td>
