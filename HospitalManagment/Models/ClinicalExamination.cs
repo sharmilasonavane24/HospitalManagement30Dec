@@ -4,16 +4,16 @@ namespace HospitalManagment.Models
 {
     public class ClinicalExamination
     {
-        [Required]
+       // [Required]
         [Display(Name = "Blood Pressure: ")]
         public string BP { get; set; }
          
-        [Required]
+        //[Required]
         [Display(Name = "Pulse: ")]
-        public int Pulse { get; set; }
+        public int? Pulse { get; set; }
 
         [Display(Name = "Weight: (Kgs)")]
-        public decimal CurrentWeight { get; set; }
+        public decimal? CurrentWeight { get; set; }
 
         [Display(Name = "Provisional Diagnosis: ")]
         public string positiveFidings { get; set; }
