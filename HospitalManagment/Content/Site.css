@@ -828,3 +828,24 @@ height :30px;
     font-size: 10px;
     padding:0.25em 1em 0em 1em;
 }
+
+
+a:link:after, a:visited:after {
+    content: "";
+}
+
+@media print {
+    .noprint {
+        display: none !important;
+    }
+
+    a:link:after, a:visited:after {
+        display: none;
+        content: "";
+    }
+}
+
+#content a:link:after, #content a:visited:after {
+    content: " ("attr(href) ") ";
+    font-size: 90%;
+}
