@@ -7,37 +7,43 @@
 
 
     <br /><br />
-
-    <table width="100%">
-
+    
+    <table>
+        
         <tr>
+
             <td>OPD No:</td>
             <td>@Model.MonthOPDNo</td>
-            <td>Registration No:</td>
-            <td>@Model.PersonId</td>
-            <td>OPD Date:</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+            <td>Date:</td>
             <td>@DateTime.Now.ToString("dd-MMM-yyyy hh:mm")</td>
         </tr>
-        <tr>
-            <td>Patient Name:</td>
-            <td>@Model.PatientFullName</td>
-            <td>Age:</td>
-            <td>@Model.Age</td>
-            <td>Gender:</td>
-            <td>@Model.Gender</td>
-        </tr>
-        <tr>
-            <td>Mobile No:</td>
-            <td>@Model.Mobile</td>
-            <td>Weight:</td>
-            <td>@Model.clinicalExamination.CurrentWeight</td>
-            <td>BP</td>
-            <td>@Model.clinicalExamination.BP </td>
-
-        </tr>
-        <tr style="border-bottom:5px solid black;"><td colspan="6"></td></tr>
-
     </table>
+    <hr />
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>@Model.PatientFullName</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>@Model.Age Years-@Model.Gender</td>
+
+        </tr>
+    </table>
+    <hr />
+    <table>
+
+
+       
+        <tr>
+            <td>Address:</td>
+            <td>@Model.Address</td> <td>Contact No.  @Model.Mobile</td>
+           
+
+        </tr>
+ 
+    </table>
+    <hr style="border-bottom:5px solid black;" />
 
     <br /><br />
     <h3>Medicine Details</h3>
@@ -49,42 +55,42 @@
                 <th>Advise</th>
             </tr>
         </thead>
-        <tbody style="width:100%">             
+        <tbody style="width:100%">
             @foreach (var item in Model.prscriptionList)
             {
                 <tr style="border-bottom:1px solid black;">
                     @{
-                        
+
                         string medicineDetails = string.Empty;
                         int quantity = 1;
                         switch (item.TypeOfMedicine)
                         {
                             case "Solution":
                             case "Syrup":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine ;
                                 break;
                             case "Tablet":
                             case "Capsule":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " mg";
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " mg";
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Creame":
                             case "Ointment":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " grm";
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " grm";
                                 break;
                             case "Injection":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Saline":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight + " ml";
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " ml";
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                             case "Drops":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine;
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
                                 break;
                             case "Other":
-                                medicineDetails = item.NameOfMedicine + "..." + item.TypeOfMedicine + "..." + item.Weight;
+                                medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight;
                                 quantity = item.Dosage * item.NumberOfDays;
                                 break;
                         }
@@ -93,17 +99,17 @@
                         switch (item.Dosage)
                         {
                             case 1:
-                                dosageDetails = "In Morning.............. for " + item.NumberOfDays + "...day/days";
+                                dosageDetails = "1 सकाळी ..." + item.NumberOfDays + "दिवस";
                                 break;
                             case 2:
-                                dosageDetails = "In Morning..........In Night.... for " + item.NumberOfDays + "...day/days";
+                                dosageDetails = "1 सकाळी  1 रात्री..." + item.NumberOfDays + "दिवस";
                                 break;
                             case 3:
-                                dosageDetails = "In Morning.....In Afternoon.....In Night.... for " + item.NumberOfDays + "...day/days";
+                                dosageDetails = "1 सकाळी 1 दुपारी  1 रात्री..." + item.NumberOfDays + "दिवस";
                                 break;
                         }
 
-                        <td width="50%">@medicineDetails <br /> @dosageDetails</td>
+                    <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                         <td width="10%">@quantity</td>
 
@@ -111,14 +117,14 @@
                     }
                 </tr>
 
-                        }
+            }
             <tr>
                 <td colspan="3">
 
                     @if (@Model.prscriptionList != null && @Model.prscriptionList[0] != null)
                     {
                         var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
-                       
+
                         <label>Next visit Date and Time-- @opointmentDateTime</label>
                     }
                 </td>
@@ -167,7 +173,7 @@
 
 
 
-                        }
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

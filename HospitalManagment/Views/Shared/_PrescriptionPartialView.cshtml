@@ -63,7 +63,7 @@
     function SaveRow()
     {
         debugger;
-       
+
         var listName = "prscriptionList";
         //var prscriptionList;
         var opdId = @Html.Raw(Json.Encode(Model.OPDID));
@@ -147,7 +147,7 @@
 
             });
         }
-         
+
     }
 
 
@@ -160,9 +160,17 @@
             if ($("#NameOfMedicine option:selected").text() == "Other") {
 
                 $('#NewMedicine').attr('readonly', false);
+                $('#otherMedicine').attr("style", "display: inline")
+                $('#otherMedicineLbl').attr("style", "display: inline")
+
+
             } else {
 
                 $('#NewMedicine').attr('readonly', true);
+                $('#otherMedicine').attr("style", "display: none")
+                $('#otherMedicineLbl').attr("style", "display: none")
+
+
             }
 
         })
@@ -186,16 +194,33 @@
 
 
         <tr>
-            <td>Medicine:</td>
             <td>Type:</td>
-            <td>Medicine Name:</td>
-            <td>Dose(Per Day):</td>
-            <td>Duration(In Days):</td>
-            <td>Weight (In mg):</td>
+            <td>Medicine:</td>
+            <td><div id="otherMedicineLbl" style="display: none">New Medicine Name:</div></td>
+            <td>Dose (In mg):</td>
+            <td>Duration:</td>
+            <td>Days:</td>
+
+
 
         </tr>
         <tr>
+            <td>
+                <div class="form-group">
 
+                    <div class="col-md-10">
+                        @{
+                    var typeOfMedicine = TempData.Peek("TypeOfMedicine") as SelectList;
+                    if (typeOfMedicine != null)
+                    {
+                        @Html.DropDownList("TypeOfMedicine", typeOfMedicine, "Tablet")
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
+            }
+                        }
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </td>
             <td>
                 <div class="form-group">
                     <div class="col-md-10">
@@ -203,30 +228,24 @@
                     var data = TempData.Peek("MedicineNames") as SelectList;
                     if (data != null)
                     {
-                        @Html.DropDownList("NameOfMedicine", data, "Select Medicine")
+                        @Html.DropDownList("NameOfMedicine", data, "Select Medicine", new { style = "width: 150px;" })
                         @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
             }
                         }
                     </div>
                 </div>
             </td>
+
+            <td> <div id="otherMedicine" style="display: none"> @Html.TextBox("NewMedicine") </div></td>
             <td>
-                <div class="form-group">
+                <div class="form-group" id="MedicinesWeight">
 
                     <div class="col-md-10">
-                        @{
-                    var data1 = TempData.Peek("TypeOfMedicine") as SelectList;
-                    if (data != null)
-                    {
-                        @Html.DropDownList("TypeOfMedicine", data1, "Tablet")
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
-            }
-                        }
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
+                        @Html.TextBox("NewWeight", null, new { @class = "medium" })
+
                     </div>
                 </div>
             </td>
-            <td>@Html.TextBox("NewMedicine")</td>
             <td>
                 <div class="form-group">
                     <div class="col-md-10">
@@ -235,6 +254,7 @@
                     </div>
                 </div>
             </td>
+
             <td>
                 <div class="form-group">
                     <div class="col-md-10">
@@ -242,33 +262,21 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <div class="form-group" id="MedicinesWeight">
-                   
-                    <div class="col-md-10">
-                        @Html.TextBox("NewWeight", null, new { @class = "medium" })
 
-                    </div>
-                </div>
-            </td>
         </tr>
 
     </table>
     <div class="form-group">
         @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            
+
             <textarea rows="3" id="Comment" class="form-control"></textarea>
         </div>
     </div>
 
     <table border="0">
 
-        <tr>
-
-
-           
-        </tr>
+        <tr></tr>
 
 
 
@@ -297,7 +305,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            
+
         </div>
     </div>
     <div>
@@ -325,42 +333,42 @@
                         {
                             index++;
                             var trid = string.Concat("tablePost", index);
-                <tr id="@trid">
-                    <td>
-                        @item.NameOfMedicine
-                        
-                    </td>
-                    <td>
-                        @item.Dosage
-   
-                    </td>
-                    <td>
-                        @item.NumberOfDays
-                    </td>
-                    <td>
-                        @item.Comment
-                        
-                    </td>
-                    <td>
-                        @item.ManagementPlan
-                    </td>
-                    <td>
-                        @item.TypeOfMedicine
-                        
+                            <tr id="@trid">
+                                <td>
+                                    @item.NameOfMedicine
 
-                    </td>
-                    <td>
-                        @item.Weight
-                        
-                    </td>
-                    <td>
-                        @item.newmedicine
-                    </td>
-                    <td>
-                        <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
-                    </td>
-                    @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
-                </tr>
+                                </td>
+                                <td>
+                                    @item.Dosage
+
+                                </td>
+                                <td>
+                                    @item.NumberOfDays
+                                </td>
+                                <td>
+                                    @item.Comment
+
+                                </td>
+                                <td>
+                                    @item.ManagementPlan
+                                </td>
+                                <td>
+                                    @item.TypeOfMedicine
+
+
+                                </td>
+                                <td>
+                                    @item.Weight
+
+                                </td>
+                                <td>
+                                    @item.newmedicine
+                                </td>
+                                <td>
+                                    <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
+                                </td>
+                                @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
+                            </tr>
                         }
                     }
                 }
