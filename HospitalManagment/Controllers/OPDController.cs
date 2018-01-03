@@ -115,11 +115,20 @@ namespace HospitalManagment.Controllers
 
                 TempData["TypeOfMedicine"] = new SelectList(TypeOfMedicine, "TypeOfMedicineId", "TypeName");
 
-                AddDefaultMedicineName();
+                var listMedicineNames = (from medicineName in ent.MedcineNames select medicineName).ToList();
+                MedcineName medcineName = new MedcineName();
+                //  medcineName.TypeOfMedcine.TypeOfMedicineId
+                medcineName.MedcineName1 = "Other";
+                medcineName.MedicineWeight = 0;
+                var a = (from md in ent.TypeOfMedcines
+                         where md.TypeName.Equals("Other", StringComparison.InvariantCultureIgnoreCase)
+                         select new { md }).FirstOrDefault();
+                medcineName.TypeOfMedcine = new TypeOfMedcine();
+                medcineName.TypeOfMedcine.TypeOfMedicineId = a.md.TypeOfMedicineId;
+                listMedicineNames.Add(medcineName);
+                TempData["MedicineNames"] = new SelectList(listMedicineNames, "MedcineNamesId", "MedcineName1");
             }
-             
-            return OPD(opd, "Save Examination");
-            //return View(opd);
+            return View(opd);
         }
 
         [HttpPost]
@@ -203,9 +212,7 @@ namespace HospitalManagment.Controllers
                                     medcineName.TypeOfMedicineId = typeOfMedcine.TypeOfMedicineId;
                                     ent.MedcineNames.Add(medcineName);
                                     ent.SaveChanges();
-                                    //item.NameOfMedicine = Convert.ToString(medcineName.MedcineNamesId);
-                                    AddDefaultMedicineName();
-
+                                    item.NameOfMedicine = Convert.ToString(medcineName.MedcineNamesId);
                                 }
                                 else
                                 {
@@ -230,7 +237,7 @@ namespace HospitalManagment.Controllers
                                 {
                                     prescription.Quantity = Convert.ToString(item.NumberOfDays * item.Dosage);
                                 }
-
+                                 
                                 ent.Prescriptions.Add(prescription);
                                 ent.SaveChanges();
                                 item.PrescriptionID = prescription.PrescriptionID;
@@ -239,7 +246,7 @@ namespace HospitalManagment.Controllers
 
                     }
                     ModelState.AddModelError("Error", "Prescription saved successfully!");
-                    ViewBag.MyValue = 4;
+                    ViewBag.MyValue = 3;
                     return View(opd);
 
                 case "Save Examination":
@@ -257,26 +264,22 @@ namespace HospitalManagment.Controllers
                                    where opddeatails.OPDId == opd.OPDID
                                    select opddeatails).FirstOrDefault();
                         }
+                        oPD.BP = opd.clinicalExamination.BP;
+                        oPD.CNS = opd.clinicalExamination.CNS;
                         oPD.OPDDate = DateTime.Now;
+                        oPD.PA = opd.clinicalExamination.PA;
+                        oPD.PS = opd.clinicalExamination.PS;
+                        oPD.Pulse = opd.clinicalExamination.Pulse;
+                        oPD.PV = opd.clinicalExamination.PV;
+                        oPD.Rs = opd.clinicalExamination.Rs;
+                        oPD.CVS = opd.clinicalExamination.CVS;
+                        oPD.Weight =Convert.ToDecimal( opd.clinicalExamination.CurrentWeight);
                         person.Height = Convert.ToString(opd.Height);
+                        oPD.BMI = opd.clinicalExamination.BMI;
+                        oPD.OtherGeneralFindings = opd.clinicalExamination.OtherGenFindings;
                         oPD.TypeofCheckUp = 1;
                         oPD.OPDNumber = opd.MonthOPDNo;
                         oPD.PersonID = opd.PersonId;
-                        if (opd.clinicalExamination != null)
-                        {
-                            oPD.BP = opd.clinicalExamination.BP;
-                            oPD.CNS = opd.clinicalExamination.CNS;
-                            oPD.PA = opd.clinicalExamination.PA;
-                            oPD.PS = opd.clinicalExamination.PS;
-                            oPD.Pulse = opd.clinicalExamination.Pulse;
-                            oPD.PV = opd.clinicalExamination.PV;
-                            oPD.Rs = opd.clinicalExamination.Rs;
-                            oPD.CVS = opd.clinicalExamination.CVS;
-                            oPD.Weight = Convert.ToDecimal(opd.clinicalExamination.CurrentWeight);
-                            oPD.BMI = opd.clinicalExamination.BMI;
-                            oPD.OtherGeneralFindings = opd.clinicalExamination.OtherGenFindings;
-                        }
-                       
                         if (opd.OPDID <= 0)
                         {
                             ent.OPDs.Add(oPD);
@@ -430,20 +433,20 @@ namespace HospitalManagment.Controllers
 
                         TempData["AllAttachmentinOnePDFPath"] = _path;
                         file.SaveAs(_path);
-                        ViewBag.MyValue = 3;
+                         
                     }
 
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
-
+                 
             }
             catch (Exception ex)
             {
                 ViewBag.Message = "File upload failed!!";
-
+                
             }
 
-
+            
         }
 
         [HttpPost]
@@ -455,7 +458,7 @@ namespace HospitalManagment.Controllers
                 {
                     Investigation _investigation = new Investigation();
                     var path = TempData["AllAttachmentinOnePDFPath"];
-                    if (path != null && !string.IsNullOrEmpty(Convert.ToString(path)))
+                    if (path != null && !string.IsNullOrEmpty(Convert.ToString( path)))
                         _investigation.AllAttachmentinOnePDF = System.IO.File.ReadAllBytes(Convert.ToString(path));
 
                     _investigation.PersonId = investigations.PersonId;
@@ -474,25 +477,16 @@ namespace HospitalManagment.Controllers
                     _investigation.UrineRM = investigations.UrineRM;
                     _investigation.USG = investigations.USG;
                     _investigation.VDRL = investigations.VDRL;
-                    if (investigations.InvestigationId > 0)
-                    {
-                        // ent.Investigations.u
-                    }
-                    else
-                    {
-                        ent.Investigations.Add(_investigation);
-                    }
+                    ent.Investigations.Add(_investigation);
                     ent.SaveChanges();
-                    investigations.InvestigationId = _investigation.InvestigationId;
                 }
-                ViewBag.MyValue = 3;
                 ViewBag.Message = "File Uploaded Successfully!!";
-
+                 
             }
             catch (Exception ex)
             {
                 ViewBag.Message = "File upload failed!!";
-
+               
             }
         }
         private Decimal GetAge(DateTime birthDate)
@@ -528,25 +522,6 @@ namespace HospitalManagment.Controllers
 
 
             return retval;
-        }
-
-        private void AddDefaultMedicineName()
-        {
-            using (HospitalEntities ent = new HospitalEntities())
-            {
-                var listMedicineNames = (from medicineName in ent.MedcineNames select medicineName).ToList();
-                MedcineName medcineName = new MedcineName();
-                //  medcineName.TypeOfMedcine.TypeOfMedicineId
-                medcineName.MedcineName1 = "Other";
-                medcineName.MedicineWeight = 0;
-                var a = (from md in ent.TypeOfMedcines
-                         where md.TypeName.Equals("Other", StringComparison.InvariantCultureIgnoreCase)
-                         select new { md }).FirstOrDefault();
-                medcineName.TypeOfMedcine = new TypeOfMedcine();
-                medcineName.TypeOfMedcine.TypeOfMedicineId = a.md.TypeOfMedicineId;
-                listMedicineNames.Add(medcineName);
-                TempData["MedicineNames"] = new SelectList(listMedicineNames, "MedcineNamesId", "MedcineName1");
-            }
         }
     }
 }
