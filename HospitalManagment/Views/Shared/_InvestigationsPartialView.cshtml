@@ -14,7 +14,7 @@
     //});
 
     function SaveInvestigations() {
-        
+
         var file = new FormData($('form')[0]);
 
         //alert(new FormData($('form')[0]));
@@ -94,7 +94,7 @@
             data: JSON.stringify({ 'investigations': investigations }),
             //dataType: "json",
             processData: false,
-           // async: false,
+            // async: false,
             success: function (result) {
                 alert("success");
                 return false;
@@ -106,157 +106,159 @@
         });
     }
 </script>
-@Html.Label("Investigations", "Investigations")
-<div id="borderBox">
-    <table>
-        <tr><td></td></tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.BloodGroup, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.SrCreat, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.SrCreat, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.HB, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.investigations.HB, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.SrUrea, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.SrUrea, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.RBS, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.RBS, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.SrTSH, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.SrTSH, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.HIVNII, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.HIVNII, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.HSG, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.investigations.HSG, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.HBSAvg, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.HBSAvg, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.investigations.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.VDRL, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.VDRL, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.USG, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.investigations.USG, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.UrineRM, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.investigations.UrineRM, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.investigations.Other, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.investigations.Other, new { htmlAttributes = new { @class = "medium" } })
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    @Html.TextBox("file", "", new { type = "file" }) <br />
 
-                    <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
-
-                </div>
-
+<table>
+    <tr><td></td></tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.BloodGroup, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.SrCreat, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.SrCreat, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.HB, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.HB, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.SrUrea, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.SrUrea, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.RBS, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.RBS, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.SrTSH, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.SrTSH, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.HIVNII, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.HIVNII, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.HSG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.investigations.HSG, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.HBSAvg, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.HBSAvg, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.investigations.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.VDRL, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.VDRL, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.USG, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.investigations.USG, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.UrineRM, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.investigations.UrineRM, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.investigations.Other, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.investigations.Other, new { htmlAttributes = new { @class = "medium" } })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            @Html.TextBox("file", "", new { type = "file" }) <br />
+        </td>
+        <td>
+            <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
                     <input type="button" name="submit" value="Save Investigations" onclick="return SaveInvestigationsWithOutFile();" />
                 </div>
-            </td>
-        </tr>
-    </table>
-</div>
-@*@using (Ajax.BeginForm("UploadFile", "OPD", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @id = "form" }))*@
- 
+            </div>
+        </td>
+
+    </tr>
+</table>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-@*@//using (Html.BeginForm("UploadFile", "OPD", FormMethod.Get, new { enctype = "multipart/form-data", @id = "myForm" }))*@ 

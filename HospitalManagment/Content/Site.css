@@ -350,7 +350,7 @@ aside {
     }
 
     #loginForm .validation-summary-errors li {
-        display: inline;
+         
         list-style: none;
         margin: 0;
     }
@@ -650,7 +650,7 @@ height :30px;
         }
 
         #login li {
-            display: inline;
+            
             list-style: none;
             margin: 0;
             padding: 0;
