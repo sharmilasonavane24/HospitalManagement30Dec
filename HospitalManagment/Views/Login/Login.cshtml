@@ -71,8 +71,8 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Email)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Email, new { style = "width: 150px;" })
+        <div>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "loginInputButton" } } )
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         <div class="editor-label">

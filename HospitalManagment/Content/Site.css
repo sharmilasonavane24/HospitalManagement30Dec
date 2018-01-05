@@ -435,7 +435,7 @@ input, textarea {
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    /*width: 80%;*/
+    /*width: 250px;*/
 }
 
 textarea {
@@ -848,4 +848,7 @@ a:link:after, a:visited:after {
 #content a:link:after, #content a:visited:after {
     content: " ("attr(href) ") ";
     font-size: 90%;
+}
+#loginInputButton{
+    width:250px;
 }
