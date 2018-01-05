@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
 
 
-    <br /><br />
+    <br /><br /><br /><br /><br /><br />
 
 
     <table>
@@ -45,22 +45,19 @@
         </tr>
 
     </table>
-    <hr style="border-bottom:5px solid black;" />
+    <hr style="border-bottom:3px solid black;" />
 
-    <br /><br />
-    @*<h3>Medicine Details</h3>*@
     <table style="width:100%">
         <thead>
             <tr>
-                <th>Name Of Medicine</th>
-                <th>Quantity</th>
-                <th>Advise</th>
+                <td>Rx</td>
+
             </tr>
         </thead>
         <tbody style="width:100%">
             @foreach (var item in Model.prscriptionList)
             {
-                <tr style="border-bottom:1px solid black;">
+                <tr>
                     @{
                         string newMedicineName = string.Empty;
                         if (item.NameOfMedicine.Equals("Other"))
@@ -115,7 +112,7 @@
                                 dosageDetails = "1 सकाळी 1 दुपारी  1 रात्री..." + item.NumberOfDays + " दिवस";
                                 break;
                             default:
-                                dosageDetails = "दररोज "+ item.Dosage+ " वेळा ..." + item.NumberOfDays + " दिवस";
+                                dosageDetails = "दररोज " + item.Dosage + " वेळा ..." + item.NumberOfDays + " दिवस";
                                 break;
                         }
 
@@ -133,7 +130,7 @@
 
                     @if (@Model.prscriptionList != null && @Model.prscriptionList[0] != null)
                     {
-                                    var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
+                        var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
 
                         <label>Next visit Date and Time-- @opointmentDateTime</label>
                     }
@@ -199,6 +196,6 @@
 
 }
 
-                        @section Scripts {
-                            @Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
