@@ -112,9 +112,13 @@ namespace HospitalManagment.Controllers
                 TempData["History"] = _history;
 
                 var TypeOfMedicine = (from medicineType in ent.TypeOfMedcines select medicineType).ToList();
+                var typeOfIntakeAdv = (from intakeAdvType in ent.TypeOfIntakeAdvs select intakeAdvType).ToList();
 
                 TempData["TypeOfMedicine"] = new SelectList(TypeOfMedicine, "TypeOfMedicineId", "TypeName");
+                TempData["TypeOfIntakeAdv"] = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName");
+                int selectedId = 1;
 
+                ViewBag.DefaultTypeOfIntakeAdv = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName",selectedId);
                 AddDefaultMedicineName();
             }
 

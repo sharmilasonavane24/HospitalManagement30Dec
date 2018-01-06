@@ -142,7 +142,7 @@
             alert("Please save clinical examination!");
             return false;
         }
-        
+
     }
 
     function removeRow(id, PrescriptionID) {
@@ -209,7 +209,7 @@
             <td>Dose (In mg):</td>
             <td>Duration:</td>
             <td>Days:</td>
-
+            <td>IntakeAdv:</td>
 
 
         </tr>
@@ -268,6 +268,22 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <input type="text" id="NumberOfDays" class="medium" />
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        @{
+                            var typeOfIntakeAdv = TempData.Peek("TypeOfIntakeAdv") as SelectList;
+                            if (typeOfIntakeAdv != null)
+                            {
+                                @Html.DropDownList("TypeOfIntakeAdv", typeOfIntakeAdv, (SelectList)ViewBag.DefaultTypeOfIntakeAdv)
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new { @class = "text-danger" })
+                            }
+                        }
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </td>
@@ -344,8 +360,15 @@
                             var trid = string.Concat("tablePost", index);
                             <tr id="@trid">
                                 <td>
-                                    @item.NameOfMedicine
 
+                                    @if (item.NameOfMedicine == "Other")
+                                    {
+                                        @item.newmedicine
+                                    }
+                                    else
+                                    {
+                                        @item.NameOfMedicine
+                                    }
                                 </td>
                                 <td>
                                     @item.Dosage

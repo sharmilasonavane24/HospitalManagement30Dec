@@ -24,8 +24,10 @@ namespace HospitalManagment
         public int MedcineNamesId { get; set; }
         public Nullable<System.DateTime> NextAppoinmentDate { get; set; }
         public string ManagementPlan { get; set; }
+        public int TypeOfIntakeAdvId { get; set; }
     
         public virtual MedcineName MedcineName { get; set; }
         public virtual OPD OPD { get; set; }
+        public virtual TypeOfIntakeAdv TypeOfIntakeAdv { get; set; }
     }
 }

@@ -29,13 +29,12 @@ namespace HospitalManagment.Models
         [Display(Name = "New Medicine:")]
         public string newmedicine { get; set; }
 
-        //[Required]
-        //[Display(Name = "Advice: ")]
-        //public string Advice { get; set; }
+       [Display(Name = "IntakeAdv: ")]
+        public string TypeOfIntakeAdv { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        [Display(Name = "Next Opointment Date: ")]
+        [Display(Name = "Next Appointment Date: ")]
         public object NextOpointmentDate { get; set; }
 
         public int PrescriptionID { get; set; }

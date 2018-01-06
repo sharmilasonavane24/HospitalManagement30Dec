@@ -38,6 +38,7 @@ namespace HospitalManagment
         public string CVS { get; set; }
         public string BMI { get; set; }
         public string OtherGeneralFindings { get; set; }
+        public string RsNCVS { get; set; }
     
         public virtual ICollection<Prescription> Prescriptions { get; set; }
         public virtual Person Person { get; set; }
