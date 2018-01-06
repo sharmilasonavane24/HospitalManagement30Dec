@@ -48,7 +48,7 @@
         [Display(Name = "High Risk Factor:")]
         public string HighRiskFactor { get; set; }
 
-        [Display(Name = "Positive Findings:")]
+        [Display(Name = "Positive History:")]
         public string PositiveFindings { get; set; }
 
         [Display(Name = "Current Cycle:")]
