@@ -44,25 +44,7 @@
 
 
 
-        //$.ajax({
-        //    url: '/HospitalManagment/OPD/GetPreviousInvestigations',
-        //    type: "POST",
-        //    data: file,
-        //    cache: false,
-        //    //contentType: 'multipart/form-data',
-        //    contentType: false,
-        //    processData: false,
-        //    success: function (result) {
-        //        debugger;
-        //        alert("success");
-        //        return false;
-        //    },
-        //    error: function (result) {
-        //        debugger;
-        //        alert("error");
-        //        return false;
-        //    }
-        //});
+         
     }
 
     function SaveInvestigations() {
@@ -105,7 +87,7 @@
             success: function (result) {
                 debugger;
                 alert("success");
-                return false;
+                return true;
             },
             error: function (result) {
                 debugger;
@@ -172,6 +154,8 @@
             processData: false,
             // async: false,
             success: function (result) {
+                debugger;
+                $("#investigations_InvestigationId").val(result);
                 alert("success");
                 return false;
             },
@@ -187,6 +171,9 @@
     <tr><td></td></tr>
     <tr>
         <td>
+            @*@Html.Hidden()*@
+
+            @*<input id="OPDID" type="hidden" name="OPDID" value="@Model.investigations.InvestigationId" />*@
             @Html.LabelFor(model => model.investigations.BloodGroup, htmlAttributes: new { @class = "control-label col-md-2" })
         </td>
         <td>
@@ -287,14 +274,24 @@
 <table>
     <tr>
         <td>
-            @Html.TextBox("file", "", new { type = "file" }) <br />
+            @* @Html.TextBoxFor(model => model.investigations.AllAttachmentinOnePDF,"", new { type = "file" })*@
+            @*@Html.TextBox("AllAttachmentinOnePDF", "", new { type = "file" })*@
+            <input data-val="true" data-val-regex="Incorrect file format" data-val-regex-pattern="^(([a-zA-Z]:)|(\\{2}\w+)\$?)(\\(\w[\w].*))(.pdf|.PDF)$" id="AllAttachmentinOnePDF" name="AllAttachmentinOnePDF" type="file" value="" class="valid">
+            @Html.ValidationMessage("AllAttachmentinOnePDF")
+
+        </td>
+        <td>
+            @*@Html.TextBoxFor(model => model.investigations.AllAttachmentinOnePDF, "", new { type = "file" })
+                @Html.ValidationMessageFor(model => model.investigations.AllAttachmentinOnePDF)*@
+
+
         </td>
         <td>
             <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
-       
+
             <input type="button" name="submit" value="View File" />
         </td>
-       
+
     </tr>
     <tr>
         <td>
@@ -305,21 +302,25 @@
                 </div>
             </div>
         </td>
+        <td></td>
+    </tr>
+    <tr>
         <td>
-             
+            @*<input type="button" name="submit" value="Show File" onclick="return openLastAttachment();" />*@
+
+            @*<a href="@Url.Action("OpdSavedAttachmet", "OPD", "RouteData with new { here }")" target="_blank">Show File</a>*@
+
+
         </td>
     </tr>
-    @*<tr>
-            <td>
-                <input type="button" name="submit" value="Show File" onclick="return openLastAttachment();" />
-            </td>
-        </tr>*@
     <tr></tr>
 </table>
 <div id="PopUpDetailsResult">
 
 </div>
-
+<div style="visibility:hidden">
+    @Html.EditorFor(model => model.investigations.InvestigationId, new { htmlAttributes = new { @class = "medium" } })
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

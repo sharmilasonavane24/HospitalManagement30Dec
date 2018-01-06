@@ -17,7 +17,7 @@
 
         });
 
-        $('#NameOfMedicine').selectmenu();
+        //$('#NameOfMedicine').selectmenu();
         $("#TypeOfIntakeAdv").blur(function () {
             debugger;
 
@@ -47,7 +47,7 @@
         //var index = $('#tablePost tr:last').index() + 1;
         var index = $('#tablePost tr').length;
 
-        if (medicineName != "Select Medicine" && Dosage.length > 0 && numberOfDays.length > 0 && TypeOfMedicine != "" && TypeOfMedicine != "Select Medicine Type") {
+        if (medicineName != "Select Medicine" && TypeOfMedicine != "" && TypeOfMedicine != "Select Medicine Type") {
             if ((medicineName == "Other" && Weight == "") || (medicineName == "Other" && Medicine == "")) {
                 alert("Please update the value of New medicine and weight!")
                 return false;
@@ -198,7 +198,7 @@
 
     $(function () {
         //Dropdownlist Selectedchange event
-
+        debugger;
         $('#NameOfMedicine').change(function () {
 
             if ($("#NameOfMedicine option:selected").text() == "Other") {
@@ -509,7 +509,7 @@
                     <tr style="border-bottom: 1px solid black;">
                         @{
                             string nameOfMedicine = string.Empty;
-                            if (item.NameOfMedicine.Equals("Other"))
+                            if (item.NameOfMedicine!=null && item.NameOfMedicine.Equals("Other"))
                             {
                                 nameOfMedicine = item.newmedicine;
                             }
