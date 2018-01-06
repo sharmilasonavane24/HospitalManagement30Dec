@@ -19,33 +19,31 @@
     {
         debugger;
         var personId = @Html.Raw(Json.Encode(Model.PersonId));
-        if (personId > 0) {
-        $.ajax({
-            type: 'GET',
-            url: "/HospitalManagment/OPD/GetPreviousInvestigations",
-            data: {
-                personId: personId
-            },
-            success: function (view) {
-                debugger;
-                //alert(view);
-                $('#PopUpDetailsResult').html(view);
-                $('#PopUpDetailsResult').dialog({ width: 1000, height: 300 });
+        if (personId > 0)
+        {
+            $.ajax({
+                type: 'GET',
+                url: "/HospitalManagment/OPD/GetPreviousInvestigations",
+                data: {
+                    personId: personId
+                },
+                success: function (view) {
+                    debugger;
+                    //alert(view);
+                    $('#PopUpDetailsResult').html(view);
+                    $('#PopUpDetailsResult').dialog({ width: 1000, height: 300, title: "Previous Investigations" }).dialogNoClose();
 
-            }            ,
-            error: function (view) {
-                alert(view);
-                //$('#loaderSelectProducts').css('display', 'none');
-            }
-        });
+                }            ,
+                error: function (view) {
+                    alert(view);
+                    //$('#loaderSelectProducts').css('display', 'none');
+                }
+            });
         }
-        else {
-            alert("Please save clinical examination!");
-            return false;
-          }
 
 
-       
+
+
         //$.ajax({
         //    url: '/HospitalManagment/OPD/GetPreviousInvestigations',
         //    type: "POST",
@@ -254,7 +252,7 @@
             @Html.LabelFor(model => model.investigations.SemenAnalysis, htmlAttributes: new { @class = "control-label col-md-2" })
         </td>
         <td>
-            @Html.TextAreaFor(model => model.investigations.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })             
+            @Html.TextAreaFor(model => model.investigations.SemenAnalysis, new { htmlAttributes = new { @class = "medium" } })
         </td>
     </tr>
     <tr>
@@ -268,7 +266,7 @@
             @Html.LabelFor(model => model.investigations.USG, htmlAttributes: new { @class = "control-label col-md-2" })
         </td>
         <td>
-            @Html.TextAreaFor(model => model.investigations.USG, new { htmlAttributes = new { @class = "medium" } })            
+            @Html.TextAreaFor(model => model.investigations.USG, new { htmlAttributes = new { @class = "medium" } })
         </td>
     </tr>
     <tr>
@@ -284,7 +282,7 @@
         <td>
             @Html.TextAreaFor(model => model.investigations.Other, new { htmlAttributes = new { @class = "medium" } })
         </td>
-    </tr>  
+    </tr>
 </table>
 <table>
     <tr>
@@ -295,7 +293,7 @@
             <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
         </td>
         <td>
-            <input type="button" name="submit" value="Previous Investigations" onclick="return PreviousInvestigations();" /> 
+            <input type="button" name="submit" value="Previous Investigations" onclick="return PreviousInvestigations();" />
         </td>
     </tr>
     <tr>
@@ -308,13 +306,11 @@
         </td>
     </tr>
     @*<tr>
-        <td>
-            <input type="button" name="submit" value="Show File" onclick="return openLastAttachment();" />     
-        </td>
-    </tr>*@
-    <tr>
-       
-    </tr>
+            <td>
+                <input type="button" name="submit" value="Show File" onclick="return openLastAttachment();" />
+            </td>
+        </tr>*@
+    <tr></tr>
 </table>
 <div id="PopUpDetailsResult">
 

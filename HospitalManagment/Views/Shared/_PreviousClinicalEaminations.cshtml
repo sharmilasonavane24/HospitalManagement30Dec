@@ -1,0 +1,93 @@
+﻿@model IEnumerable<HospitalManagment.Models.ClinicalExamination>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pulse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.positiveFidings)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CVS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BMI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtherGenFindings)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pulse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.positiveFidings)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CVS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CNS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BMI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OtherGenFindings)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateTime)
+        </td>
+         
+    </tr>
+}
+
+</table>
