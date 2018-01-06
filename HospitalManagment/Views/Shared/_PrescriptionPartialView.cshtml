@@ -142,7 +142,7 @@
             alert("Please save clinical examination!");
             return false;
         }
-        
+
     }
 
     function removeRow(id, PrescriptionID) {
@@ -344,8 +344,15 @@
                             var trid = string.Concat("tablePost", index);
                             <tr id="@trid">
                                 <td>
-                                    @item.NameOfMedicine
 
+                                    @if (item.NameOfMedicine == "Other")
+                                    {
+                                        @item.newmedicine
+                                    }
+                                    else
+                                    {
+                                        @item.NameOfMedicine
+                                    }
                                 </td>
                                 <td>
                                     @item.Dosage
