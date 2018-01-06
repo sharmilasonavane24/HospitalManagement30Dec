@@ -20,7 +20,7 @@
                 <td>@Html.TextBox("OPDNO", ViewBag.FilterValue as string)<br /></td>
             </tr>
             <tr>
-               
+
                 <td>
                     Mobile:
                 </td>
@@ -33,12 +33,17 @@
                 <td>@Html.TextBox("FirstName", ViewBag.FilterValue as string)</td>
             </tr>
             <tr>
-                <td colspan="4" style="direction:ltr">
+                <td style="direction:ltr">
                     <input type="submit" value="Search" />
+                </td>
+                <td colspan="3">
+
+                    @Html.ActionLink("New Patient", "AddPatientDetails", "Person")
+
                 </td>
             </tr>
         </table>
-       
+
     }
 </p>
 @if (Model != null)
@@ -64,7 +69,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-           
+
             <th>
                 @Html.DisplayName("Start OPD")
             </th>
@@ -92,7 +97,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-               
+
                 <td>
                     @Html.ActionLink("OPD", "OPD", new { item.PatientId })
                 </td>
@@ -101,7 +106,3 @@
 
     </table>
 }
-
-<p>
-    @Html.ActionLink("New Patient", "AddPatientDetails", "Person")
-</p>

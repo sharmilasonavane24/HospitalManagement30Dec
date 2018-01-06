@@ -10,6 +10,17 @@
 <h2>OPD</h2>
 <script type=text/javascript>
 
+    
+
+    function printMe() {
+        var w = window.open();
+        w.document.write($('#divPrintPrescription').html()); //only part of the page to print, using jquery
+        w.document.close(); //this seems to be the thing doing the trick
+        w.focus();
+        w.print();
+        w.close();
+    }
+
     function sendPrint() {
         debugger;
         var index = 1; var listName = "prscriptionList";
@@ -29,8 +40,14 @@
                 index += 1;
                 qtd += 1;
             });
-        } else
-        {
+            $('#divPrintPrescription').attr("style", "display: inline");
+            printMe();
+            $('#divPrintPrescription').attr("style", "display: none");
+            //window.print();
+
+
+        }
+        else {
             alert("Please save the prescription!");
             return false;
         }
@@ -64,7 +81,7 @@
 
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal; ad;">
         <input id="ActiveTabIndex" type="hidden" name="ActiveTabIndex" value="@ViewBag.MyValue" />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -232,7 +249,7 @@
                         <td align="left">
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save Examination" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();" />
+                                    <input type="submit" value="Save Examination" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();"  />
                                 </div>
                             </div>
                         </td>
@@ -277,7 +294,7 @@
                         <td>
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" id="PrintPrescription" value="Print Prescription" onclick="return sendPrint();" name="submit" class="ui-button ui-widget ui-corner-all" />
+                                    <input type="button" id="PrintPrescription" value="Print Prescription" onclick="return sendPrint();" name="submit" class="ui-button ui-widget ui-corner-all" />
                                 </div>
                             </div>
                         </td>

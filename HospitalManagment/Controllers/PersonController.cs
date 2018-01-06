@@ -71,6 +71,7 @@ namespace HospitalManagment.Controllers
                         Dictionary<string, string> dictionary = new Dictionary<string, string>();
                         dictionary.Add("LastName", person.LastName);
                         dictionary.Add("MiddleName", person.MiddleName);
+                        dictionary.Add("Gender", Convert.ToString(person.Gender));
                         dictionary.Add("patientId", patientId.ToString());
                         TempData["Details"] = dictionary;
                     }
@@ -110,12 +111,21 @@ namespace HospitalManagment.Controllers
             {
                 data = TempData["Details"] as Dictionary<string, string>;
 
-                string firstName, lastName;
+                string firstName, lastName, gender;
                 data.TryGetValue("MiddleName", out firstName);
                 data.TryGetValue("LastName", out lastName);
+                data.TryGetValue("Gender", out gender);
                 person.Firstname = firstName;
                 person.LastName = lastName;
-
+                if (gender.Equals("Male", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    gender = "Female";
+                }
+                else
+                {
+                    gender = "Male";
+                }
+                person.Gender = (BusinessLayer.Gender)Enum.Parse(typeof(BusinessLayer.Gender), gender);
                 TempData.Keep();
             }
             return View("AddSpouseDetails", person);

@@ -286,18 +286,20 @@ namespace HospitalManagment.Controllers
                             oPD.Weight = Convert.ToDecimal(opd.clinicalExamination.CurrentWeight);
                             oPD.BMI = opd.clinicalExamination.BMI;
                             oPD.OtherGeneralFindings = opd.clinicalExamination.OtherGenFindings;
+                            ModelState.AddModelError("Error", "Examination details saved successfully!");
+                            ViewBag.MyValue = 2;
                         }
 
                         if (opd.OPDID <= 0)
                         {
                             ent.OPDs.Add(oPD);
+                            ViewBag.MyValue = 0;
                         }
                         ent.SaveChanges();
                         opd.OPDID = oPD.OPDId;
 
                     }
-                    ModelState.AddModelError("Error", "Examination details saved successfully!");
-                    ViewBag.MyValue = 2;
+                    
                     return View(opd);
 
                 case "Print Prescription":
