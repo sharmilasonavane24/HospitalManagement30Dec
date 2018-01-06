@@ -40,7 +40,11 @@ namespace HospitalManagment
         public DbSet<TypeOfOperation> TypeOfOperations { get; set; }
         public DbSet<TypeOfRoomAndBed> TypeOfRoomAndBeds { get; set; }
         public DbSet<OPD> OPDs { get; set; }
-        public DbSet<Person> People { get; set; }
-        public DbSet<History> Histories { get; set; }
+        public DbSet<ConservativeDetail> ConservativeDetails { get; set; }
+        public DbSet<IPD> IPDs { get; set; }
+        public DbSet<LabourDetail> LabourDetails { get; set; }
+        public DbSet<OperationDetail> OperationDetails { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<TreatmentChart> TreatmentCharts { get; set; }
     }
 }

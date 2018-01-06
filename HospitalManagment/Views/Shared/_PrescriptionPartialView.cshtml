@@ -211,7 +211,32 @@
         }
 
     }
-     
+
+
+
+    $(function () {
+        //Dropdownlist Selectedchange event
+        debugger;
+        $('#NameOfMedicine').change(function () {
+
+            if ($("#NameOfMedicine option:selected").text() == "Other") {
+
+                $('#NewMedicine').attr('readonly', false);
+                $('#otherMedicine').attr("style", "display: inline")
+                $('#otherMedicineLbl').attr("style", "display: inline")
+
+
+            } else {
+
+                $('#NewMedicine').attr('readonly', true);
+                $('#otherMedicine').attr("style", "display: none")
+                $('#otherMedicineLbl').attr("style", "display: none")
+
+
+            }
+
+        })
+    })
 
     function PreviousPrescriptionDetails() {
         debugger;
@@ -277,6 +302,11 @@
                 </div>
 
             </td>
+            <td>&nbsp;&nbsp;</td>
+            <td><input type="button" name="submit" value="Sonography"  /></td>
+            <td><input type="button" name="submit" value="MTP" /></td>
+            <td><input type="button" name="submit" value="Admit" /></td>
+
         </tr>
     </table>
     @Html.Label("Prescription")

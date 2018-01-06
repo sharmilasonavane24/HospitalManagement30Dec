@@ -12,16 +12,14 @@ namespace HospitalManagment
     using System;
     using System.Collections.Generic;
     
-    public partial class TypeOfOperation
+    public partial class TreatmentChart
     {
-        public TypeOfOperation()
-        {
-            this.OperationDetails = new HashSet<OperationDetail>();
-        }
+        public int TreatmentChartId { get; set; }
+        public Nullable<int> OpeationDetailId { get; set; }
+        public Nullable<System.DateTime> CreationDate { get; set; }
+        public Nullable<int> DayNumber { get; set; }
+        public Nullable<int> MedcineNamesId { get; set; }
     
-        public int TypeOfOperationId { get; set; }
-        public string TypeName { get; set; }
-    
-        public virtual ICollection<OperationDetail> OperationDetails { get; set; }
+        public virtual OperationDetail OperationDetail { get; set; }
     }
 }

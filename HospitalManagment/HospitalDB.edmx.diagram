@@ -31,9 +31,19 @@
         <EntityTypeShape EntityType="HospitalModel.Person" Width="1.5" PointX="3.375" PointY="0.75" />
         <AssociationConnector Association="HospitalModel.FK_Investigations_PersonId" />
         <AssociationConnector Association="HospitalModel.FK_Person" />
-        <AssociationConnector Association="HospitalModel.FK_PersonDetails_Person" />
-        <EntityTypeShape EntityType="HospitalModel.History" Width="1.5" PointX="5.625" PointY="8.5" />
-        <AssociationConnector Association="HospitalModel.PersonID_FK" />
+        <AssociationConnector Association="HospitalModel.FK_TypeofCheckUp" />
+        <EntityTypeShape EntityType="HospitalModel.ConservativeDetail" Width="1.5" PointX="16.875" PointY="14.75" />
+        <EntityTypeShape EntityType="HospitalModel.IPD" Width="1.5" PointX="14.625" PointY="12.5" />
+        <EntityTypeShape EntityType="HospitalModel.LabourDetail" Width="1.5" PointX="16.875" PointY="17.5" />
+        <EntityTypeShape EntityType="HospitalModel.OperationDetail" Width="1.5" PointX="16.875" PointY="6.375" />
+        <EntityTypeShape EntityType="HospitalModel.sysdiagram" Width="1.5" PointX="8.375" PointY="13.75" />
+        <EntityTypeShape EntityType="HospitalModel.TreatmentChart" Width="1.5" PointX="19.125" PointY="6.75" />
+        <AssociationConnector Association="HospitalModel.FK_ConservativeDetail_IPD" />
+        <AssociationConnector Association="HospitalModel.FK_IPD_TypeOfRoomAndBed1" />
+        <AssociationConnector Association="HospitalModel.FK_LabourDetail_IPD" />
+        <AssociationConnector Association="HospitalModel.FK_OperationDetail_IPD" />
+        <AssociationConnector Association="HospitalModel.FK_OperationDetail_TypeOfOperation" />
+        <AssociationConnector Association="HospitalModel.FK_TreatmentChart_OperationDetail" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

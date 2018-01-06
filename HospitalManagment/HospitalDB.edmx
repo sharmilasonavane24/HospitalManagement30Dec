@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HospitalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ConservativeDetail">
+          <Key>
+            <PropertyRef Name="ConservativeDetailId" />
+          </Key>
+          <Property Name="ConservativeDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPDId" Type="int" />
+          <Property Name="CreationDate" Type="date" />
+          <Property Name="DayNumber" Type="int" />
+        </EntityType>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="ContactId" />
@@ -69,6 +78,23 @@
           <Property Name="PersonId" Type="int" Nullable="false" />
           <Property Name="CreatedDateTime" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="IPD">
+          <Key>
+            <PropertyRef Name="IPDId" />
+          </Key>
+          <Property Name="IPDId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeOfRoomAndBedId" Type="int" Nullable="false" />
+          <Property Name="AdmissionDate" Type="date" />
+        </EntityType>
+        <EntityType Name="LabourDetail">
+          <Key>
+            <PropertyRef Name="LabourDetailId" />
+          </Key>
+          <Property Name="LabourDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPDId" Type="int" />
+          <Property Name="DeliveryDate" Type="date" />
+          <Property Name="DeliveryNote" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="MedcineNames">
           <Key>
             <PropertyRef Name="MedcineNamesId" />
@@ -107,15 +133,27 @@
           <Property Name="BP" Type="varchar" MaxLength="10" />
           <Property Name="Pulse" Type="int" />
           <Property Name="OPDNumber" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Rs" Type="varchar" MaxLength="50" />
+          <Property Name="RsNCVS" Type="varchar" MaxLength="50" />
           <Property Name="PA" Type="varchar" MaxLength="50" />
           <Property Name="PS" Type="varchar" MaxLength="50" />
           <Property Name="PV" Type="varchar" MaxLength="50" />
           <Property Name="CNS" Type="varchar" MaxLength="50" />
           <Property Name="OPDDate" Type="datetime" />
-          <Property Name="BMI" Type="varchar" MaxLength="50" />
+          <Property Name="CVS" Type="varchar" MaxLength="50" />
+          <Property Name="Rs" Type="varchar" MaxLength="50" />
           <Property Name="OtherGeneralFindings" Type="varchar" MaxLength="250" />
-          <Property Name="CVS" Type="varchar" MaxLength="250" />
+          <Property Name="BMI" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OperationDetail">
+          <Key>
+            <PropertyRef Name="OperationDetailId" />
+          </Key>
+          <Property Name="OperationDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPDId" Type="int" />
+          <Property Name="OperationDate" Type="date" />
+          <Property Name="TypeOfOperationId" Type="int" />
+          <Property Name="OpeationNote" Type="nvarchar(max)" />
+          <Property Name="PostOpDirection" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PaymentDetails">
           <Key>
@@ -183,6 +221,26 @@
           <Property Name="ManagementPlan" Type="varchar" MaxLength="250" />
           <Property Name="TypeOfIntakeAdvId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TreatmentChart">
+          <Key>
+            <PropertyRef Name="TreatmentChartId" />
+          </Key>
+          <Property Name="TreatmentChartId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OpeationDetailId" Type="int" />
+          <Property Name="CreationDate" Type="date" />
+          <Property Name="DayNumber" Type="int" />
+          <Property Name="MedcineNamesId" Type="int" />
+        </EntityType>
         <EntityType Name="TypeofCheckUp">
           <Key>
             <PropertyRef Name="TypeofCheckUpId" />
@@ -233,10 +291,20 @@
           <Property Name="Password" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
+        <Association Name="FK_ConservativeDetail_IPD">
+          <End Role="IPD" Type="Self.IPD" Multiplicity="0..1" />
+          <End Role="ConservativeDetail" Type="Self.ConservativeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="ConservativeDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cotact_1_ContactID">
-          <End Role="Contact" Type="Self.Contact" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contact">
@@ -275,10 +343,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_IPD_TypeOfRoomAndBed1">
+          <End Role="TypeOfRoomAndBed" Type="Self.TypeOfRoomAndBed" Multiplicity="1" />
+          <End Role="IPD" Type="Self.IPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfRoomAndBed">
+              <PropertyRef Name="TypeOfRoomAndBedId" />
+            </Principal>
+            <Dependent Role="IPD">
+              <PropertyRef Name="TypeOfRoomAndBedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LabourDetail_IPD">
+          <End Role="IPD" Type="Self.IPD" Multiplicity="0..1" />
+          <End Role="LabourDetail" Type="Self.LabourDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="LabourDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NameOfMedicine">
-          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1" />
           <End Role="Prescription" Type="Self.Prescription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MedcineNames">
@@ -301,6 +391,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OperationDetail_IPD">
+          <End Role="IPD" Type="Self.IPD" Multiplicity="0..1" />
+          <End Role="OperationDetail" Type="Self.OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_TypeOfOperation">
+          <End Role="TypeOfOperation" Type="Self.TypeOfOperation" Multiplicity="0..1" />
+          <End Role="OperationDetail" Type="Self.OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfOperation">
+              <PropertyRef Name="TypeOfOperationId" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="TypeOfOperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Person">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="OPD" Type="Self.OPD" Multiplicity="*" />
@@ -314,9 +428,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonDetails_Person">
-          <End Role="Person" Type="Self.Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Person">
@@ -353,6 +465,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TreatmentChart_OperationDetail">
+          <End Role="OperationDetail" Type="Self.OperationDetail" Multiplicity="0..1" />
+          <End Role="TreatmentChart" Type="Self.TreatmentChart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationDetail">
+              <PropertyRef Name="OperationDetailId" />
+            </Principal>
+            <Dependent Role="TreatmentChart">
+              <PropertyRef Name="OpeationDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TypeofCheckUp">
           <End Role="TypeofCheckUp" Type="Self.TypeofCheckUp" Multiplicity="1" />
           <End Role="OPD" Type="Self.OPD" Multiplicity="*" />
@@ -366,9 +490,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TypeOfMedicine">
-          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1" />
           <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypeOfMedcine">
@@ -392,23 +514,33 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HospitalModelStoreContainer">
+          <EntitySet Name="ConservativeDetail" EntityType="Self.ConservativeDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Investigations" EntityType="Self.Investigations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IPD" EntityType="Self.IPD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LabourDetail" EntityType="Self.LabourDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MedcineNames" EntityType="Self.MedcineNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MonitoringChart" EntityType="Self.MonitoringChart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPD" EntityType="Self.OPD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationDetail" EntityType="Self.OperationDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonDetails" EntityType="Self.PersonDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonTypes" EntityType="Self.PersonTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prescription" EntityType="Self.Prescription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TreatmentChart" EntityType="Self.TreatmentChart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeofCheckUp" EntityType="Self.TypeofCheckUp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfIntakeAdv" EntityType="Self.TypeOfIntakeAdv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfMedcine" EntityType="Self.TypeOfMedcine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfOperation" EntityType="Self.TypeOfOperation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfRoomAndBed" EntityType="Self.TypeOfRoomAndBed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ConservativeDetail_IPD" Association="Self.FK_ConservativeDetail_IPD">
+            <End Role="IPD" EntitySet="IPD" />
+            <End Role="ConservativeDetail" EntitySet="ConservativeDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cotact_1_ContactID" Association="Self.FK_Cotact_1_ContactID">
             <End Role="Contact" EntitySet="Contact" />
             <End Role="PersonDetails" EntitySet="PersonDetails" />
@@ -421,6 +553,14 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Investigations" EntitySet="Investigations" />
           </AssociationSet>
+          <AssociationSet Name="FK_IPD_TypeOfRoomAndBed1" Association="Self.FK_IPD_TypeOfRoomAndBed1">
+            <End Role="TypeOfRoomAndBed" EntitySet="TypeOfRoomAndBed" />
+            <End Role="IPD" EntitySet="IPD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LabourDetail_IPD" Association="Self.FK_LabourDetail_IPD">
+            <End Role="IPD" EntitySet="IPD" />
+            <End Role="LabourDetail" EntitySet="LabourDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_NameOfMedicine" Association="Self.FK_NameOfMedicine">
             <End Role="MedcineNames" EntitySet="MedcineNames" />
             <End Role="Prescription" EntitySet="Prescription" />
@@ -428,6 +568,14 @@
           <AssociationSet Name="FK_OPD" Association="Self.FK_OPD">
             <End Role="OPD" EntitySet="OPD" />
             <End Role="Prescription" EntitySet="Prescription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_IPD" Association="Self.FK_OperationDetail_IPD">
+            <End Role="IPD" EntitySet="IPD" />
+            <End Role="OperationDetail" EntitySet="OperationDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_TypeOfOperation" Association="Self.FK_OperationDetail_TypeOfOperation">
+            <End Role="TypeOfOperation" EntitySet="TypeOfOperation" />
+            <End Role="OperationDetail" EntitySet="OperationDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_Person" Association="Self.FK_Person">
             <End Role="Person" EntitySet="Person" />
@@ -444,6 +592,10 @@
           <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="Self.FK_Prescription_TypeOfIntakeAdvId">
             <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdv" />
             <End Role="Prescription" EntitySet="Prescription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreatmentChart_OperationDetail" Association="Self.FK_TreatmentChart_OperationDetail">
+            <End Role="OperationDetail" EntitySet="OperationDetail" />
+            <End Role="TreatmentChart" EntitySet="TreatmentChart" />
           </AssociationSet>
           <AssociationSet Name="FK_TypeofCheckUp" Association="Self.FK_TypeofCheckUp">
             <End Role="TypeofCheckUp" EntitySet="TypeofCheckUp" />
@@ -527,6 +679,36 @@
           <AssociationSet Name="PersonID_FK" Association="HospitalModel.PersonID_FK">
             <End Role="Person" EntitySet="People" />
             <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <EntitySet Name="ConservativeDetails" EntityType="HospitalModel.ConservativeDetail" />
+          <EntitySet Name="IPDs" EntityType="HospitalModel.IPD" />
+          <EntitySet Name="LabourDetails" EntityType="HospitalModel.LabourDetail" />
+          <EntitySet Name="OperationDetails" EntityType="HospitalModel.OperationDetail" />
+          <EntitySet Name="sysdiagrams" EntityType="HospitalModel.sysdiagram" />
+          <EntitySet Name="TreatmentCharts" EntityType="HospitalModel.TreatmentChart" />
+          <AssociationSet Name="FK_ConservativeDetail_IPD" Association="HospitalModel.FK_ConservativeDetail_IPD">
+            <End Role="IPD" EntitySet="IPDs" />
+            <End Role="ConservativeDetail" EntitySet="ConservativeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IPD_TypeOfRoomAndBed1" Association="HospitalModel.FK_IPD_TypeOfRoomAndBed1">
+            <End Role="TypeOfRoomAndBed" EntitySet="TypeOfRoomAndBeds" />
+            <End Role="IPD" EntitySet="IPDs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LabourDetail_IPD" Association="HospitalModel.FK_LabourDetail_IPD">
+            <End Role="IPD" EntitySet="IPDs" />
+            <End Role="LabourDetail" EntitySet="LabourDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_IPD" Association="HospitalModel.FK_OperationDetail_IPD">
+            <End Role="IPD" EntitySet="IPDs" />
+            <End Role="OperationDetail" EntitySet="OperationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationDetail_TypeOfOperation" Association="HospitalModel.FK_OperationDetail_TypeOfOperation">
+            <End Role="TypeOfOperation" EntitySet="TypeOfOperations" />
+            <End Role="OperationDetail" EntitySet="OperationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreatmentChart_OperationDetail" Association="HospitalModel.FK_TreatmentChart_OperationDetail">
+            <End Role="OperationDetail" EntitySet="OperationDetails" />
+            <End Role="TreatmentChart" EntitySet="TreatmentCharts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -762,6 +944,7 @@
           </Key>
           <Property Name="TypeOfOperationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OperationDetails" Relationship="HospitalModel.FK_OperationDetail_TypeOfOperation" FromRole="TypeOfOperation" ToRole="OperationDetail" />
         </EntityType>
         <EntityType Name="TypeOfRoomAndBed">
           <Key>
@@ -770,6 +953,7 @@
           <Property Name="TypeOfRoomAndBedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoomName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="BedNumber" Type="Int16" />
+          <NavigationProperty Name="IPDs" Relationship="HospitalModel.FK_IPD_TypeOfRoomAndBed1" FromRole="TypeOfRoomAndBed" ToRole="IPD" />
         </EntityType>
         <EntityType Name="OPD">
           <Key>
@@ -792,11 +976,13 @@
           <Property Name="OPDDate" Type="DateTime" Precision="3" />
           <Property Name="BMI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OtherGeneralFindings" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CVS" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
           <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_OPD" FromRole="OPD" ToRole="Prescription" />
           <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
           <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Person" FromRole="OPD" ToRole="Person" />
+          <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
+          <Property Name="RsNCVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Investigations_OPD">
           <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1">
@@ -934,6 +1120,145 @@
             </Principal>
             <Dependent Role="History">
               <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConservativeDetail">
+          <Key>
+            <PropertyRef Name="ConservativeDetailId" />
+          </Key>
+          <Property Name="ConservativeDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IPDId" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="0" />
+          <Property Name="DayNumber" Type="Int32" />
+          <NavigationProperty Name="IPD" Relationship="HospitalModel.FK_ConservativeDetail_IPD" FromRole="ConservativeDetail" ToRole="IPD" />
+        </EntityType>
+        <EntityType Name="IPD">
+          <Key>
+            <PropertyRef Name="IPDId" />
+          </Key>
+          <Property Name="IPDId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeOfRoomAndBedId" Type="Int32" Nullable="false" />
+          <Property Name="AdmissionDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ConservativeDetails" Relationship="HospitalModel.FK_ConservativeDetail_IPD" FromRole="IPD" ToRole="ConservativeDetail" />
+          <NavigationProperty Name="TypeOfRoomAndBed" Relationship="HospitalModel.FK_IPD_TypeOfRoomAndBed1" FromRole="IPD" ToRole="TypeOfRoomAndBed" />
+          <NavigationProperty Name="LabourDetails" Relationship="HospitalModel.FK_LabourDetail_IPD" FromRole="IPD" ToRole="LabourDetail" />
+          <NavigationProperty Name="OperationDetails" Relationship="HospitalModel.FK_OperationDetail_IPD" FromRole="IPD" ToRole="OperationDetail" />
+        </EntityType>
+        <EntityType Name="LabourDetail">
+          <Key>
+            <PropertyRef Name="LabourDetailId" />
+          </Key>
+          <Property Name="LabourDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IPDId" Type="Int32" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="DeliveryNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IPD" Relationship="HospitalModel.FK_LabourDetail_IPD" FromRole="LabourDetail" ToRole="IPD" />
+        </EntityType>
+        <EntityType Name="OperationDetail">
+          <Key>
+            <PropertyRef Name="OperationDetailId" />
+          </Key>
+          <Property Name="OperationDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IPDId" Type="Int32" />
+          <Property Name="OperationDate" Type="DateTime" Precision="0" />
+          <Property Name="TypeOfOperationId" Type="Int32" />
+          <Property Name="OpeationNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostOpDirection" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IPD" Relationship="HospitalModel.FK_OperationDetail_IPD" FromRole="OperationDetail" ToRole="IPD" />
+          <NavigationProperty Name="TypeOfOperation" Relationship="HospitalModel.FK_OperationDetail_TypeOfOperation" FromRole="OperationDetail" ToRole="TypeOfOperation" />
+          <NavigationProperty Name="TreatmentCharts" Relationship="HospitalModel.FK_TreatmentChart_OperationDetail" FromRole="OperationDetail" ToRole="TreatmentChart" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TreatmentChart">
+          <Key>
+            <PropertyRef Name="TreatmentChartId" />
+          </Key>
+          <Property Name="TreatmentChartId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OpeationDetailId" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="0" />
+          <Property Name="DayNumber" Type="Int32" />
+          <Property Name="MedcineNamesId" Type="Int32" />
+          <NavigationProperty Name="OperationDetail" Relationship="HospitalModel.FK_TreatmentChart_OperationDetail" FromRole="TreatmentChart" ToRole="OperationDetail" />
+        </EntityType>
+        <Association Name="FK_ConservativeDetail_IPD">
+          <End Type="HospitalModel.IPD" Role="IPD" Multiplicity="0..1" />
+          <End Type="HospitalModel.ConservativeDetail" Role="ConservativeDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="ConservativeDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IPD_TypeOfRoomAndBed1">
+          <End Type="HospitalModel.TypeOfRoomAndBed" Role="TypeOfRoomAndBed" Multiplicity="1" />
+          <End Type="HospitalModel.IPD" Role="IPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfRoomAndBed">
+              <PropertyRef Name="TypeOfRoomAndBedId" />
+            </Principal>
+            <Dependent Role="IPD">
+              <PropertyRef Name="TypeOfRoomAndBedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LabourDetail_IPD">
+          <End Type="HospitalModel.IPD" Role="IPD" Multiplicity="0..1" />
+          <End Type="HospitalModel.LabourDetail" Role="LabourDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="LabourDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_IPD">
+          <End Type="HospitalModel.IPD" Role="IPD" Multiplicity="0..1" />
+          <End Type="HospitalModel.OperationDetail" Role="OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IPD">
+              <PropertyRef Name="IPDId" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="IPDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationDetail_TypeOfOperation">
+          <End Type="HospitalModel.TypeOfOperation" Role="TypeOfOperation" Multiplicity="0..1" />
+          <End Type="HospitalModel.OperationDetail" Role="OperationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfOperation">
+              <PropertyRef Name="TypeOfOperationId" />
+            </Principal>
+            <Dependent Role="OperationDetail">
+              <PropertyRef Name="TypeOfOperationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TreatmentChart_OperationDetail">
+          <End Type="HospitalModel.OperationDetail" Role="OperationDetail" Multiplicity="0..1" />
+          <End Type="HospitalModel.TreatmentChart" Role="TreatmentChart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationDetail">
+              <PropertyRef Name="OperationDetailId" />
+            </Principal>
+            <Dependent Role="TreatmentChart">
+              <PropertyRef Name="OpeationDetailId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1121,6 +1446,7 @@
           <EntitySetMapping Name="OPDs">
             <EntityTypeMapping TypeName="HospitalModel.OPD">
               <MappingFragment StoreEntitySet="OPD">
+                <ScalarProperty Name="RsNCVS" ColumnName="RsNCVS" />
                 <ScalarProperty Name="CVS" ColumnName="CVS" />
                 <ScalarProperty Name="OtherGeneralFindings" ColumnName="OtherGeneralFindings" />
                 <ScalarProperty Name="BMI" ColumnName="BMI" />
@@ -1139,52 +1465,6 @@
                 <ScalarProperty Name="TypeofCheckUp" ColumnName="TypeofCheckUp" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="OPDId" ColumnName="OPDId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="People">
-            <EntityTypeMapping TypeName="HospitalModel.Person">
-              <MappingFragment StoreEntitySet="Person">
-                <ScalarProperty Name="FatherOrSpouseProfession" ColumnName="FatherOrSpouseProfession" />
-                <ScalarProperty Name="ReferredBy" ColumnName="ReferredBy" />
-                <ScalarProperty Name="Religion" ColumnName="Religion" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Profession" ColumnName="Profession" />
-                <ScalarProperty Name="AdharCardNumber" ColumnName="AdharCardNumber" />
-                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="lastName" ColumnName="lastName" />
-                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Histories">
-            <EntityTypeMapping TypeName="HospitalModel.History">
-              <MappingFragment StoreEntitySet="History">
-                <ScalarProperty Name="CurrentCycles" ColumnName="CurrentCycles" />
-                <ScalarProperty Name="ChiefComplains" ColumnName="ChiefComplains" />
-                <ScalarProperty Name="Menopause" ColumnName="Menopause" />
-                <ScalarProperty Name="Menorch" ColumnName="Menorch" />
-                <ScalarProperty Name="Abortions" ColumnName="Abortions" />
-                <ScalarProperty Name="LivingChildren" ColumnName="LivingChildren" />
-                <ScalarProperty Name="Parity" ColumnName="Parity" />
-                <ScalarProperty Name="Gravidity" ColumnName="Gravidity" />
-                <ScalarProperty Name="PositiveFindings" ColumnName="PositiveFindings" />
-                <ScalarProperty Name="ObstetricHistory" ColumnName="ObstetricHistory" />
-                <ScalarProperty Name="HighRiskFactor" ColumnName="HighRiskFactor" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-                <ScalarProperty Name="EDDCorrectedByUSG" ColumnName="EDDCorrectedByUSG" />
-                <ScalarProperty Name="EDD" ColumnName="EDD" />
-                <ScalarProperty Name="LMP" ColumnName="LMP" />
-                <ScalarProperty Name="SecondTTInjection" ColumnName="SecondTTInjection" />
-                <ScalarProperty Name="FirstTTInjection" ColumnName="FirstTTInjection" />
-                <ScalarProperty Name="AllergyDetails" ColumnName="AllergyDetails" />
-                <ScalarProperty Name="Reminder" ColumnName="Reminder" />
-                <ScalarProperty Name="HistoryId" ColumnName="HistoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
