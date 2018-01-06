@@ -193,44 +193,60 @@ namespace HospitalManagment.Controllers
                     using (HospitalEntities ent = new HospitalEntities())
                     {
                         OPD patientOPD = new HospitalManagment.OPD();
+                        dynamic _per;
 
-                        var _person = ent.People.Add(new Person
+                        if (opd.PersonId > 0)
                         {
-                            Age = opd.Age,
-                            Firstname = opd.PatientFullName.Split(' ')[0],
-                            MiddleName = opd.PatientFullName.Split(' ')[1],
-                            lastName = opd.PatientFullName.Split(' ')[2],
-                            Gender = opd.Gender,
-                            Profession = opd.Occupation,
-                            FatherOrSpouseProfession = opd.FatherOrSpouseProfession,
-                            ReferredBy = opd.ReferredBy,
-                            Religion = opd.Religion,
-
-                        });
-
-                        var _contact = ent.Contacts.Add(new Contact
+                            _per = (from detail in ent.PersonDetails
+                                    join ppl in ent.People on detail.PersonID equals ppl.PersonId
+                                    join con in ent.Contacts on detail.ContactID equals con.ContactId
+                                    where ppl.PersonId == opd.PersonId
+                                    select new { ppl, con, detail }).FirstOrDefault();
+                        }
+                        else
                         {
-                            City = "Phaltan",
-                            ContactNumber = opd.Mobile,
-                            District = "Satara",
-                            Pincode = "415523",
-                            State = "Maharashtra",
-                            StreetName = opd.Address,
-                            Taluka = "Phaltan"
-                        });
+                             
+                            var ppl = new Person(); var con = new Contact(); var detail = new PersonDetail();
+                            _per = new { ppl, con, detail };
 
-                        ent.SaveChanges();
+                            
+                        }
+                        _per.ppl.Age = opd.Age;
+                        _per.ppl.Firstname = opd.PatientFullName.Split(' ')[0];
+                        _per.ppl.MiddleName = opd.PatientFullName.Split(' ')[1];
+                        _per.ppl.lastName = opd.PatientFullName.Split(' ')[2];
+                        _per.ppl.Gender = opd.Gender;
+                        _per.ppl.Profession = opd.Occupation;
+                        _per.ppl.FatherOrSpouseProfession = opd.FatherOrSpouseProfession;
+                        _per.ppl.ReferredBy = opd.ReferredBy;
+                        _per.ppl.Religion = opd.Religion;
 
-                        ent.PersonDetails.Add(new PersonDetail
+                        _per.con.City = "Phaltan";
+                        _per.con.ContactNumber = opd.Mobile;
+                        _per.con.District = "Satara";
+                        _per.con.Pincode = "415523";
+                        _per.con.State = "Maharashtra";
+                        _per.con.StreetName = opd.Address;
+                        _per.con.Taluka = "Phaltan";
+
+                        if (opd.PersonId < 0)
                         {
-                            ContactID = _contact.ContactId,
-                            SpouseID = 0,
-                            PersonID = _person.PersonId,
-                            PersonTypeID = 1
-                        });
-
-                        ent.SaveChanges();
-                        opd.PersonId = _person.PersonId;
+                            ent.People.Add(_per.ppl);
+                            ent.Contacts.Add(_per.con);
+                            ent.SaveChanges();
+                            ent.PersonDetails.Add(new PersonDetail
+                            {
+                                ContactID = _per.con.ContactId,
+                                SpouseID = 0,
+                                PersonID = _per.ppl.PersonId,
+                                PersonTypeID = 1
+                            });
+                        }
+                        else
+                        {
+                            ent.SaveChanges();
+                            opd.PersonId = _per.ppl.PersonId;
+                        }
 
 
                     }

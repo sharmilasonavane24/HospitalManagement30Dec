@@ -26,7 +26,7 @@ namespace HospitalManagment.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                
                 using (HospitalEntities ent = new HospitalEntities())
                 {
 

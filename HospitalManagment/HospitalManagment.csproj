@@ -77,6 +77,7 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -135,17 +136,17 @@
     <Compile Include="History.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="HospitalDB.Context1.cs">
+    <Compile Include="HospitalDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HospitalDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="HospitalDB1.cs">
+    <Compile Include="HospitalDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="HospitalDB1.Designer.cs">
+    <Compile Include="HospitalDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HospitalDB.edmx</DependentUpon>
@@ -210,9 +211,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TreatmentChart.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
@@ -286,11 +284,13 @@
     <Content Include="Global.asax" />
     <Content Include="HospitalDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HospitalDB.Context1.cs</LastGenOutput>
+      <DependentUpon>HospitalDB.edmx</DependentUpon>
+      <LastGenOutput>HospitalDB.Context.cs</LastGenOutput>
     </Content>
     <Content Include="HospitalDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HospitalDB1.cs</LastGenOutput>
+      <DependentUpon>HospitalDB.edmx</DependentUpon>
+      <LastGenOutput>HospitalDB.cs</LastGenOutput>
     </Content>
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -395,12 +395,18 @@
     <Content Include="Theme\redmond\images\ui-icons_f9bd01_256x240.png" />
     <Content Include="Theme\redmond\jquery-ui-1.10.3.custom.css" />
     <Content Include="Theme\redmond\jquery-ui-1.10.3.custom.min.css" />
-    <Content Include="UpgradeLog.htm" />
     <Content Include="Views\Shared\_InvestigationsPartialView.cshtml" />
     <Content Include="Views\Shared\_PreviousInvestigationsDetails.cshtml" />
     <Content Include="Views\Shared\_PreviousClinicalEaminations.cshtml" />
     <Content Include="Views\Shared\_CFormPartialView.cshtml" />
     <Content Include="Views\Shared\previousPrescriptionDetails.cshtml" />
+    <EntityDeploy Include="HospitalDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HospitalDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="HospitalDB.edmx.diagram">
+      <DependentUpon>HospitalDB.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <Content Include="Views\ConservativeDetail\ConservativeDetail.cshtml" />
     <Content Include="Views\MonitoringChart\MonitoringChart.cshtml" />
@@ -422,14 +428,6 @@
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="fonts\glyphicons-halflings-regular.woff2" />
-    <EntityDeploy Include="HospitalDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HospitalDB1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="HospitalDB.edmx.diagram">
-      <DependentUpon>HospitalDB.edmx</DependentUpon>
-    </None>
-    <None Include="HospitalManagment_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">

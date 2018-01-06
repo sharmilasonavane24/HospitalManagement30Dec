@@ -4,47 +4,48 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0fe38b95be264f97a38e68c4559ffd93" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="HospitalModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HospitalModel.Contact" Width="1.5" PointX="3.375" PointY="8.375" />
-        <EntityTypeShape EntityType="HospitalModel.PersonDetail" Width="1.5" PointX="5.625" PointY="1.125" />
-        <EntityTypeShape EntityType="HospitalModel.PersonType" Width="1.5" PointX="3.375" PointY="6" />
-        <AssociationConnector Association="HospitalModel.FK_Cotact_1_ContactID" />
-        <AssociationConnector Association="HospitalModel.FK_PersonDetails_PersonTypes" />
-        <EntityTypeShape EntityType="HospitalModel.TypeofCheckUp" Width="1.5" PointX="6.375" PointY="6" />
-        <EntityTypeShape EntityType="HospitalModel.PaymentDetail" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="HospitalModel.TypeOfMedcine" Width="1.5" PointX="0.75" PointY="10.125" />
-        <EntityTypeShape EntityType="HospitalModel.Prescription" Width="1.5" PointX="11.25" PointY="2" />
-        <EntityTypeShape EntityType="HospitalModel.TypeOfIntakeAdv" Width="1.5" PointX="10.375" PointY="10.75" />
-        <AssociationConnector Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" />
-        <EntityTypeShape EntityType="HospitalModel.Investigation" Width="1.5" PointX="13.875" PointY="2.375" />
-        <EntityTypeShape EntityType="HospitalModel.MedcineName" Width="1.5" PointX="3" PointY="12.625" />
-        <AssociationConnector Association="HospitalModel.FK_NameOfMedicine" />
-        <AssociationConnector Association="HospitalModel.FK_TypeOfMedicine" />
-        <EntityTypeShape EntityType="HospitalModel.MonitoringChart" Width="1.5" PointX="12.375" PointY="8.75" />
-        <EntityTypeShape EntityType="HospitalModel.TypeOfOperation" Width="1.5" PointX="8.375" PointY="0.75" />
-        <EntityTypeShape EntityType="HospitalModel.TypeOfRoomAndBed" Width="1.5" PointX="12.375" PointY="12.75" />
-        <EntityTypeShape EntityType="HospitalModel.OPD" Width="1.5" PointX="8.625" PointY="3.625" />
-        <AssociationConnector Association="HospitalModel.FK_Investigations_OPD" />
-        <AssociationConnector Association="HospitalModel.FK_OPD" />
-        <AssociationConnector Association="HospitalModel.FK_TypeofCheckUp" />
-        <EntityTypeShape EntityType="HospitalModel.Person" Width="1.5" PointX="3.375" PointY="0.75" />
-        <AssociationConnector Association="HospitalModel.FK_Investigations_PersonId" />
-        <AssociationConnector Association="HospitalModel.FK_Person" />
-        <AssociationConnector Association="HospitalModel.FK_TypeofCheckUp" />
-        <EntityTypeShape EntityType="HospitalModel.ConservativeDetail" Width="1.5" PointX="16.875" PointY="14.75" />
-        <EntityTypeShape EntityType="HospitalModel.IPD" Width="1.5" PointX="14.625" PointY="12.5" />
-        <EntityTypeShape EntityType="HospitalModel.LabourDetail" Width="1.5" PointX="16.875" PointY="17.5" />
-        <EntityTypeShape EntityType="HospitalModel.OperationDetail" Width="1.5" PointX="16.875" PointY="6.375" />
-        <EntityTypeShape EntityType="HospitalModel.sysdiagram" Width="1.5" PointX="8.375" PointY="13.75" />
-        <EntityTypeShape EntityType="HospitalModel.TreatmentChart" Width="1.5" PointX="19.125" PointY="6.75" />
-        <AssociationConnector Association="HospitalModel.FK_ConservativeDetail_IPD" />
-        <AssociationConnector Association="HospitalModel.FK_IPD_TypeOfRoomAndBed1" />
-        <AssociationConnector Association="HospitalModel.FK_LabourDetail_IPD" />
-        <AssociationConnector Association="HospitalModel.FK_OperationDetail_IPD" />
-        <AssociationConnector Association="HospitalModel.FK_OperationDetail_TypeOfOperation" />
-        <AssociationConnector Association="HospitalModel.FK_TreatmentChart_OperationDetail" />
-        </Diagram>
+      <Diagram DiagramId="d3bee0d6d22e45c3b637f5654371e7db" Name="Diagram1">
+        <EntityTypeShape EntityType="HospitalManagmentModel.ConservativeDetail" Width="1.5" PointX="13.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.Contact" Width="1.5" PointX="0.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.History" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.Investigation" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.IPD" Width="1.5" PointX="11" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.LabourDetail" Width="1.5" PointX="13.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.MedcineName" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.MonitoringChart" Width="1.5" PointX="7.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.OPD" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.OperationDetail" Width="1.5" PointX="16.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.PaymentDetail" Width="1.5" PointX="8.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.Person" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.PersonDetail" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.PersonType" Width="1.5" PointX="0.75" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.Prescription" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TreatmentChart" Width="1.5" PointX="18.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TypeofCheckUp" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TypeOfIntakeAdv" Width="1.5" PointX="3" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TypeOfMedcine" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TypeOfOperation" Width="1.5" PointX="14" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.TypeOfRoomAndBed" Width="1.5" PointX="8.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HospitalManagmentModel.User" Width="1.5" PointX="10.75" PointY="9.875" IsExpanded="true" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_ConservativeDetail_IPD" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_Cotact_1_ContactID" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.PersonID_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_Investigations_OPD" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_Investigations_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_IPD_TypeOfRoomAndBed1" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_LabourDetail_IPD" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_OperationDetail_IPD" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_NameOfMedicine" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_TypeOfMedicine" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_OPD" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_TypeofCheckUp" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_OperationDetail_TypeOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_TreatmentChart_OperationDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_PersonDetails_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_PersonDetails_PersonTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="HospitalManagmentModel.FK_Prescription_TypeOfIntakeAdvId" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
