@@ -32,12 +32,12 @@ namespace HospitalManagment
         public DbSet<PersonType> PersonTypes { get; set; }
         public DbSet<TypeofCheckUp> TypeofCheckUps { get; set; }
         public DbSet<PaymentDetail> PaymentDetails { get; set; }
-        public DbSet<MedcineName> MedcineNames { get; set; }
         public DbSet<TypeOfMedcine> TypeOfMedcines { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<TypeOfIntakeAdv> TypeOfIntakeAdvs { get; set; }
         public DbSet<OPD> OPDs { get; set; }
         public DbSet<Investigation> Investigations { get; set; }
+        public DbSet<MedcineName> MedcineNames { get; set; }
     }
 }

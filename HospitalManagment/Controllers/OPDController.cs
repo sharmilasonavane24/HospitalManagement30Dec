@@ -8,6 +8,7 @@ using HospitalManagment.CustomValidation;
 using System.Text;
 using System.Web;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HospitalManagment.Controllers
 {
@@ -607,7 +608,8 @@ namespace HospitalManagment.Controllers
                 foreach (var item in _ClinicalExaminations)
                 {
                     if (!string.IsNullOrEmpty(item.BMI) || !string.IsNullOrEmpty(item.BP) || !string.IsNullOrEmpty(item.CNS) ||
-                        !string.IsNullOrEmpty(item.CVS) || !string.IsNullOrEmpty(item.OtherGeneralFindings) || item.Weight > 0) {
+                        !string.IsNullOrEmpty(item.CVS) || !string.IsNullOrEmpty(item.OtherGeneralFindings) || item.Weight > 0)
+                    {
                         ClinicalExamination clinicalExamination = new ClinicalExamination();
                         clinicalExamination.BMI = item.BMI;
                         clinicalExamination.BP = item.BP;
@@ -631,6 +633,25 @@ namespace HospitalManagment.Controllers
             }
         }
 
+        [HttpPost]
+        public void DeleteExistingMedicine(string MedicineId)
+        {
+            int Id = Convert.ToInt32(MedicineId);
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                MedcineName DelMedicineNames = (from medName in ent.MedcineNames
+                                                where medName.MedcineNamesId == Id
+                                                select medName).FirstOrDefault();
+
+                if (DelMedicineNames != null)
+                {
+                    DelMedicineNames.IsDeleted = true;
+                    DelMedicineNames.DeletedDateTime = DateTime.Now;
+                    ent.SaveChanges(); 
+                }
+                Task.Factory.StartNew(() => AddDefaultMedicineName());
+            }
+        }
 
         private Decimal GetAge(DateTime birthDate)
         {
@@ -671,11 +692,13 @@ namespace HospitalManagment.Controllers
         {
             using (HospitalEntities ent = new HospitalEntities())
             {
-                var listMedicineNames = (from medicineName in ent.MedcineNames select medicineName).ToList();
+                var listMedicineNames = (from medicineName in ent.MedcineNames
+                                         where medicineName.IsDeleted == false
+                                         select medicineName).ToList();
                 MedcineName medcineName = new MedcineName();
                 //  medcineName.TypeOfMedcine.TypeOfMedicineId
                 medcineName.MedcineName1 = "Other";
-                medcineName.MedicineWeight = 0;
+                medcineName.MedicineWeight = -1;
                 var a = (from md in ent.TypeOfMedcines
                          where md.TypeName.Equals("Other", StringComparison.InvariantCultureIgnoreCase)
                          select new { md }).FirstOrDefault();
