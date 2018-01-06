@@ -209,6 +209,12 @@ namespace HospitalManagment.Controllers
                     {
                         foreach (var item in opd.prscriptionList)
                         {
+                            DateTime? _NextAppoinmentDate = null;
+                            if (opd.prscriptionList[0].NextOpointmentDate != null && !string.IsNullOrEmpty(Convert.ToString(opd.prscriptionList[0].NextOpointmentDate)) &&
+                                !string.IsNullOrEmpty(((string[])opd.prscriptionList[0].NextOpointmentDate)[0]))
+                            {
+                                _NextAppoinmentDate = Convert.ToDateTime(((string[])opd.prscriptionList[0].NextOpointmentDate)[0]);
+                            }
                             if (item.PrescriptionID <= 0)
                             {
                                 MedcineName medcineName = new MedcineName();
@@ -241,6 +247,9 @@ namespace HospitalManagment.Controllers
                                 prescription.NumberOfDays = item.NumberOfDays;
                                 prescription.OpdID = opd.OPDID;
                                 prescription.CreatedDateTime = DateTime.Now;
+                                prescription.comments = item.Comment;
+                                prescription.ManagementPlan = item.ManagementPlan;
+                                prescription.NextAppoinmentDate = _NextAppoinmentDate;
                                 string[] array = new string[] { "Other", "Ointment", "Creame", "Syrup" };
                                 var isContains = array.Where(a => a.Equals(item.TypeOfMedicine, StringComparison.InvariantCultureIgnoreCase));
                                 if (isContains != null && isContains.Count() > 0)
@@ -526,7 +535,7 @@ namespace HospitalManagment.Controllers
                     {
                         _investigation.CreatedDateTime = DateTime.Now;
                         ent.Investigations.Add(_investigation);
-                        
+
                     }
 
                     ent.SaveChanges();
@@ -654,6 +663,41 @@ namespace HospitalManagment.Controllers
 
 
                 return PartialView("_PreviousClinicalEaminations", listClinicalExaminations);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetPreviousPrescriptionDetails(int personId)
+        {
+            List<HospitalManagment.Models.Prescription> listPrescription = new List<Models.Prescription>();
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                var _Prescriptions = (from examinations in ent.Prescriptions
+                                      join opd in ent.OPDs on examinations.OpdID equals opd.OPDId
+                                      join medName in ent.MedcineNames on examinations.MedcineNamesId equals medName.MedcineNamesId
+                                      join typemedicine in ent.TypeOfMedcines on medName.TypeOfMedicineId equals typemedicine.TypeOfMedicineId
+                                      join adv in ent.TypeOfIntakeAdvs.DefaultIfEmpty() on examinations.TypeOfIntakeAdvId equals adv.TypeOfIntakeAdvId
+                                      where opd.PersonID == personId
+                                      select new { examinations, medName, adv, typemedicine, opd }).ToList();
+
+                foreach (var item in _Prescriptions)
+                {
+                    Models.Prescription prescription = new Models.Prescription();
+                    prescription.Comment = item.examinations.comments;
+                    prescription.Dosage = Convert.ToInt32(item.examinations.Dosage);
+                    prescription.ManagementPlan = item.examinations.ManagementPlan;
+                    prescription.NameOfMedicine = item.medName.MedcineName1;
+                    prescription.NextOpointmentDate = Convert.ToString(item.examinations.NextAppoinmentDate);
+                    prescription.NumberOfDays = item.examinations.NumberOfDays;
+                    prescription.PrescriptionID = item.examinations.PrescriptionID;
+                    prescription.TypeOfIntakeAdv = item.adv.TypeName;
+                    prescription.TypeOfMedicine = item.typemedicine.TypeName;
+                    prescription.OpdID = item.opd.OPDNumber;
+                    listPrescription.Add(prescription);
+                }              
+
+
+                return PartialView("previousPrescriptionDetails", listPrescription);
             }
         }
 

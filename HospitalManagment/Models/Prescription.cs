@@ -4,7 +4,7 @@ namespace HospitalManagment.Models
 {
     public class Prescription
     {
-        // public int OpdID { get; set; }
+        public string OpdID { get; set; }
         [Display(Name = "Medicine:")]
         public string NameOfMedicine { get; set; }
 

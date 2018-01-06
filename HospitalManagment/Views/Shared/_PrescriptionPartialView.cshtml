@@ -70,7 +70,7 @@
             return true;
         }
         else {
-            alert("Please update the value of Dosage and Number of days!")
+            alert("Please select the value of Medicine name.")
             return false;
         }
         //$("#textNome").focus();
@@ -139,7 +139,7 @@
                 return true;
             }
             else {
-                alert("Prescription save failed!");
+
                 return false;}
 
         }
@@ -167,7 +167,7 @@
                                         var txt = $('#NameOfMedicine').html();
                     var removeStr = "<option value=\"" + medicineID.toString() + "\">" + medicinename + "</option>";
                     var newHtml = txt.replace(removeStr, "");
-                    
+
                     $('#NameOfMedicine').html(newHtml);
 
                     $('#NameOfMedicine').selectmenu().selectmenu("refresh");
@@ -220,7 +220,32 @@
         })
     })
 
+    function PreviousPrescriptionDetails() {
+        debugger;
+        var personId = @Html.Raw(Json.Encode(Model.PersonId));
+        if (personId > 0) {
+            $.ajax({
+                type: 'GET',
+                url: "/HospitalManagment/OPD/GetPreviousPrescriptionDetails",
+                data: {
+                    personId: personId
+                },
+                success: function (view) {
+                    debugger;
+                    //alert(view);
 
+                    $('#PopUpDetailsResult').html(view);
+                    $('#PopUpDetailsResult').dialog({ width: 1000, height: 300, title: "Previous Prescriptions" }).dialogNoClose();
+
+
+                },
+                error: function (view) {
+                    alert(view);
+                    //$('#loaderSelectProducts').css('display', 'none');
+                }
+            });
+        }
+    }
 </script>
 
 
@@ -509,7 +534,7 @@
                     <tr style="border-bottom: 1px solid black;">
                         @{
                             string nameOfMedicine = string.Empty;
-                            if (item.NameOfMedicine!=null && item.NameOfMedicine.Equals("Other"))
+                            if (item.NameOfMedicine != null && item.NameOfMedicine.Equals("Other"))
                             {
                                 nameOfMedicine = item.newmedicine;
                             }

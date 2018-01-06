@@ -368,6 +368,7 @@
     <Content Include="Views\Shared\_PreviousInvestigationsDetails.cshtml" />
     <Content Include="Views\Shared\_PreviousClinicalEaminations.cshtml" />
     <Content Include="Views\Shared\_CFormPartialView.cshtml" />
+    <Content Include="Views\Shared\previousPrescriptionDetails.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

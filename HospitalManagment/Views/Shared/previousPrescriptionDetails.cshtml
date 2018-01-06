@@ -1,0 +1,81 @@
+﻿@model IEnumerable<HospitalManagment.Models.Prescription>
+
+ 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OpdID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameOfMedicine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dosage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfMedicine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagementPlan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.newmedicine)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfIntakeAdv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextOpointmentDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpdID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameOfMedicine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dosage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfMedicine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManagementPlan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.newmedicine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfIntakeAdv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextOpointmentDate)
+        </td>
+        
+    </tr>
+}
+
+</table>
