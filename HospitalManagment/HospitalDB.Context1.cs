@@ -27,14 +27,12 @@ namespace HospitalManagment
     
         public DbSet<User> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<Person> People { get; set; }
         public DbSet<PersonDetail> PersonDetails { get; set; }
         public DbSet<PersonType> PersonTypes { get; set; }
         public DbSet<TypeofCheckUp> TypeofCheckUps { get; set; }
         public DbSet<PaymentDetail> PaymentDetails { get; set; }
         public DbSet<TypeOfMedcine> TypeOfMedcines { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
-        public DbSet<History> Histories { get; set; }
         public DbSet<TypeOfIntakeAdv> TypeOfIntakeAdvs { get; set; }
         public DbSet<Investigation> Investigations { get; set; }
         public DbSet<MedcineName> MedcineNames { get; set; }
@@ -42,5 +40,7 @@ namespace HospitalManagment
         public DbSet<TypeOfOperation> TypeOfOperations { get; set; }
         public DbSet<TypeOfRoomAndBed> TypeOfRoomAndBeds { get; set; }
         public DbSet<OPD> OPDs { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<History> Histories { get; set; }
     }
 }

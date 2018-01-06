@@ -21,24 +21,24 @@
         });
     });
 
-    $(function () {
+    //$(function () {
 
-        $("#history_FirstTTInjection").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'dd-M-yy',
-            yearRange: "1900:" + currentYear
-        });
-    });
+    //    $("#history_FirstTTInjection").datepicker({
+    //        changeMonth: true,
+    //        changeYear: true,
+    //        dateFormat: 'dd-M-yy',
+    //        yearRange: "1900:" + currentYear
+    //    });
+    //});
 
-    $(function () {
-        $("#history_SecondTTInjection").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'dd-M-yy',
-            yearRange: "1900:" + currentYear
-        });
-    });
+    //$(function () {
+    //    $("#history_SecondTTInjection").datepicker({
+    //        changeMonth: true,
+    //        changeYear: true,
+    //        dateFormat: 'dd-M-yy',
+    //        yearRange: "1900:" + currentYear
+    //    });
+    //});
 
     $(function () {
         $("#history_LMP").datepicker({
@@ -220,14 +220,14 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.history.FirstTTInjection, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.history.FirstTTInjection, new { Class = "input-group datepicker", @readonly = true })
+                        @Html.TextBoxFor(model => model.history.FirstTTInjection, new { })
                         @Html.ValidationMessageFor(model => model.history.FirstTTInjection, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.history.SecondTTInjection, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.history.SecondTTInjection, new { Class = "input-group datepicker", @readonly = true })
+                        @Html.TextBoxFor(model => model.history.SecondTTInjection, new { })
                         @Html.ValidationMessageFor(model => model.history.SecondTTInjection, "", new { @class = "text-danger" })
                     </div>
                 </div>

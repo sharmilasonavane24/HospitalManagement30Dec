@@ -16,15 +16,70 @@ namespace HospitalManagment.Controllers
     [HandleError]
     public class OPDController : Controller
     {
+        //[HttpGet]
+        //public ActionResult OPD()
+        //{
+
+        //    Models.OPD opd = new Models.OPD();
+        //    using (HospitalEntities ent = new HospitalEntities())
+        //    {
+        //        var lastOPDNumber = (from opdnumber in ent.OPDs
+        //                             where opdnumber.OPDDate.Value.Month == DateTime.Now.Month && opdnumber.OPDDate.Value.Year == DateTime.Now.Year
+        //                             orderby opdnumber.OPDId descending
+        //                             select opdnumber.OPDNumber).FirstOrDefault();
+        //        if (lastOPDNumber == null)
+        //        {
+        //            opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/1");
+        //        }
+        //        else
+        //        {
+        //            string[] split = lastOPDNumber.Split('/');
+        //            opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + Convert.ToString(Convert.ToInt32(split.Last()) + 1));
+        //        }
+        //        opd.history = new Models.History();
+        //        HospitalManagment.Models.History _history = new Models.History();
+
+        //        opd.history = _history;
+        //        AddDefaultMedicineName();
+        //    }
+
+        //    //return OPD(opd, "Save Examination");
+        //    return View(opd);
+        //}
 
         [HttpGet]
-        public ActionResult OPD(int PatientId)
+        public ActionResult OPD(int? PatientId)
         {
+            Models.OPD opd = new Models.OPD();
             if (string.IsNullOrEmpty(Convert.ToString(PatientId)))
             {
-                return View("Search");
+
+                using (HospitalEntities ent = new HospitalEntities())
+                {
+                    var lastOPDNumber = (from opdnumber in ent.OPDs
+                                         where opdnumber.OPDDate.Value.Month == DateTime.Now.Month && opdnumber.OPDDate.Value.Year == DateTime.Now.Year
+                                         orderby opdnumber.OPDId descending
+                                         select opdnumber.OPDNumber).FirstOrDefault();
+                    if (lastOPDNumber == null)
+                    {
+                        opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/1");
+                    }
+                    else
+                    {
+                        string[] split = lastOPDNumber.Split('/');
+                        opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + Convert.ToString(Convert.ToInt32(split.Last()) + 1));
+                    }
+                    opd.history = new Models.History();
+                    HospitalManagment.Models.History _history = new Models.History();
+
+                    opd.history = _history;
+                    AddDefaultMedicineName();
+                }
+
+                //return OPD(opd, "Save Examination");
+                return View(opd);
             }
-            Models.OPD opd = new Models.OPD();
+
             using (HospitalEntities ent = new HospitalEntities())
             {
                 //var listTypeOfCheckup = (from chekup in ent.TypeofCheckUps
@@ -87,14 +142,14 @@ namespace HospitalManagment.Controllers
                     _history.AllergyDetails = history.AllergyDetails;
                     _history.ChiefComplains = history.ChiefComplains;
                     _history.CurrentCycle = history.CurrentCycles;
-                    _history.EDD = history.EDD.Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US")); ;
+                    _history.EDD = Convert.ToDateTime(history.EDD).Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US")); ;
                     _history.EDDCorrectedByUSG = Convert.ToDateTime(history.EDDCorrectedByUSG).Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));
                     _history.FirstTTInjection = Convert.ToDateTime(history.FirstTTInjection).Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));
                     _history.Gravidity = Convert.ToInt32(history.Gravidity);
                     _history.HighRiskFactor = history.HighRiskFactor;
                     _history.HistoryId = history.HistoryId;
                     _history.LivingChildren = Convert.ToInt32(history.LivingChildren);
-                    _history.LMP = history.LMP.Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    _history.LMP = Convert.ToDateTime(history.LMP).Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));
                     _history.MenoPause = Convert.ToInt32(history.Menopause);
                     _history.Menorche = Convert.ToInt32(history.Menorch);
                     _history.ObstetricHistory = history.ObstetricHistory;
@@ -107,7 +162,7 @@ namespace HospitalManagment.Controllers
                 else
                 {
                     _history.HistoryId = 0;
-                    _history.PersonId = PatientId;
+                    _history.PersonId = Convert.ToInt32(PatientId);
                 }
                 opd.history = _history;
                 TempData["History"] = _history;
@@ -132,30 +187,57 @@ namespace HospitalManagment.Controllers
         {
             switch (submit)
             {
-                case "Verify OPD Details":
+                case "Save Patient Details":
                     ViewBag.MyValue = 0;
-                    if (ModelState.IsValid)
-                    {
-                        using (HospitalEntities ent = new HospitalEntities())
-                        {
-                            OPD patientOPD = new HospitalManagment.OPD();
-                        }
-                        ModelState.AddModelError("Error", "OPD details saved successfully!");
 
-                        return View(opd);
-                    }
-                    else
+                    using (HospitalEntities ent = new HospitalEntities())
                     {
-                        var errors = ModelState.Values.SelectMany(v => v.Errors);
-                        StringBuilder strError = new StringBuilder();
-                        foreach (var item in errors)
-                        {
-                            strError.Append(item.ErrorMessage);
-                        }
-                        ModelState.AddModelError("Error", strError.ToString());
+                        OPD patientOPD = new HospitalManagment.OPD();
 
-                        return View("OPD", opd);
+                        var _person = ent.People.Add(new Person
+                        {
+                            Age = opd.Age,
+                            Firstname = opd.PatientFullName.Split(' ')[0],
+                            MiddleName = opd.PatientFullName.Split(' ')[1],
+                            lastName = opd.PatientFullName.Split(' ')[2],
+                            Gender = opd.Gender,
+                            Profession = opd.Occupation,
+                            FatherOrSpouseProfession = opd.FatherOrSpouseProfession,
+                            ReferredBy = opd.ReferredBy,
+                            Religion = opd.Religion,
+
+                        });
+
+                        var _contact = ent.Contacts.Add(new Contact
+                        {
+                            City = "Phaltan",
+                            ContactNumber = opd.Mobile,
+                            District = "Satara",
+                            Pincode = "415523",
+                            State = "Maharashtra",
+                            StreetName = opd.Address,
+                            Taluka = "Phaltan"
+                        });
+
+                        ent.SaveChanges();
+
+                        ent.PersonDetails.Add(new PersonDetail
+                        {
+                            ContactID = _contact.ContactId,
+                            SpouseID = 0,
+                            PersonID = _person.PersonId,
+                            PersonTypeID = 1
+                        });
+
+                        ent.SaveChanges();
+                        opd.PersonId = _person.PersonId;
+
+
                     }
+                    ModelState.AddModelError("Error", "Patient details saved successfully!");
+                    return OPD(opd, "Save Examination");
+
+
 
 
                 case "Save History":
@@ -173,10 +255,10 @@ namespace HospitalManagment.Controllers
                         { patientHistory.EDD = Convert.ToDateTime(((string[])opd.history.EDD)[0]); }
                         if (opd.history.EDDCorrectedByUSG != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.EDDCorrectedByUSG)) && !string.IsNullOrEmpty(((string[])opd.history.EDDCorrectedByUSG)[0]))
                         { patientHistory.EDDCorrectedByUSG = Convert.ToDateTime(((string[])opd.history.EDDCorrectedByUSG)[0]); }
-                        if (opd.history.FirstTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.FirstTTInjection)) && !string.IsNullOrEmpty(((string[])opd.history.FirstTTInjection)[0]))
-                        { patientHistory.FirstTTInjection = Convert.ToDateTime(((string[])opd.history.FirstTTInjection)[0]); }
-                        if (opd.history.SecondTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.SecondTTInjection)) && !string.IsNullOrEmpty(((string[])opd.history.SecondTTInjection)[0]))
-                        { patientHistory.SecondTTInjection = Convert.ToDateTime(((string[])opd.history.SecondTTInjection)[0]); }
+                        if (opd.history.FirstTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.FirstTTInjection)) && !string.IsNullOrEmpty((opd.history.FirstTTInjection)))
+                        { patientHistory.FirstTTInjection = Convert.ToString((opd.history.FirstTTInjection)); }
+                        if (opd.history.SecondTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.SecondTTInjection)) && !string.IsNullOrEmpty((opd.history.SecondTTInjection)))
+                        { patientHistory.SecondTTInjection = Convert.ToString((opd.history.SecondTTInjection)); }
                         if (opd.history.LMP != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.LMP)) && !string.IsNullOrEmpty(((string[])opd.history.LMP)[0]))
                         { patientHistory.LMP = Convert.ToDateTime(((string[])opd.history.LMP)[0]); }
                         patientHistory.HighRiskFactor = opd.history.HighRiskFactor;
@@ -292,7 +374,7 @@ namespace HospitalManagment.Controllers
                                    select opddeatails).FirstOrDefault();
                         }
                         oPD.OPDDate = DateTime.Now;
-                        person.Height = Convert.ToString(opd.Height);
+                        // person.Height = Convert.ToString(opd.Height);
                         oPD.TypeofCheckUp = 1;
                         oPD.OPDNumber = opd.MonthOPDNo;
                         oPD.PersonID = opd.PersonId;
@@ -334,7 +416,7 @@ namespace HospitalManagment.Controllers
                         return View();
                     }
             }
-            return View();
+            return View(opd);
         }
 
         public PartialViewResult History(Models.History history, string submit)
@@ -694,7 +776,7 @@ namespace HospitalManagment.Controllers
                     prescription.TypeOfMedicine = item.typemedicine.TypeName;
                     prescription.OpdID = item.opd.OPDNumber;
                     listPrescription.Add(prescription);
-                }              
+                }
 
 
                 return PartialView("previousPrescriptionDetails", listPrescription);
@@ -774,6 +856,14 @@ namespace HospitalManagment.Controllers
                 medcineName.TypeOfMedcine.TypeOfMedicineId = a.md.TypeOfMedicineId;
                 listMedicineNames.Add(medcineName);
                 TempData["MedicineNames"] = new SelectList(listMedicineNames, "MedcineNamesId", "MedcineName1");
+                var TypeOfMedicine = (from medicineType in ent.TypeOfMedcines select medicineType).ToList();
+                var typeOfIntakeAdv = (from intakeAdvType in ent.TypeOfIntakeAdvs select intakeAdvType).ToList();
+
+                TempData["TypeOfMedicine"] = new SelectList(TypeOfMedicine, "TypeOfMedicineId", "TypeName");
+                TempData["TypeOfIntakeAdv"] = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName");
+                int selectedId = 1;
+
+                ViewBag.DefaultTypeOfIntakeAdv = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName", selectedId);
             }
         }
     }

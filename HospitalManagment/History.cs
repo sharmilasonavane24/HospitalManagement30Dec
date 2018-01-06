@@ -17,10 +17,10 @@ namespace HospitalManagment
         public int HistoryId { get; set; }
         public string Reminder { get; set; }
         public string AllergyDetails { get; set; }
-        public Nullable<System.DateTime> FirstTTInjection { get; set; }
-        public Nullable<System.DateTime> SecondTTInjection { get; set; }
-        public System.DateTime LMP { get; set; }
-        public System.DateTime EDD { get; set; }
+        public string FirstTTInjection { get; set; }
+        public string SecondTTInjection { get; set; }
+        public Nullable<System.DateTime> LMP { get; set; }
+        public Nullable<System.DateTime> EDD { get; set; }
         public System.DateTime EDDCorrectedByUSG { get; set; }
         public Nullable<int> PersonId { get; set; }
         public string HighRiskFactor { get; set; }

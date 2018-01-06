@@ -137,14 +137,14 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PatientFullName, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.PatientFullName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control"  } })
                                     @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Religion, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Religion, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.EditorFor(model => model.Religion, new { htmlAttributes = new { @class = "form-control"  } })
                                 </div>
                             </div>
                         </td>
@@ -174,7 +174,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control"  } })
 
                                 </div>
                             </div>
@@ -191,13 +191,20 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Occupation, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control"  } })
                                 </div>
                             </div>
                             <div class="form-group">
+                                @Html.LabelFor(model => model.FatherOrSpouseProfession, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.FatherOrSpouseProfession, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 @Html.LabelFor(model => model.ReferredBy, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.ReferredBy, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                    @Html.EditorFor(model => model.ReferredBy, new { htmlAttributes = new { @class = "form-control"  } })
 
                                 </div>
                             </div>
@@ -209,7 +216,7 @@
                         <td align="center">
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    @*<input type="submit" name="submit" value="Verify OPD Details" class="btn btn-default" />*@
+                                    <input type="submit" name="submit" value="Save Patient Details" class="btn btn-default" />
                                 </div>
                             </div>
                         </td>

@@ -41,7 +41,7 @@ namespace HospitalManagment
     
         public virtual ICollection<Investigation> Investigations { get; set; }
         public virtual ICollection<Prescription> Prescriptions { get; set; }
-        public virtual Person Person { get; set; }
         public virtual TypeofCheckUp TypeofCheckUp1 { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

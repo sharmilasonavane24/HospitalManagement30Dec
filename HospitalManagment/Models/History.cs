@@ -17,24 +17,24 @@
         [Display(Name = "Past/Personal/Family History")]
         public string AllergyDetails { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        //  [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "First TT Injection: ")]
-       // [Required]
-        public object FirstTTInjection { get; set; }
+        // [Required]
+        public string FirstTTInjection { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Second TT Injection: ")]
-       // [Required]
-        public object SecondTTInjection { get; set; }
+        // [Required]
+        public string SecondTTInjection { get; set; }
 
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "LMP: ")]
-       // [Required]
+        // [Required]
         public object LMP { get; set; }
 
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "EDD: ")]
-       // [Required]
+        // [Required]
         public object EDD { get; set; }
 
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

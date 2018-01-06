@@ -22,8 +22,7 @@ namespace HospitalManagment
         public string ChildIDs { get; set; }
     
         public virtual Contact Contact { get; set; }
-        public virtual Person Person { get; set; }
-        public virtual Person Person1 { get; set; }
         public virtual PersonType PersonType { get; set; }
+        public virtual Person Person { get; set; }
     }
 }
