@@ -90,16 +90,15 @@
           <Property Name="BP" Type="varchar" MaxLength="10" />
           <Property Name="Pulse" Type="int" />
           <Property Name="OPDNumber" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="RsNCVS" Type="varchar" MaxLength="50" />
+          <Property Name="Rs" Type="varchar" MaxLength="50" />
           <Property Name="PA" Type="varchar" MaxLength="50" />
           <Property Name="PS" Type="varchar" MaxLength="50" />
           <Property Name="PV" Type="varchar" MaxLength="50" />
           <Property Name="CNS" Type="varchar" MaxLength="50" />
           <Property Name="OPDDate" Type="datetime" />
-          <Property Name="CVS" Type="varchar" MaxLength="50" />
-          <Property Name="Rs" Type="varchar" MaxLength="50" />
-          <Property Name="OtherGeneralFindings" Type="varchar" MaxLength="250" />
           <Property Name="BMI" Type="varchar" MaxLength="50" />
+          <Property Name="OtherGeneralFindings" Type="varchar" MaxLength="250" />
+          <Property Name="CVS" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="PaymentDetails">
           <Key>
@@ -166,15 +165,6 @@
           <Property Name="ManagementPlan" Type="varchar" MaxLength="250" />
           <Property Name="TypeOfIntakeAdvId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="testException">
-          <Key>
-            <PropertyRef Name="opdid" />
-          </Key>
-          <Property Name="opdid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="opddate" Type="datetime" />
-        </EntityType>
         <EntityType Name="TypeofCheckUp">
           <Key>
             <PropertyRef Name="TypeofCheckUpId" />
@@ -211,7 +201,9 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_Cotact_1_ContactID">
-          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contact">
@@ -251,7 +243,9 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_NameOfMedicine">
-          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1" />
+          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Prescription" Type="Self.Prescription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MedcineNames">
@@ -287,7 +281,9 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonDetails_Person">
-          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Person">
@@ -337,7 +333,9 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TypeOfMedicine">
-          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1" />
+          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypeOfMedcine">
@@ -375,12 +373,6 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <EntitySet Name="TypeOfIntakeAdv" EntityType="Self.TypeOfIntakeAdv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfMedcine" EntityType="Self.TypeOfMedcine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="testException" EntityType="Self.testException" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [testException].[opdid] AS [opdid], 
-    [testException].[opddate] AS [opddate]
-    FROM [dbo].[testException] AS [testException]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Cotact_1_ContactID" Association="Self.FK_Cotact_1_ContactID">
             <End Role="Contact" EntitySet="Contact" />
             <End Role="PersonDetails" EntitySet="PersonDetails" />
@@ -474,7 +466,21 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
             <End Role="Person" EntitySet="People" />
             <End Role="History" EntitySet="Histories" />
           </AssociationSet>
+          <EntitySet Name="Investigations" EntityType="HospitalModel.Investigation" />
+          <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Investigation" EntitySet="Investigations" />
+          </AssociationSet>
+          <EntitySet Name="TypeOfIntakeAdvs" EntityType="HospitalModel.TypeOfIntakeAdv" />
+          <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId">
+            <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdvs" />
+            <End Role="Prescription" EntitySet="Prescriptions" />
+          </AssociationSet>
           <EntitySet Name="OPDs" EntityType="HospitalModel.OPD" />
+          <AssociationSet Name="FK_Investigations_OPD" Association="HospitalModel.FK_Investigations_OPD">
+            <End Role="OPD" EntitySet="OPDs" />
+            <End Role="Investigation" EntitySet="Investigations" />
+          </AssociationSet>
           <AssociationSet Name="FK_OPD" Association="HospitalModel.FK_OPD">
             <End Role="OPD" EntitySet="OPDs" />
             <End Role="Prescription" EntitySet="Prescriptions" />
@@ -486,21 +492,6 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <AssociationSet Name="FK_TypeofCheckUp" Association="HospitalModel.FK_TypeofCheckUp">
             <End Role="TypeofCheckUp" EntitySet="TypeofCheckUps" />
             <End Role="OPD" EntitySet="OPDs" />
-          </AssociationSet>
-          <EntitySet Name="Investigations" EntityType="HospitalModel.Investigation" />
-          <EntitySet Name="testExceptions" EntityType="HospitalModel.testException" />
-          <AssociationSet Name="FK_Investigations_OPD" Association="HospitalModel.FK_Investigations_OPD">
-            <End Role="OPD" EntitySet="OPDs" />
-            <End Role="Investigation" EntitySet="Investigations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
-            <End Role="Person" EntitySet="People" />
-            <End Role="Investigation" EntitySet="Investigations" />
-          </AssociationSet>
-          <EntitySet Name="TypeOfIntakeAdvs" EntityType="HospitalModel.TypeOfIntakeAdv" />
-          <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId">
-            <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdvs" />
-            <End Role="Prescription" EntitySet="Prescriptions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -553,8 +544,8 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <NavigationProperty Name="Histories" Relationship="HospitalModel.PersonID_FK" FromRole="Person" ToRole="History" />
           <Property Name="Religion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReferredBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OPDs" Relationship="HospitalModel.FK_Person" FromRole="Person" ToRole="OPD" />
           <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Person" ToRole="Investigation" />
+          <NavigationProperty Name="OPDs" Relationship="HospitalModel.FK_Person" FromRole="Person" ToRole="OPD" />
         </EntityType>
         <EntityType Name="PersonDetail">
           <Key>
@@ -693,10 +684,10 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="MedcineNamesId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MedcineName" Relationship="HospitalModel.FK_NameOfMedicine" FromRole="Prescription" ToRole="MedcineName" />
           <Property Name="NextAppoinmentDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_OPD" FromRole="Prescription" ToRole="OPD" />
           <Property Name="ManagementPlan" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="TypeOfIntakeAdvId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TypeOfIntakeAdv" Relationship="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" FromRole="Prescription" ToRole="TypeOfIntakeAdv" />
+          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_OPD" FromRole="Prescription" ToRole="OPD" />
         </EntityType>
         <Association Name="FK_NameOfMedicine">
           <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="1" />
@@ -748,70 +739,6 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OPD">
-          <Key>
-            <PropertyRef Name="OPDId" />
-          </Key>
-          <Property Name="OPDId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PersonID" Type="Int32" Nullable="false" />
-          <Property Name="TypeofCheckUp" Type="Int32" Nullable="false" />
-          <Property Name="NextAppoinmentDate" Type="DateTime" Precision="0" />
-          <Property Name="Paid" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="BP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Pulse" Type="Int32" />
-          <Property Name="OPDNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Rs" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CNS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OPDDate" Type="DateTime" Precision="3" />
-          <Property Name="CVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BMI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="OtherGeneralFindings" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_OPD" FromRole="OPD" ToRole="Prescription" />
-          <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Person" FromRole="OPD" ToRole="Person" />
-          <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
-          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
-          <Property Name="RsNCVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_OPD">
-          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1" />
-          <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPD">
-              <PropertyRef Name="OPDId" />
-            </Principal>
-            <Dependent Role="Prescription">
-              <PropertyRef Name="OpdID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Person">
-          <End Type="HospitalModel.Person" Role="Person" Multiplicity="1" />
-          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="PersonId" />
-            </Principal>
-            <Dependent Role="OPD">
-              <PropertyRef Name="PersonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TypeofCheckUp">
-          <End Type="HospitalModel.TypeofCheckUp" Role="TypeofCheckUp" Multiplicity="1" />
-          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeofCheckUp">
-              <PropertyRef Name="TypeofCheckUpId" />
-            </Principal>
-            <Dependent Role="OPD">
-              <PropertyRef Name="TypeofCheckUp" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Investigation">
           <Key>
             <PropertyRef Name="InvestigationId" />
@@ -834,30 +761,9 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="Other" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="AllAttachmentinOnePDF" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="Investigation" ToRole="OPD" />
           <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Investigation" ToRole="Person" />
+          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="Investigation" ToRole="OPD" />
         </EntityType>
-        <EntityType Name="testException">
-          <Key>
-            <PropertyRef Name="opdid" />
-          </Key>
-          <Property Name="opdid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="opddate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <Association Name="FK_Investigations_OPD">
-          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPD">
-              <PropertyRef Name="OPDId" />
-            </Principal>
-            <Dependent Role="Investigation">
-              <PropertyRef Name="OpdId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Investigations_PersonId">
           <End Type="HospitalModel.Person" Role="Person" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -891,6 +797,83 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
             </Principal>
             <Dependent Role="Prescription">
               <PropertyRef Name="TypeOfIntakeAdvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OPD">
+          <Key>
+            <PropertyRef Name="OPDId" />
+          </Key>
+          <Property Name="OPDId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="TypeofCheckUp" Type="Int32" Nullable="false" />
+          <Property Name="NextAppoinmentDate" Type="DateTime" Precision="0" />
+          <Property Name="Paid" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="BP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Pulse" Type="Int32" />
+          <Property Name="OPDNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Rs" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CNS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OPDDate" Type="DateTime" Precision="3" />
+          <Property Name="BMI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OtherGeneralFindings" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CVS" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
+          <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_OPD" FromRole="OPD" ToRole="Prescription" />
+          <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Person" FromRole="OPD" ToRole="Person" />
+          <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
+        </EntityType>
+        <Association Name="FK_Investigations_OPD">
+          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPD">
+              <PropertyRef Name="OPDId" />
+            </Principal>
+            <Dependent Role="Investigation">
+              <PropertyRef Name="OpdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OPD">
+          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1" />
+          <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPD">
+              <PropertyRef Name="OPDId" />
+            </Principal>
+            <Dependent Role="Prescription">
+              <PropertyRef Name="OpdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person">
+          <End Type="HospitalModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="OPD">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TypeofCheckUp">
+          <End Type="HospitalModel.TypeofCheckUp" Role="TypeofCheckUp" Multiplicity="1" />
+          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeofCheckUp">
+              <PropertyRef Name="TypeofCheckUpId" />
+            </Principal>
+            <Dependent Role="OPD">
+              <PropertyRef Name="TypeofCheckUp" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1053,31 +1036,6 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OPDs">
-            <EntityTypeMapping TypeName="HospitalModel.OPD">
-              <MappingFragment StoreEntitySet="OPD">
-                <ScalarProperty Name="RsNCVS" ColumnName="RsNCVS" />
-                <ScalarProperty Name="OtherGeneralFindings" ColumnName="OtherGeneralFindings" />
-                <ScalarProperty Name="BMI" ColumnName="BMI" />
-                <ScalarProperty Name="CVS" ColumnName="CVS" />
-                <ScalarProperty Name="OPDDate" ColumnName="OPDDate" />
-                <ScalarProperty Name="CNS" ColumnName="CNS" />
-                <ScalarProperty Name="PV" ColumnName="PV" />
-                <ScalarProperty Name="PS" ColumnName="PS" />
-                <ScalarProperty Name="PA" ColumnName="PA" />
-                <ScalarProperty Name="Rs" ColumnName="Rs" />
-                <ScalarProperty Name="OPDNumber" ColumnName="OPDNumber" />
-                <ScalarProperty Name="Pulse" ColumnName="Pulse" />
-                <ScalarProperty Name="BP" ColumnName="BP" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
-                <ScalarProperty Name="NextAppoinmentDate" ColumnName="NextAppoinmentDate" />
-                <ScalarProperty Name="TypeofCheckUp" ColumnName="TypeofCheckUp" />
-                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-                <ScalarProperty Name="OPDId" ColumnName="OPDId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Investigations">
             <EntityTypeMapping TypeName="HospitalModel.Investigation">
               <MappingFragment StoreEntitySet="Investigations">
@@ -1102,19 +1060,35 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="testExceptions">
-            <EntityTypeMapping TypeName="HospitalModel.testException">
-              <MappingFragment StoreEntitySet="testException">
-                <ScalarProperty Name="opddate" ColumnName="opddate" />
-                <ScalarProperty Name="opdid" ColumnName="opdid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TypeOfIntakeAdvs">
             <EntityTypeMapping TypeName="HospitalModel.TypeOfIntakeAdv">
               <MappingFragment StoreEntitySet="TypeOfIntakeAdv">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="TypeOfIntakeAdvId" ColumnName="TypeOfIntakeAdvId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OPDs">
+            <EntityTypeMapping TypeName="HospitalModel.OPD">
+              <MappingFragment StoreEntitySet="OPD">
+                <ScalarProperty Name="CVS" ColumnName="CVS" />
+                <ScalarProperty Name="OtherGeneralFindings" ColumnName="OtherGeneralFindings" />
+                <ScalarProperty Name="BMI" ColumnName="BMI" />
+                <ScalarProperty Name="OPDDate" ColumnName="OPDDate" />
+                <ScalarProperty Name="CNS" ColumnName="CNS" />
+                <ScalarProperty Name="PV" ColumnName="PV" />
+                <ScalarProperty Name="PS" ColumnName="PS" />
+                <ScalarProperty Name="PA" ColumnName="PA" />
+                <ScalarProperty Name="Rs" ColumnName="Rs" />
+                <ScalarProperty Name="OPDNumber" ColumnName="OPDNumber" />
+                <ScalarProperty Name="Pulse" ColumnName="Pulse" />
+                <ScalarProperty Name="BP" ColumnName="BP" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="NextAppoinmentDate" ColumnName="NextAppoinmentDate" />
+                <ScalarProperty Name="TypeofCheckUp" ColumnName="TypeofCheckUp" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="OPDId" ColumnName="OPDId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

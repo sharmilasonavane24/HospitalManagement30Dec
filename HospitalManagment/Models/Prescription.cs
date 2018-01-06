@@ -29,7 +29,7 @@ namespace HospitalManagment.Models
         [Display(Name = "New Medicine:")]
         public string newmedicine { get; set; }
 
-       [Display(Name = "IntakeAdv: ")]
+        [Display(Name = "Intake Advise: ")]
         public string TypeOfIntakeAdv { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

@@ -182,9 +182,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="testException.cs">
-      <DependentUpon>HospitalDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="TypeofCheckUp.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>

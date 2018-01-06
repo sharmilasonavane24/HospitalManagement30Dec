@@ -118,7 +118,7 @@ namespace HospitalManagment.Controllers
                 TempData["TypeOfIntakeAdv"] = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName");
                 int selectedId = 1;
 
-                ViewBag.DefaultTypeOfIntakeAdv = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName",selectedId);
+                ViewBag.DefaultTypeOfIntakeAdv = new SelectList(typeOfIntakeAdv, "TypeOfIntakeAdvId", "TypeName", selectedId);
                 AddDefaultMedicineName();
             }
 
@@ -245,7 +245,11 @@ namespace HospitalManagment.Controllers
                                 {
                                     prescription.Quantity = Convert.ToString(item.NumberOfDays * item.Dosage);
                                 }
+                                prescription.TypeOfIntakeAdvId = (from medi in ent.TypeOfIntakeAdvs
+                                                                  where medi.TypeName == item.TypeOfIntakeAdv
+                                                                  select medi.TypeOfIntakeAdvId).FirstOrDefault();
 
+                                
                                 ent.Prescriptions.Add(prescription);
                                 ent.SaveChanges();
                                 item.PrescriptionID = prescription.PrescriptionID;
@@ -303,7 +307,7 @@ namespace HospitalManagment.Controllers
                         opd.OPDID = oPD.OPDId;
 
                     }
-                    
+
                     return View(opd);
 
                 case "Print Prescription":

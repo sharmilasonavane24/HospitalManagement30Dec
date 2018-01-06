@@ -40,6 +40,8 @@
         var Medicine = $("#NewMedicine").val();
         var Weight = $("#NewWeight").val();
         var TypeOfMedicine = $("#TypeOfMedicine option:selected").text();
+        var TypeOfIntakeAdv = $("#TypeOfIntakeAdv option:selected").text();
+        //var _valTypeOfIntakeAdv = $("#TypeOfIntakeAdv option:selected").val();
         //var index = $('#tablePost tr:last').index() + 1;
         var index = $('#tablePost tr').length;
 
@@ -51,9 +53,9 @@
 
             $("#tablePost > tbody").append("<tr id='tablePost" + index + "'data-medicineName='" +
                 medicineName + "'data-Dosage='" + Dosage + "'data-numberOfDays='" + numberOfDays + "'data-comment='" + comment + "'data-ManagementPlan='" + ManagementPlan + "'data-NewMedicine='" + Medicine +
-                "'data-Weight='" + Weight + "'data-TypeOfMedicine='" + TypeOfMedicine + "' ><td>" +
+                "'data-Weight='" + Weight + "'data-TypeOfMedicine='" + TypeOfMedicine + "'data-TypeOfIntakeAdv='" + TypeOfIntakeAdv + "'><td>" +
                 medicineName + "</td><td>" + Dosage + "</td><td>" + numberOfDays + "</td><td>" + comment + "</td><td>" + ManagementPlan + "</td><td>"
-                + TypeOfMedicine + "</td><td>" + Weight + "</td><td>" + Medicine + "</td><td><input id='btnAddBook' type='button'value= 'Remove' onclick= 'removeRow("
+                + TypeOfMedicine + "</td><td>" + Weight + "</td><td>" + Medicine + "</td><td>" + TypeOfIntakeAdv + "</td><td><input id='btnAddBook' type='button'value= 'Remove' onclick= 'removeRow("
                 + index + ");' /></td ></tr>");
 
             $("#tablePost").show();
@@ -102,7 +104,7 @@
                         var weight = $(this).data("weight");
                         var TypeOfMedicine = $(this).data("typeofmedicine");
                         var newMedicine = $(this).data("newmedicine");
-
+                        var TypeOfIntakeAdv = $(this).data("typeofintakeadv");
 
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + medicineName + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].Dosage' value= '" + Dosage + "' > ");
@@ -113,6 +115,7 @@
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + weight + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + newMedicine + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + TypeOfMedicine + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].TypeOfIntakeAdv' value= '" + TypeOfIntakeAdv + "' > ");
                     }
                     else {
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].NameOfMedicine' value= '" + $(this).find("td").eq(0).text().trim() + "' > ");
@@ -124,6 +127,7 @@
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].weight' value= '" + $(this).find("td").eq(6).text().trim() + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].newmedicine' value= '" + $(this).find("td").eq(7).text().trim() + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
+                        $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].TypeOfIntakeAdv' value= '" + $(this).find("td").eq(8).text().trim() + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
 
 
@@ -183,13 +187,13 @@
         })
     })
 
-   
+
 </script>
 
 
 
 
-<div class="form-horizontal; ad";>
+<div class="form-horizontal; ad" ;>
 
     <div class="form-group">
         @Html.LabelFor(model => model.prscriptionList[0].ManagementPlan, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -209,7 +213,7 @@
             <td>Dose (In mg):</td>
             <td>Duration:</td>
             <td>Days:</td>
-            <td>IntakeAdv:</td>
+            <td>Intake Advise:</td>
 
 
         </tr>
@@ -345,6 +349,7 @@
                     <th>Medicine Type</th>
                     <th>Weight</th>
                     <th>New Medicine</th>
+                    <th>Intake Advise</th>
                     <th>Remove</th>
                 </tr>
             </thead>
@@ -386,8 +391,6 @@
                                 </td>
                                 <td>
                                     @item.TypeOfMedicine
-
-
                                 </td>
                                 <td>
                                     @item.Weight
@@ -395,6 +398,9 @@
                                 </td>
                                 <td>
                                     @item.newmedicine
+                                </td>
+                                <td>
+                                    @item.TypeOfIntakeAdv
                                 </td>
                                 <td>
                                     <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
@@ -517,7 +523,7 @@
 
                             <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-                                <td width="10%">@quantity</td>
+                            <td width="10%">@quantity</td>
 
                                 <td width="40%">@item.Comment</td>
                         }
@@ -530,14 +536,14 @@
                                     }
                                 </td>
                             </tr>
-                                <tr>
-                                    <td colspan="3" style="text-align:end;">
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <label>                     .... Sign</label>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="3" style="text-align:end;">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <label>                     .... Sign</label>
+                                </td>
+                            </tr>
                                 <tr>
                                     <td colspan="3">
 
@@ -551,19 +557,19 @@
 
 
     @*<table>
-        <tr class="ad">
-            <td width="20%">
-                <input type="button" value="Print" onclick="window.print();" name="Print" />
-            </td>
-            <td width="20%">
-                <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
-            </td>
-            <td width="20%">
-                @Html.ActionLink("Back to List", "Search")
-            </td>
+            <tr class="ad">
+                <td width="20%">
+                    <input type="button" value="Print" onclick="window.print();" name="Print" />
+                </td>
+                <td width="20%">
+                    <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
+                </td>
+                <td width="20%">
+                    @Html.ActionLink("Back to List", "Search")
+                </td>
 
-        </tr>
-    </table>*@
+            </tr>
+        </table>*@
 
 
 </div>

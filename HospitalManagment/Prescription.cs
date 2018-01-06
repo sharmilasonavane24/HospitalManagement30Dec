@@ -27,7 +27,7 @@ namespace HospitalManagment
         public int TypeOfIntakeAdvId { get; set; }
     
         public virtual MedcineName MedcineName { get; set; }
-        public virtual OPD OPD { get; set; }
         public virtual TypeOfIntakeAdv TypeOfIntakeAdv { get; set; }
+        public virtual OPD OPD { get; set; }
     }
 }
