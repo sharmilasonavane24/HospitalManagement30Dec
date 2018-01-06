@@ -32,6 +32,9 @@
         <EntityTypeShape EntityType="HospitalModel.MedcineName" Width="1.5" PointX="3" PointY="12.625" />
         <AssociationConnector Association="HospitalModel.FK_NameOfMedicine" />
         <AssociationConnector Association="HospitalModel.FK_TypeOfMedicine" />
+        <EntityTypeShape EntityType="HospitalModel.MonitoringChart" Width="1.5" PointX="12.375" PointY="8.75" />
+        <EntityTypeShape EntityType="HospitalModel.TypeOfOperation" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HospitalModel.TypeOfRoomAndBed" Width="1.5" PointX="12.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<HospitalManagment.Models.ClinicalExamination>
 
 
-<table class="table">
+<table   border="1">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dateTime)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.BP)
         </th>
@@ -39,14 +42,15 @@
         <th>
             @Html.DisplayNameFor(model => model.OtherGenFindings)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dateTime)
-        </th>
-        <th></th>
+
+       
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateTime)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.BP)
         </td>
@@ -83,10 +87,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.OtherGenFindings)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dateTime)
-        </td>
-         
+
+
     </tr>
 }
 

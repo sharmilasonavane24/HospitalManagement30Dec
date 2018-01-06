@@ -39,5 +39,8 @@ namespace HospitalManagment
         public DbSet<OPD> OPDs { get; set; }
         public DbSet<Investigation> Investigations { get; set; }
         public DbSet<MedcineName> MedcineNames { get; set; }
+        public DbSet<MonitoringChart> MonitoringCharts { get; set; }
+        public DbSet<TypeOfOperation> TypeOfOperations { get; set; }
+        public DbSet<TypeOfRoomAndBed> TypeOfRoomAndBeds { get; set; }
     }
 }

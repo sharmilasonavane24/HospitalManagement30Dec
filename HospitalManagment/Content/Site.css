@@ -556,7 +556,7 @@ table {
 }
 
 th {
-    font-size: 0.80em;
+    font-size: 1em;
     text-align: left;
     /*border: solid 1px gray;*/
     padding-left: 0;
@@ -849,6 +849,34 @@ height :30px;
     content: " ("attr(href) ") ";
     font-size: 90%;
 }*/
-#loginInputButton{
+.loginInputButton{
     width:250px;
+}
+.bottomBorderTextBoxMedium {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 500px;
+}
+.bottomBorderTextBoxXSmall {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 50px;
+}
+.bottomBorderTextBoxLarge {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 700px;
+}
+.bottomBorderTextBoxSmall {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 300px;
 }
