@@ -249,7 +249,7 @@ namespace HospitalManagment.Controllers
                                                                   where medi.TypeName == item.TypeOfIntakeAdv
                                                                   select medi.TypeOfIntakeAdvId).FirstOrDefault();
 
-                                
+
                                 ent.Prescriptions.Add(prescription);
                                 ent.SaveChanges();
                                 item.PrescriptionID = prescription.PrescriptionID;
@@ -507,6 +507,7 @@ namespace HospitalManagment.Controllers
                     }
                     else
                     {
+                        _investigation.CreatedDateTime = DateTime.Now;
                         ent.Investigations.Add(_investigation);
                     }
                     ent.SaveChanges();
@@ -523,14 +524,14 @@ namespace HospitalManagment.Controllers
             }
         }
 
-        public void OpdSavedAttachmet()
+        public FileStreamResult OpdSavedAttachmet()
         {
-            string ToSaveFileTo = Server.MapPath("~\\File\\Report.pdf");
+            string ToSaveFileTo = Server.MapPath("~\\Report.pdf");
 
             using (HospitalEntities ent = new HospitalEntities())
             {
                 var data = (from abc in ent.Investigations
-                            where abc.InvestigationId == 9
+                            where abc.InvestigationId == 12
                             select abc.AllAttachmentinOnePDF
                             ).FirstOrDefault();
                 byte[] fileData = (byte[])data;
@@ -548,13 +549,50 @@ namespace HospitalManagment.Controllers
                 }
             }
 
-
-            Response.Redirect("~\\File\\Report.pdf");
+            FileStream fst = new FileStream(ToSaveFileTo, FileMode.Open, FileAccess.Read);
+            return File(fst, "application/pdf");
+            // Response.Redirect("~\\Report.pdf");
 
         }
 
+        [HttpGet]
+        public ActionResult GetPreviousInvestigations(int personId)
+        {
+            List<Investigations> listInvestigations = new List<Investigations>();
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                var _Investigations = (from investigation in ent.Investigations
+                                       where investigation.PersonId == personId
+                                       select investigation).ToList();
+
+                foreach (var item in _Investigations)
+                {
+                    Investigations investigations = new Investigations();
+                    investigations.BloodGroup = item.BloodGroup;
+                    investigations.HB = item.HB;
+                    investigations.HBSAvg = item.HBSAvg;
+                    investigations.HIVNII = item.HIV_II;
+                    investigations.HSG = item.HSG;
+                    investigations.InvestigationId = item.InvestigationId;
+                    investigations.OpdId = item.OpdId;
+                    investigations.Other = item.Other;
+                    investigations.PersonId = item.PersonId;
+                    investigations.RBS = item.RBS;
+                    investigations.SemenAnalysis = item.SemenAnalysis;
+                    investigations.SrCreat = item.Sr_Creat;
+                    investigations.SrTSH = item.Sr_TSH;
+                    investigations.SrUrea = item.Sr_Urea;
+                    investigations.UrineRM = item.UrineRM;
+                    investigations.USG = item.USG;
+                    investigations.VDRL = item.VDRL;
+                    investigations.CreatedDate = item.CreatedDateTime;
+                    listInvestigations.Add(investigations);
+                }
 
 
+                return PartialView("_PreviousInvestigationsDetails", listInvestigations);
+            }
+        }
 
 
         private Decimal GetAge(DateTime birthDate)

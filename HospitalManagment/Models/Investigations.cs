@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace HospitalManagment.Models
@@ -40,5 +41,6 @@ namespace HospitalManagment.Models
         [Display(Name = "All Attachments in One PDF: ")]
         public string AllAttachmentinOnePDF { get; set; }
         public int PersonId { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

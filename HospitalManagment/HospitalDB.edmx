@@ -67,6 +67,7 @@
           <Property Name="Other" Type="varchar" MaxLength="250" />
           <Property Name="AllAttachmentinOnePDF" Type="varbinary(max)" />
           <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="MedcineNames">
           <Key>
@@ -466,21 +467,12 @@
             <End Role="Person" EntitySet="People" />
             <End Role="History" EntitySet="Histories" />
           </AssociationSet>
-          <EntitySet Name="Investigations" EntityType="HospitalModel.Investigation" />
-          <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
-            <End Role="Person" EntitySet="People" />
-            <End Role="Investigation" EntitySet="Investigations" />
-          </AssociationSet>
           <EntitySet Name="TypeOfIntakeAdvs" EntityType="HospitalModel.TypeOfIntakeAdv" />
           <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId">
             <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdvs" />
             <End Role="Prescription" EntitySet="Prescriptions" />
           </AssociationSet>
           <EntitySet Name="OPDs" EntityType="HospitalModel.OPD" />
-          <AssociationSet Name="FK_Investigations_OPD" Association="HospitalModel.FK_Investigations_OPD">
-            <End Role="OPD" EntitySet="OPDs" />
-            <End Role="Investigation" EntitySet="Investigations" />
-          </AssociationSet>
           <AssociationSet Name="FK_OPD" Association="HospitalModel.FK_OPD">
             <End Role="OPD" EntitySet="OPDs" />
             <End Role="Prescription" EntitySet="Prescriptions" />
@@ -492,6 +484,15 @@
           <AssociationSet Name="FK_TypeofCheckUp" Association="HospitalModel.FK_TypeofCheckUp">
             <End Role="TypeofCheckUp" EntitySet="TypeofCheckUps" />
             <End Role="OPD" EntitySet="OPDs" />
+          </AssociationSet>
+          <EntitySet Name="Investigations" EntityType="HospitalModel.Investigation" />
+          <AssociationSet Name="FK_Investigations_OPD" Association="HospitalModel.FK_Investigations_OPD">
+            <End Role="OPD" EntitySet="OPDs" />
+            <End Role="Investigation" EntitySet="Investigations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Investigation" EntitySet="Investigations" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -544,8 +545,8 @@
           <NavigationProperty Name="Histories" Relationship="HospitalModel.PersonID_FK" FromRole="Person" ToRole="History" />
           <Property Name="Religion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ReferredBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Person" ToRole="Investigation" />
           <NavigationProperty Name="OPDs" Relationship="HospitalModel.FK_Person" FromRole="Person" ToRole="OPD" />
+          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Person" ToRole="Investigation" />
         </EntityType>
         <EntityType Name="PersonDetail">
           <Key>
@@ -739,45 +740,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Investigation">
-          <Key>
-            <PropertyRef Name="InvestigationId" />
-          </Key>
-          <Property Name="InvestigationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OpdId" Type="Int32" Nullable="false" />
-          <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="HB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RBS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="HIV_II" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="HBSAvg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="VDRL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UrineRM" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Sr_Creat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sr_Urea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sr_TSH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="HSG" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="SemenAnalysis" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="USG" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Other" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="AllAttachmentinOnePDF" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="PersonId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Investigation" ToRole="Person" />
-          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="Investigation" ToRole="OPD" />
-        </EntityType>
-        <Association Name="FK_Investigations_PersonId">
-          <End Type="HospitalModel.Person" Role="Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="PersonId" />
-            </Principal>
-            <Dependent Role="Investigation">
-              <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TypeOfIntakeAdv">
           <Key>
             <PropertyRef Name="TypeOfIntakeAdvId" />
@@ -822,25 +784,11 @@
           <Property Name="BMI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OtherGeneralFindings" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="CVS" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
           <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_OPD" FromRole="OPD" ToRole="Prescription" />
           <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Person" FromRole="OPD" ToRole="Person" />
           <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
+          <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
         </EntityType>
-        <Association Name="FK_Investigations_OPD">
-          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OPD">
-              <PropertyRef Name="OPDId" />
-            </Principal>
-            <Dependent Role="Investigation">
-              <PropertyRef Name="OpdId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OPD">
           <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1" />
           <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
@@ -874,6 +822,60 @@
             </Principal>
             <Dependent Role="OPD">
               <PropertyRef Name="TypeofCheckUp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Investigation">
+          <Key>
+            <PropertyRef Name="InvestigationId" />
+          </Key>
+          <Property Name="InvestigationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OpdId" Type="Int32" Nullable="false" />
+          <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="HB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RBS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HIV_II" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HBSAvg" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VDRL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UrineRM" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Sr_Creat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sr_Urea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sr_TSH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HSG" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="SemenAnalysis" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="USG" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllAttachmentinOnePDF" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="Investigation" ToRole="OPD" />
+          <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Investigations_PersonId" FromRole="Investigation" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_Investigations_OPD">
+          <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OPD">
+              <PropertyRef Name="OPDId" />
+            </Principal>
+            <Dependent Role="Investigation">
+              <PropertyRef Name="OpdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Investigations_PersonId">
+          <End Type="HospitalModel.Person" Role="Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.Investigation" Role="Investigation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Investigation">
+              <PropertyRef Name="PersonId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1036,30 +1038,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Investigations">
-            <EntityTypeMapping TypeName="HospitalModel.Investigation">
-              <MappingFragment StoreEntitySet="Investigations">
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-                <ScalarProperty Name="AllAttachmentinOnePDF" ColumnName="AllAttachmentinOnePDF" />
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="USG" ColumnName="USG" />
-                <ScalarProperty Name="SemenAnalysis" ColumnName="SemenAnalysis" />
-                <ScalarProperty Name="HSG" ColumnName="HSG" />
-                <ScalarProperty Name="Sr_TSH" ColumnName="Sr.TSH" />
-                <ScalarProperty Name="Sr_Urea" ColumnName="Sr.Urea" />
-                <ScalarProperty Name="Sr_Creat" ColumnName="Sr.Creat" />
-                <ScalarProperty Name="UrineRM" ColumnName="UrineRM" />
-                <ScalarProperty Name="VDRL" ColumnName="VDRL" />
-                <ScalarProperty Name="HBSAvg" ColumnName="HBSAvg" />
-                <ScalarProperty Name="HIV_II" ColumnName="HIV&amp;II" />
-                <ScalarProperty Name="RBS" ColumnName="RBS" />
-                <ScalarProperty Name="HB" ColumnName="HB" />
-                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
-                <ScalarProperty Name="OpdId" ColumnName="OpdId" />
-                <ScalarProperty Name="InvestigationId" ColumnName="InvestigationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TypeOfIntakeAdvs">
             <EntityTypeMapping TypeName="HospitalModel.TypeOfIntakeAdv">
               <MappingFragment StoreEntitySet="TypeOfIntakeAdv">
@@ -1089,6 +1067,31 @@
                 <ScalarProperty Name="TypeofCheckUp" ColumnName="TypeofCheckUp" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="OPDId" ColumnName="OPDId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Investigations">
+            <EntityTypeMapping TypeName="HospitalModel.Investigation">
+              <MappingFragment StoreEntitySet="Investigations">
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="AllAttachmentinOnePDF" ColumnName="AllAttachmentinOnePDF" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="USG" ColumnName="USG" />
+                <ScalarProperty Name="SemenAnalysis" ColumnName="SemenAnalysis" />
+                <ScalarProperty Name="HSG" ColumnName="HSG" />
+                <ScalarProperty Name="Sr_TSH" ColumnName="Sr.TSH" />
+                <ScalarProperty Name="Sr_Urea" ColumnName="Sr.Urea" />
+                <ScalarProperty Name="Sr_Creat" ColumnName="Sr.Creat" />
+                <ScalarProperty Name="UrineRM" ColumnName="UrineRM" />
+                <ScalarProperty Name="VDRL" ColumnName="VDRL" />
+                <ScalarProperty Name="HBSAvg" ColumnName="HBSAvg" />
+                <ScalarProperty Name="HIV_II" ColumnName="HIV&amp;II" />
+                <ScalarProperty Name="RBS" ColumnName="RBS" />
+                <ScalarProperty Name="HB" ColumnName="HB" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="OpdId" ColumnName="OpdId" />
+                <ScalarProperty Name="InvestigationId" ColumnName="InvestigationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

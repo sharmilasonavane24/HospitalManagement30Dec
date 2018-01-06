@@ -23,15 +23,15 @@
         <AssociationConnector Association="HospitalModel.FK_NameOfMedicine" />
         <EntityTypeShape EntityType="HospitalModel.History" Width="1.5" PointX="5.625" PointY="9.25" />
         <AssociationConnector Association="HospitalModel.PersonID_FK" />
-        <EntityTypeShape EntityType="HospitalModel.Investigation" Width="1.5" PointX="13.875" PointY="2.5" />
-        <AssociationConnector Association="HospitalModel.FK_Investigations_PersonId" />
         <EntityTypeShape EntityType="HospitalModel.TypeOfIntakeAdv" Width="1.5" PointX="10.375" PointY="10.75" />
         <AssociationConnector Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" />
         <EntityTypeShape EntityType="HospitalModel.OPD" Width="1.5" PointX="8.625" PointY="3.625" />
-        <AssociationConnector Association="HospitalModel.FK_Investigations_OPD" />
         <AssociationConnector Association="HospitalModel.FK_OPD" />
         <AssociationConnector Association="HospitalModel.FK_Person" />
         <AssociationConnector Association="HospitalModel.FK_TypeofCheckUp" />
+        <EntityTypeShape EntityType="HospitalModel.Investigation" Width="1.5" PointX="13.875" PointY="2.375" />
+        <AssociationConnector Association="HospitalModel.FK_Investigations_OPD" />
+        <AssociationConnector Association="HospitalModel.FK_Investigations_PersonId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

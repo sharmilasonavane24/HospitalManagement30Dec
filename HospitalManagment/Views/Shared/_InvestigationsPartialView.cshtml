@@ -13,6 +13,58 @@
     //    });
     //});
 
+    function PreviousInvestigations()
+    {
+        debugger;
+        var personId = @Html.Raw(Json.Encode(Model.PersonId));
+        if (personId > 0) {
+        $.ajax({
+            type: 'GET',
+            url: "/HospitalManagment/OPD/GetPreviousInvestigations",
+            data: {
+                personId: personId
+            },
+            success: function (view) {
+                debugger;
+                //alert(view);
+                $('#PopUpDetailsResult').html(view);
+                $('#PopUpDetailsResult').dialog();
+
+            }            ,
+            error: function (view) {
+                alert(view);
+                //$('#loaderSelectProducts').css('display', 'none');
+            }
+        });
+        }
+        else {
+            alert("Please save clinical examination!");
+            return false;
+          }
+
+
+       
+        //$.ajax({
+        //    url: '/HospitalManagment/OPD/GetPreviousInvestigations',
+        //    type: "POST",
+        //    data: file,
+        //    cache: false,
+        //    //contentType: 'multipart/form-data',
+        //    contentType: false,
+        //    processData: false,
+        //    success: function (result) {
+        //        debugger;
+        //        alert("success");
+        //        return false;
+        //    },
+        //    error: function (result) {
+        //        debugger;
+        //        alert("error");
+        //        return false;
+        //    }
+        //});
+    }
+
     function SaveInvestigations() {
 
         var file = new FormData($('form')[0]);
@@ -37,6 +89,30 @@
             }
         });
 
+
+    }
+    function openLastAttachment() {
+
+        debugger;
+        $.ajax({
+            url: '/HospitalManagment/OPD/OpdSavedAttachmet',
+            type: "POST",
+            data: file,
+            cache: false,
+            //contentType: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                debugger;
+                alert("success");
+                return false;
+            },
+            error: function (result) {
+                debugger;
+                alert("error");
+                return false;
+            }
+        });
 
     }
 
@@ -226,8 +302,20 @@
             </div>
         </td>
     </tr>
+    @*<tr>
+        <td>
+            <input type="button" name="submit" value="Show File" onclick="return openLastAttachment();" />     
+        </td>
+    </tr>*@
+    <tr>
+        <td>
+            <input type="button" name="submit" value="Previous Investigations" onclick="return PreviousInvestigations();" /> 
+        </td>
+    </tr>
 </table>
+<div id="PopUpDetailsResult">
 
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

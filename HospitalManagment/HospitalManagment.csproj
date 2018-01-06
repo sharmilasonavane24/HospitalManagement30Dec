@@ -356,6 +356,7 @@
     <Content Include="Theme\redmond\jquery-ui-1.10.3.custom.min.css" />
     <Content Include="UpgradeLog.htm" />
     <Content Include="Views\Shared\_InvestigationsPartialView.cshtml" />
+    <Content Include="Views\Shared\_PreviousInvestigationsDetails.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

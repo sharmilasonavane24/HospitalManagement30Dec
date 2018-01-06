@@ -32,8 +32,9 @@ namespace HospitalManagment
         public string Other { get; set; }
         public byte[] AllAttachmentinOnePDF { get; set; }
         public int PersonId { get; set; }
+        public System.DateTime CreatedDateTime { get; set; }
     
-        public virtual Person Person { get; set; }
         public virtual OPD OPD { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace HospitalManagment
     {
         public OPD()
         {
-            this.Investigations = new HashSet<Investigation>();
             this.Prescriptions = new HashSet<Prescription>();
+            this.Investigations = new HashSet<Investigation>();
         }
     
         public int OPDId { get; set; }
@@ -39,9 +39,9 @@ namespace HospitalManagment
         public string OtherGeneralFindings { get; set; }
         public string CVS { get; set; }
     
-        public virtual ICollection<Investigation> Investigations { get; set; }
         public virtual ICollection<Prescription> Prescriptions { get; set; }
         public virtual Person Person { get; set; }
         public virtual TypeofCheckUp TypeofCheckUp1 { get; set; }
+        public virtual ICollection<Investigation> Investigations { get; set; }
     }
 }
