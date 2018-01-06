@@ -16,7 +16,7 @@ namespace HospitalManagment
     public partial class HospitalEntities : DbContext
     {
         public HospitalEntities()
-            : base("name=HospitalEntities1")
+            : base("name=HospitalEntities")
         {
         }
     

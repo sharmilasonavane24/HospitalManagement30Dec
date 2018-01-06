@@ -205,11 +205,11 @@ namespace HospitalManagment.Controllers
                         }
                         else
                         {
-                             
+
                             var ppl = new Person(); var con = new Contact(); var detail = new PersonDetail();
                             _per = new { ppl, con, detail };
 
-                            
+
                         }
                         _per.ppl.Age = opd.Age;
                         _per.ppl.Firstname = opd.PatientFullName.Split(' ')[0];
@@ -229,7 +229,7 @@ namespace HospitalManagment.Controllers
                         _per.con.StreetName = opd.Address;
                         _per.con.Taluka = "Phaltan";
 
-                        if (opd.PersonId < 0)
+                        if (opd.PersonId == 0)
                         {
                             ent.People.Add(_per.ppl);
                             ent.Contacts.Add(_per.con);
@@ -242,12 +242,9 @@ namespace HospitalManagment.Controllers
                                 PersonTypeID = 1
                             });
                         }
-                        else
-                        {
-                            ent.SaveChanges();
-                            opd.PersonId = _per.ppl.PersonId;
-                        }
 
+                        ent.SaveChanges();
+                        opd.PersonId = _per.ppl.PersonId;
 
                     }
                     ModelState.AddModelError("Error", "Patient details saved successfully!");
