@@ -38,5 +38,7 @@ namespace HospitalManagment
         public DbSet<History> Histories { get; set; }
         public DbSet<OPD> OPDs { get; set; }
         public DbSet<Investigation> Investigations { get; set; }
+        public DbSet<testException> testExceptions { get; set; }
+        public DbSet<TypeOfIntakeAdv> TypeOfIntakeAdvs { get; set; }
     }
 }

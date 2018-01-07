@@ -90,15 +90,16 @@
           <Property Name="BP" Type="varchar" MaxLength="10" />
           <Property Name="Pulse" Type="int" />
           <Property Name="OPDNumber" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Rs" Type="varchar" MaxLength="50" />
+          <Property Name="RsNCVS" Type="varchar" MaxLength="50" />
           <Property Name="PA" Type="varchar" MaxLength="50" />
           <Property Name="PS" Type="varchar" MaxLength="50" />
           <Property Name="PV" Type="varchar" MaxLength="50" />
           <Property Name="CNS" Type="varchar" MaxLength="50" />
           <Property Name="OPDDate" Type="datetime" />
-          <Property Name="BMI" Type="varchar" MaxLength="50" />
+          <Property Name="CVS" Type="varchar" MaxLength="50" />
+          <Property Name="Rs" Type="varchar" MaxLength="50" />
           <Property Name="OtherGeneralFindings" Type="varchar" MaxLength="250" />
-          <Property Name="CVS" Type="varchar" MaxLength="250" />
+          <Property Name="BMI" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PaymentDetails">
           <Key>
@@ -163,6 +164,7 @@
           <Property Name="MedcineNamesId" Type="int" Nullable="false" />
           <Property Name="NextAppoinmentDate" Type="datetime" />
           <Property Name="ManagementPlan" Type="varchar" MaxLength="250" />
+          <Property Name="TypeOfIntakeAdvId" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -179,6 +181,13 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </Key>
           <Property Name="TypeofCheckUpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CheckupName" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="TypeOfIntakeAdv">
+          <Key>
+            <PropertyRef Name="TypeOfIntakeAdvId" />
+          </Key>
+          <Property Name="TypeOfIntakeAdvId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TypeOfMedcine">
           <Key>
@@ -202,9 +211,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <Association Name="FK_Cotact_1_ContactID">
-          <End Role="Contact" Type="Self.Contact" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contact">
@@ -244,9 +251,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_NameOfMedicine">
-          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="1" />
           <End Role="Prescription" Type="Self.Prescription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MedcineNames">
@@ -282,9 +287,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonDetails_Person">
-          <End Role="Person" Type="Self.Person" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="PersonDetails" Type="Self.PersonDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Person">
@@ -307,6 +310,20 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Prescription_TypeOfIntakeAdvId">
+          <End Role="TypeOfIntakeAdv" Type="Self.TypeOfIntakeAdv" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Prescription" Type="Self.Prescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfIntakeAdv">
+              <PropertyRef Name="TypeOfIntakeAdvId" />
+            </Principal>
+            <Dependent Role="Prescription">
+              <PropertyRef Name="TypeOfIntakeAdvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TypeofCheckUp">
           <End Role="TypeofCheckUp" Type="Self.TypeofCheckUp" Multiplicity="1" />
           <End Role="OPD" Type="Self.OPD" Multiplicity="*" />
@@ -320,9 +337,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TypeOfMedicine">
-          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="TypeOfMedcine" Type="Self.TypeOfMedcine" Multiplicity="1" />
           <End Role="MedcineNames" Type="Self.MedcineNames" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TypeOfMedcine">
@@ -357,6 +372,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <EntitySet Name="PersonTypes" EntityType="Self.PersonTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prescription" EntityType="Self.Prescription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeofCheckUp" EntityType="Self.TypeofCheckUp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeOfIntakeAdv" EntityType="Self.TypeOfIntakeAdv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfMedcine" EntityType="Self.TypeOfMedcine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="testException" EntityType="Self.testException" store:Type="Tables" store:Schema="dbo">
@@ -396,6 +412,10 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <AssociationSet Name="FK_PersonDetails_PersonTypes" Association="Self.FK_PersonDetails_PersonTypes">
             <End Role="PersonTypes" EntitySet="PersonTypes" />
             <End Role="PersonDetails" EntitySet="PersonDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="Self.FK_Prescription_TypeOfIntakeAdvId">
+            <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdv" />
+            <End Role="Prescription" EntitySet="Prescription" />
           </AssociationSet>
           <AssociationSet Name="FK_TypeofCheckUp" Association="Self.FK_TypeofCheckUp">
             <End Role="TypeofCheckUp" EntitySet="TypeofCheckUp" />
@@ -476,6 +496,11 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
             <End Role="Person" EntitySet="People" />
             <End Role="Investigation" EntitySet="Investigations" />
+          </AssociationSet>
+          <EntitySet Name="TypeOfIntakeAdvs" EntityType="HospitalModel.TypeOfIntakeAdv" />
+          <AssociationSet Name="FK_Prescription_TypeOfIntakeAdvId" Association="HospitalModel.FK_Prescription_TypeOfIntakeAdvId">
+            <End Role="TypeOfIntakeAdv" EntitySet="TypeOfIntakeAdvs" />
+            <End Role="Prescription" EntitySet="Prescriptions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -670,6 +695,8 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="NextAppoinmentDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_OPD" FromRole="Prescription" ToRole="OPD" />
           <Property Name="ManagementPlan" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TypeOfIntakeAdvId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TypeOfIntakeAdv" Relationship="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" FromRole="Prescription" ToRole="TypeOfIntakeAdv" />
         </EntityType>
         <Association Name="FK_NameOfMedicine">
           <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="1" />
@@ -740,13 +767,14 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <Property Name="PV" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CNS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OPDDate" Type="DateTime" Precision="3" />
-          <Property Name="CVS" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BMI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OtherGeneralFindings" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_OPD" FromRole="OPD" ToRole="Prescription" />
           <NavigationProperty Name="Person" Relationship="HospitalModel.FK_Person" FromRole="OPD" ToRole="Person" />
           <NavigationProperty Name="TypeofCheckUp1" Relationship="HospitalModel.FK_TypeofCheckUp" FromRole="OPD" ToRole="TypeofCheckUp" />
           <NavigationProperty Name="Investigations" Relationship="HospitalModel.FK_Investigations_OPD" FromRole="OPD" ToRole="Investigation" />
+          <Property Name="RsNCVS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_OPD">
           <End Type="HospitalModel.OPD" Role="OPD" Multiplicity="1" />
@@ -841,6 +869,28 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
             </Principal>
             <Dependent Role="Investigation">
               <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TypeOfIntakeAdv">
+          <Key>
+            <PropertyRef Name="TypeOfIntakeAdvId" />
+          </Key>
+          <Property Name="TypeOfIntakeAdvId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" FromRole="TypeOfIntakeAdv" ToRole="Prescription" />
+        </EntityType>
+        <Association Name="FK_Prescription_TypeOfIntakeAdvId">
+          <End Type="HospitalModel.TypeOfIntakeAdv" Role="TypeOfIntakeAdv" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfIntakeAdv">
+              <PropertyRef Name="TypeOfIntakeAdvId" />
+            </Principal>
+            <Dependent Role="Prescription">
+              <PropertyRef Name="TypeOfIntakeAdvId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -963,6 +1013,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <EntitySetMapping Name="Prescriptions">
             <EntityTypeMapping TypeName="HospitalModel.Prescription">
               <MappingFragment StoreEntitySet="Prescription">
+                <ScalarProperty Name="TypeOfIntakeAdvId" ColumnName="TypeOfIntakeAdvId" />
                 <ScalarProperty Name="ManagementPlan" ColumnName="ManagementPlan" />
                 <ScalarProperty Name="NextAppoinmentDate" ColumnName="NextAppoinmentDate" />
                 <ScalarProperty Name="MedcineNamesId" ColumnName="MedcineNamesId" />
@@ -1005,6 +1056,7 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
           <EntitySetMapping Name="OPDs">
             <EntityTypeMapping TypeName="HospitalModel.OPD">
               <MappingFragment StoreEntitySet="OPD">
+                <ScalarProperty Name="RsNCVS" ColumnName="RsNCVS" />
                 <ScalarProperty Name="OtherGeneralFindings" ColumnName="OtherGeneralFindings" />
                 <ScalarProperty Name="BMI" ColumnName="BMI" />
                 <ScalarProperty Name="CVS" ColumnName="CVS" />
@@ -1055,6 +1107,14 @@ warning 6002: The table/view 'HospitalManagment.dbo.testException' does not have
               <MappingFragment StoreEntitySet="testException">
                 <ScalarProperty Name="opddate" ColumnName="opddate" />
                 <ScalarProperty Name="opdid" ColumnName="opdid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeOfIntakeAdvs">
+            <EntityTypeMapping TypeName="HospitalModel.TypeOfIntakeAdv">
+              <MappingFragment StoreEntitySet="TypeOfIntakeAdv">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="TypeOfIntakeAdvId" ColumnName="TypeOfIntakeAdvId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
