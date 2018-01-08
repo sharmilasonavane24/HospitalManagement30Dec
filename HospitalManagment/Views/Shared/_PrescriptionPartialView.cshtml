@@ -464,42 +464,42 @@
                 {
                     <tr style="border-bottom:1px solid black;">
                         @{
-                            string newMedicineName = string.Empty;
+                            string nameOfMedicine = string.Empty;
                             if (item.NameOfMedicine.Equals("Other"))
                             {
-                                newMedicineName = item.newmedicine;
+                                nameOfMedicine = item.newmedicine;
                             }
-                            else { newMedicineName = item.NameOfMedicine; }
+                            else { nameOfMedicine = item.NameOfMedicine; }
                             string medicineDetails = string.Empty;
                             int quantity = 1;
                             switch (item.TypeOfMedicine)
                             {
                                 case "Solution":
                                 case "Syrup":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
                                     break;
                                 case "Tablet":
                                 case "Capsule":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " mg";
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " mg";
                                     quantity = item.Dosage * item.NumberOfDays;
                                     break;
                                 case "Creame":
                                 case "Ointment":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " grm";
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " grm";
                                     break;
                                 case "Injection":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
                                     quantity = item.Dosage * item.NumberOfDays;
                                     break;
                                 case "Saline":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight + " ml";
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " ml";
                                     quantity = item.Dosage * item.NumberOfDays;
                                     break;
                                 case "Drops":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine;
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
                                     break;
                                 case "Other":
-                                    medicineDetails = item.TypeOfMedicine + "  " + item.NameOfMedicine + "..." + item.Weight;
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight;
                                     quantity = item.Dosage * item.NumberOfDays;
                                     break;
                             }
@@ -520,9 +520,31 @@
                                     dosageDetails = "दररोज " + item.Dosage + " वेळा ..." + item.NumberOfDays + " दिवस";
                                     break;
                             }
+                            string intakeAdv = string.Empty;
+                            switch (item.TypeOfIntakeAdv)
+                            {
+                                case "After Food":
+                                    intakeAdv = " जेवणानंतर ";
+                                    break;
+                                case "Before Food":
+                                    intakeAdv = " जेवणा आधी ";
+                                    break;
+                                case "Before BedTime":
+                                    intakeAdv = " झोपण्यापूर्वी ";
+                                    break;
+                                case "In The Morning After Get Up":
+                                    intakeAdv = " सकाळी उठल्या नंतर ";
+                                    break;
+                                case "Not Applicable":
+                                    intakeAdv = " ";
+                                    break;
+                                default:
+                                    intakeAdv = " ";
+                                    break;
+                            }
 
-                            <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
+                            <td width="50%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @intakeAdv</td>
+                            
                             <td width="10%">@quantity</td>
 
                                 <td width="40%">@item.Comment</td>
@@ -554,22 +576,6 @@
                                         }
         </tbody>
     </table>
-
-
-    @*<table>
-            <tr class="ad">
-                <td width="20%">
-                    <input type="button" value="Print" onclick="window.print();" name="Print" />
-                </td>
-                <td width="20%">
-                    <a href="javascript:void(0);" onclick="history.go(-1);">Back to OPD</a>
-                </td>
-                <td width="20%">
-                    @Html.ActionLink("Back to List", "Search")
-                </td>
-
-            </tr>
-        </table>*@
 
 
 </div>
