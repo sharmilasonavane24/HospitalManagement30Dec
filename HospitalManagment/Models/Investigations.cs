@@ -41,6 +41,7 @@ namespace HospitalManagment.Models
         [Display(Name = "All Attachments in One PDF: ")]
         public string AllAttachmentinOnePDF { get; set; }
         public int PersonId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime CreatedDate { get; set; }
     }
 }

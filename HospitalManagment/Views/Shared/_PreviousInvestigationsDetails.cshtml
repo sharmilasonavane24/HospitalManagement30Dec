@@ -1,10 +1,16 @@
 ﻿@model IEnumerable<HospitalManagment.Models.Investigations>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
-<table class="table">
-    <tr>
+<table border="1">
+    <tr style="font-size: 15px">
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.InvestigationId)
         </th>
@@ -53,17 +59,18 @@
         <th>
             @Html.DisplayNameFor(model => model.Other)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AllAttachmentinOnePDF)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PersonId)
-        </th>
-        <th></th>
+
+
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate) @*will update thhis*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonId)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.InvestigationId)
         </td>
@@ -112,17 +119,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.Other)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate) @*will update thhis*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PersonId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+
+
+        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
     </tr>
 }
 

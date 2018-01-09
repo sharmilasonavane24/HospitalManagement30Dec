@@ -970,6 +970,7 @@ body .ui-tooltip {
 
     .ui-widget .ui-widget {
         font-size: 0.8em;
+        background-color:darkgray;
     }
 
     .ui-widget input,

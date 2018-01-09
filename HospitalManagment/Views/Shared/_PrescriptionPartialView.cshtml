@@ -505,7 +505,12 @@
                             }
 
                             string dosageDetails = string.Empty;
-                            switch (item.Dosage)
+                            var dosageCaseNumber = item.Dosage;
+                            if (dosageCaseNumber > 3)
+                            {
+                                dosageCaseNumber = 4;
+                            }
+                            switch (dosageCaseNumber)
                             {
                                 case 1:
                                     dosageDetails = "1 सकाळी ..." + item.NumberOfDays + " दिवस";
@@ -516,8 +521,11 @@
                                 case 3:
                                     dosageDetails = "1 सकाळी 1 दुपारी  1 रात्री..." + item.NumberOfDays + " दिवस";
                                     break;
-                                default:
+                                case 4:
                                     dosageDetails = "दररोज " + item.Dosage + " वेळा ..." + item.NumberOfDays + " दिवस";
+                                    break;
+                                default:
+                                    dosageDetails = "";
                                     break;
                             }
                             string intakeAdv = string.Empty;

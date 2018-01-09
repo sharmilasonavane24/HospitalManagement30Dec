@@ -13,6 +13,8 @@
     //    });
     //});
 
+
+
     function PreviousInvestigations()
     {
         debugger;
@@ -28,7 +30,7 @@
                 debugger;
                 //alert(view);
                 $('#PopUpDetailsResult').html(view);
-                $('#PopUpDetailsResult').dialog();
+                $('#PopUpDetailsResult').dialog({ width: 1000, height: 300 });
 
             }            ,
             error: function (view) {
@@ -292,6 +294,9 @@
         <td>
             <input type="button" name="submit" value="Upload File" onclick="return SaveInvestigations();" />
         </td>
+        <td>
+            <input type="button" name="submit" value="Previous Investigations" onclick="return PreviousInvestigations();" /> 
+        </td>
     </tr>
     <tr>
         <td>
@@ -308,9 +313,7 @@
         </td>
     </tr>*@
     <tr>
-        <td>
-            <input type="button" name="submit" value="Previous Investigations" onclick="return PreviousInvestigations();" /> 
-        </td>
+       
     </tr>
 </table>
 <div id="PopUpDetailsResult">
