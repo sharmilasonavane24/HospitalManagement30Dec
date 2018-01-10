@@ -17,7 +17,7 @@
 
         });
 
-       $("#Comment").blur(function () {
+       $("#TypeOfIntakeAdv").blur(function () {
            debugger;
 
            $("#savePrescription").click();
@@ -195,12 +195,36 @@
 
 <div class="form-horizontal; ad" ;>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.prscriptionList[0].ManagementPlan, htmlAttributes: new { @class = "control-label col-md-2" })
+<table border="0">
+
+    <tr>
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.prscriptionList[0].ManagementPlan, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    <textarea rows="3" id="ManagementPlan" class="form-control"></textarea>
+                </div>
+            </div></td>
+   <td> <div class="form-group">
+        @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <textarea rows="3" id="ManagementPlan" class="form-control"></textarea>
+
+            <textarea rows="3" id="Comment" class="form-control"></textarea>
         </div>
-    </div>
+    </div></td>
+
+        <td>
+            <div class="form-group">
+                @Html.LabelFor(model => model.prscriptionList[0].NextOpointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.prscriptionList[0].NextOpointmentDate, new { Class = "input-group datepicker", @readonly = true })
+                    @Html.ValidationMessageFor(model => model.prscriptionList[0].NextOpointmentDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </td>
+    </tr>
+</table>
     @Html.Label("Prescription")
     <hr />
     <table border="0">
@@ -245,11 +269,15 @@
                                 @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
                             }
                         }
+                        
                     </div>
+                   
                 </div>
             </td>
 
-            <td> <div id="otherMedicine" style="display: none"> @Html.TextBox("NewMedicine") </div></td>
+            <td>
+                <div id="otherMedicine" style="display: none"> @Html.TextBox("NewMedicine") </div>
+            </td>
             <td>
                 <div class="form-group" id="MedicinesWeight">
 
@@ -293,36 +321,14 @@
             </td>
 
         </tr>
-
-    </table>
-    <div class="form-group">
-        @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-
-            <textarea rows="3" id="Comment" class="form-control"></textarea>
-        </div>
-    </div>
-
-    <table border="0">
-
-        <tr></tr>
-
-
-
         <tr>
-
-            <td>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.prscriptionList[0].NextOpointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.prscriptionList[0].NextOpointmentDate, new { Class = "input-group datepicker", @readonly = true })
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].NextOpointmentDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </td>
+            <td></td>
+            <td><input type="button" name="submit" value="Remove" /></td>
         </tr>
     </table>
+   
+
+   
 
 
     <div class="form-group">
@@ -458,9 +464,10 @@
         </tr>
         </thead>
         <tbody style="width: 100%">
-
+           
         @if (Model.prscriptionList != null && Model.prscriptionList.Count > 0)
         {
+            string strComment = string.Empty;
             foreach (var item in Model.prscriptionList)
             {
                 <tr style="border-bottom: 1px solid black;">
@@ -576,17 +583,24 @@
 
                         <td width="10%">( @quantity )</td>
 
-                        <td width="30%">@item.Comment</td>
+                       
                     }
                 </tr>
+                strComment = strComment + " " + @item.Comment;
             }
+            <tr><td><br/></td></tr>
             <tr>
                 <td colspan="3">
                     @{var opointmentDateTime = ((string[]) (@Model.prscriptionList[0].NextOpointmentDate))[0];
-                        <label>Next visit Date and Time-- @opointmentDateTime</label>
+                        if (opointmentDateTime != "")
+                        {
+                            <label> पुढील तपासणी तारीख आणि वेळ :  @opointmentDateTime</label>
+                        }
+                      
                     }
                 </td>
             </tr>
+            <tr><td><label>@strComment</label></td></tr>
             <tr>
                 <td colspan="3" style="text-align: end;">
                     <br/>
