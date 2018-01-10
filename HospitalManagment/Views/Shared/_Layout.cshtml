@@ -29,7 +29,17 @@
             $("#Gender").selectmenu().selectmenu("menuWidget");
             
         });
-
+        (function ($) {
+            $.fn.dialogNoClose = function () {
+                return this.each(function () {
+                    // hide the close button and prevent ESC key from closing
+                    debugger;
+                    var btn = $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close");
+                    btn["0"].innerText = "X";
+                    $(this).dialog("option", "closeOnEscape", false);
+                });
+            };
+        })(jQuery);
     </script>
 </head>
 <body>

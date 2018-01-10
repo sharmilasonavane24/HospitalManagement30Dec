@@ -594,6 +594,43 @@ namespace HospitalManagment.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult GetPreviousClinicalExaminations(int personId)
+        {
+            List<ClinicalExamination> listClinicalExaminations = new List<ClinicalExamination>();
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                var _ClinicalExaminations = (from examinations in ent.OPDs
+                                             where examinations.PersonID == personId
+                                             select examinations).ToList();
+
+                foreach (var item in _ClinicalExaminations)
+                {
+                    if (!string.IsNullOrEmpty(item.BMI) || !string.IsNullOrEmpty(item.BP) || !string.IsNullOrEmpty(item.CNS) ||
+                        !string.IsNullOrEmpty(item.CVS) || !string.IsNullOrEmpty(item.OtherGeneralFindings) || item.Weight > 0) {
+                        ClinicalExamination clinicalExamination = new ClinicalExamination();
+                        clinicalExamination.BMI = item.BMI;
+                        clinicalExamination.BP = item.BP;
+                        clinicalExamination.CNS = item.CNS;
+                        clinicalExamination.CurrentWeight = item.Weight;
+                        clinicalExamination.CVS = item.CVS;
+                        clinicalExamination.OtherGenFindings = item.OtherGeneralFindings;
+                        clinicalExamination.PA = item.PA;
+                        clinicalExamination.PS = item.PS;
+                        clinicalExamination.Pulse = item.Pulse;
+                        clinicalExamination.PV = item.PV;
+                        clinicalExamination.Rs = item.Rs;
+                        clinicalExamination.dateTime = Convert.ToDateTime(item.OPDDate);
+
+                        listClinicalExaminations.Add(clinicalExamination);
+                    }
+                }
+
+
+                return PartialView("_PreviousClinicalEaminations", listClinicalExaminations);
+            }
+        }
+
 
         private Decimal GetAge(DateTime birthDate)
         {

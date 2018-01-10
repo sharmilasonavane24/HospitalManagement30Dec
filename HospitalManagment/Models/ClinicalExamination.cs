@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace HospitalManagment.Models
 {
@@ -41,5 +42,7 @@ namespace HospitalManagment.Models
 
         [Display(Name = "Other General Findings: ")]
         public string OtherGenFindings { get; set; }
+
+        public DateTime dateTime { get; set; }
     }
 }
