@@ -9,7 +9,7 @@ BEGIN
 END;
  
 
- GO;
+ GO
 
 
  IF NOT EXISTS ( SELECT 1 FROM sys.tables tbl
