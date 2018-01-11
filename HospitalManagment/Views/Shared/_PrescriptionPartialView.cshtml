@@ -5,7 +5,7 @@
 
     //If we removed document.ready datetimepicker will not work
     $(document).ready(function () {
-       $("#prscriptionList_0__NextOpointmentDate").datetimepicker({
+        $("#prscriptionList_0__NextOpointmentDate").datetimepicker({
 
             changeMonth: true,
             changeYear: true,
@@ -17,16 +17,18 @@
 
         });
 
-       $("#TypeOfIntakeAdv").blur(function () {
-           debugger;
+        $('#NameOfMedicine').selectmenu();
+        $("#TypeOfIntakeAdv").blur(function () {
+            debugger;
 
-           $("#savePrescription").click();
-          //   SaveRow();
-             //var location = document.getElementById("TypeOfMedicine")
-             //location.focus();
+            $("#savePrescription").click();
+            //   SaveRow();
+            //var location = document.getElementById("TypeOfMedicine")
+            //location.focus();
 
+        });
     });
-    });
+
 
 
     function addRow() {
@@ -74,8 +76,7 @@
         //$("#textNome").focus();
     }
 
-    function SaveRow()
-    {
+    function SaveRow() {
 
         debugger;
         var listName = "prscriptionList";
@@ -149,6 +150,38 @@
 
     }
 
+    function DeleteExistingMedicine() {
+        debugger;
+        var medicineID = $("#NameOfMedicine option:selected").val();
+        var medicinename = $("#NameOfMedicine option:selected").text();
+        if (medicineID != "") {
+
+            $.ajax({
+                type: 'POST',
+                url: "/HospitalManagment/OPD/DeleteExistingMedicine",
+                data: {
+                    MedicineId: medicineID
+                },
+                success: function (view) {
+                    debugger;
+                                        var txt = $('#NameOfMedicine').html();
+                    var removeStr = "<option value=\"" + medicineID.toString() + "\">" + medicinename + "</option>";
+                    var newHtml = txt.replace(removeStr, "");
+                    
+                    $('#NameOfMedicine').html(newHtml);
+
+                    $('#NameOfMedicine').selectmenu().selectmenu("refresh");
+
+                },
+                error: function (view) {
+                    alert('error...!');
+
+                }
+            });
+
+        }
+    }
+
     function removeRow(id, PrescriptionID) {
         var controlToBeRemoved = "#tablePost" + id;
         $(controlToBeRemoved).remove();
@@ -195,36 +228,39 @@
 
 <div class="form-horizontal; ad" ;>
 
-<table border="0">
+    <table border="0">
 
-    <tr>
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.prscriptionList[0].ManagementPlan, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    <textarea rows="3" id="ManagementPlan" class="form-control"></textarea>
+        <tr>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.prscriptionList[0].ManagementPlan, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <textarea rows="3" id="ManagementPlan" class="form-control"></textarea>
+                    </div>
                 </div>
-            </div></td>
-   <td> <div class="form-group">
-        @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+            </td>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.prscriptionList[0].Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
 
-            <textarea rows="3" id="Comment" class="form-control"></textarea>
-        </div>
-    </div></td>
-
-        <td>
-            <div class="form-group">
-                @Html.LabelFor(model => model.prscriptionList[0].NextOpointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.prscriptionList[0].NextOpointmentDate, new { Class = "input-group datepicker", @readonly = true })
-                    @Html.ValidationMessageFor(model => model.prscriptionList[0].NextOpointmentDate, "", new { @class = "text-danger" })
+                        <textarea rows="3" id="Comment" class="form-control"></textarea>
+                    </div>
                 </div>
-            </div>
+            </td>
 
-        </td>
-    </tr>
-</table>
+            <td>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.prscriptionList[0].NextOpointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.prscriptionList[0].NextOpointmentDate, new { Class = "input-group datepicker", @readonly = true })
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].NextOpointmentDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    </table>
     @Html.Label("Prescription")
     <hr />
     <table border="0">
@@ -269,9 +305,9 @@
                                 @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
                             }
                         }
-                        
+
                     </div>
-                   
+
                 </div>
             </td>
 
@@ -323,12 +359,12 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="button" name="submit" value="Remove" /></td>
+            <td><input type="button" name="submit" value="Remove" onclick="return DeleteExistingMedicine();" /></td>
         </tr>
     </table>
-   
 
-   
+
+
 
 
     <div class="form-group">
@@ -425,7 +461,7 @@
 <div style="display: none;" id="divPrintPrescription" onload="window.print();">
     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <table>
-        
+
         <tr>
 
             <td>OPD No:</td>
@@ -436,7 +472,7 @@
             <td>@DateTime.Now.ToString("dd-MMM-yyyy hh:mm")</td>
         </tr>
     </table>
-    <hr/>
+    <hr />
     <table>
         <tr>
             <td>Name:</td>
@@ -446,7 +482,7 @@
 
         </tr>
     </table>
-    <hr/>
+    <hr />
     <table>
         <tr>
             <td>Address:</td>
@@ -454,169 +490,169 @@
             <td>Contact No. @Model.Mobile</td>
         </tr>
     </table>
-    <hr style="border-bottom: 3px solid black;"/>
+    <hr style="border-bottom: 3px solid black;" />
 
     <table style="width: 100%">
         <thead>
-        <tr>
-            <td>Rx</td>
+            <tr>
+                <td>Rx</td>
 
-        </tr>
+            </tr>
         </thead>
         <tbody style="width: 100%">
-           
-        @if (Model.prscriptionList != null && Model.prscriptionList.Count > 0)
-        {
-            string strComment = string.Empty;
-            foreach (var item in Model.prscriptionList)
+
+            @if (Model.prscriptionList != null && Model.prscriptionList.Count > 0)
             {
-                <tr style="border-bottom: 1px solid black;">
-                    @{
-                        string nameOfMedicine = string.Empty;
-                        if (item.NameOfMedicine.Equals("Other"))
-                        {
-                            nameOfMedicine = item.newmedicine;
-                        }
-                        else
-                        {
-                            nameOfMedicine = item.NameOfMedicine;
-                        }
-                        string medicineDetails = string.Empty;
-                        int quantity = 1;
-                        switch (item.TypeOfMedicine)
-                        {
-                            case "Solution":
-                            case "Syrup":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
-                                break;
-                            case "Tablet":
-                            case "Capsule":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " mg";
-                                quantity = item.Dosage * item.NumberOfDays;
-                                break;
-                            case "Creame":
-                            case "Ointment":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " grm";
-                                break;
-                            case "Injection":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
-                                quantity = item.Dosage * item.NumberOfDays;
-                                break;
-                            case "Saline":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " ml";
-                                quantity = item.Dosage * item.NumberOfDays;
-                                break;
-                            case "Drops":
-                            case "Sachet":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
-                                break;
-                            case "Other":
-                                medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight;
-                                quantity = item.Dosage * item.NumberOfDays;
-                                break;
-                        }
+                string strComment = string.Empty;
+                foreach (var item in Model.prscriptionList)
+                {
+                    <tr style="border-bottom: 1px solid black;">
+                        @{
+                            string nameOfMedicine = string.Empty;
+                            if (item.NameOfMedicine.Equals("Other"))
+                            {
+                                nameOfMedicine = item.newmedicine;
+                            }
+                            else
+                            {
+                                nameOfMedicine = item.NameOfMedicine;
+                            }
+                            string medicineDetails = string.Empty;
+                            int quantity = 1;
+                            switch (item.TypeOfMedicine)
+                            {
+                                case "Solution":
+                                case "Syrup":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
+                                    break;
+                                case "Tablet":
+                                case "Capsule":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " mg";
+                                    quantity = item.Dosage * item.NumberOfDays;
+                                    break;
+                                case "Creame":
+                                case "Ointment":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " grm";
+                                    break;
+                                case "Injection":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
+                                    quantity = item.Dosage * item.NumberOfDays;
+                                    break;
+                                case "Saline":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " ml";
+                                    quantity = item.Dosage * item.NumberOfDays;
+                                    break;
+                                case "Drops":
+                                case "Sachet":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
+                                    break;
+                                case "Other":
+                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight;
+                                    quantity = item.Dosage * item.NumberOfDays;
+                                    break;
+                            }
 
-                        string dosageDetails = string.Empty;
-                        var dosageCaseNumber = item.Dosage;
-                        if (dosageCaseNumber > 3)
-                        {
-                            dosageCaseNumber = 4;
-                        }
-                        switch (dosageCaseNumber)
-                        {
-                            case 1:
-                                dosageDetails = "1 सकाळी ..." + item.NumberOfDays + " दिवस";
-                                break;
-                            case 2:
-                                dosageDetails = "1 सकाळी  1 रात्री..." + item.NumberOfDays + " दिवस";
-                                break;
-                            case 3:
-                                dosageDetails = "1 सकाळी 1 दुपारी  1 रात्री..." + item.NumberOfDays + " दिवस";
-                                break;
-                            case 4:
-                                dosageDetails = "दररोज " + item.Dosage + " वेळा ..." + item.NumberOfDays + " दिवस";
-                                break;
-                            default:
-                                dosageDetails = "";
-                                break;
-                        }
-                        string intakeAdv = string.Empty;
-                        switch (item.TypeOfIntakeAdv)
-                        {
-                            case "After Food":
-                                intakeAdv = " जेवणानंतर ";
-                                break;
-                            case "Before Food":
-                                intakeAdv = " जेवणा आधी ";
-                                break;
-                            case "Before BedTime":
-                                intakeAdv = " झोपण्यापूर्वी ";
-                                break;
-                            case "In The Morning After Get Up":
-                                intakeAdv = " सकाळी उठल्या नंतर ";
-                                break;
-                            case "Not Applicable":
-                                intakeAdv = " ";
-                                break;
-                            case "2Tfs Thirce A Day With Glass Of Water":
-                                intakeAdv = " दररोज तीन वेळा दोन चमचे एक ग्लास पाण्या बारोबार ..." + item.NumberOfDays + "दिवस";
-                                quantity = 1;
-                                break;
-                            case "One Sachet Twice A Day With Glass Of Water":
-                                intakeAdv = " एक पुडी दोन वेळा एक ग्लास पाण्या बारोबार ..." + item.NumberOfDays + "दिवस";
-                                quantity = 1 * item.NumberOfDays;
-                                break;
-                            case "One Sachet Once A Week With Glass Of Milk Or Water":
-                                intakeAdv = " एक पुडी दोन वेळा एक ग्लास पाण्या किंवा दूध बारोबार ..." + item.NumberOfDays + " आठवडे";
-                                quantity = 1 * item.NumberOfDays;
-                                break;
-                            case "One Tablet Once A Week":
-                                intakeAdv = " एक टॅब्लेट आठवड्यात एकदा ..." + item.NumberOfDays + " आठवडे";
-                                quantity = 1 * item.NumberOfDays;
-                                break;
-                            default:
-                                intakeAdv = " ";
-                                break;
-                        }
+                            string dosageDetails = string.Empty;
+                            var dosageCaseNumber = item.Dosage;
+                            if (dosageCaseNumber > 3)
+                            {
+                                dosageCaseNumber = 4;
+                            }
+                            switch (dosageCaseNumber)
+                            {
+                                case 1:
+                                    dosageDetails = "1 सकाळी ..." + item.NumberOfDays + " दिवस";
+                                    break;
+                                case 2:
+                                    dosageDetails = "1 सकाळी  1 रात्री..." + item.NumberOfDays + " दिवस";
+                                    break;
+                                case 3:
+                                    dosageDetails = "1 सकाळी 1 दुपारी  1 रात्री..." + item.NumberOfDays + " दिवस";
+                                    break;
+                                case 4:
+                                    dosageDetails = "दररोज " + item.Dosage + " वेळा ..." + item.NumberOfDays + " दिवस";
+                                    break;
+                                default:
+                                    dosageDetails = "";
+                                    break;
+                            }
+                            string intakeAdv = string.Empty;
+                            switch (item.TypeOfIntakeAdv)
+                            {
+                                case "After Food":
+                                    intakeAdv = " जेवणानंतर ";
+                                    break;
+                                case "Before Food":
+                                    intakeAdv = " जेवणा आधी ";
+                                    break;
+                                case "Before BedTime":
+                                    intakeAdv = " झोपण्यापूर्वी ";
+                                    break;
+                                case "In The Morning After Get Up":
+                                    intakeAdv = " सकाळी उठल्या नंतर ";
+                                    break;
+                                case "Not Applicable":
+                                    intakeAdv = " ";
+                                    break;
+                                case "2Tfs Thirce A Day With Glass Of Water":
+                                    intakeAdv = " दररोज तीन वेळा दोन चमचे एक ग्लास पाण्या बारोबार ..." + item.NumberOfDays + "दिवस";
+                                    quantity = 1;
+                                    break;
+                                case "One Sachet Twice A Day With Glass Of Water":
+                                    intakeAdv = " एक पुडी दोन वेळा एक ग्लास पाण्या बारोबार ..." + item.NumberOfDays + "दिवस";
+                                    quantity = 1 * item.NumberOfDays;
+                                    break;
+                                case "One Sachet Once A Week With Glass Of Milk Or Water":
+                                    intakeAdv = " एक पुडी दोन वेळा एक ग्लास पाण्या किंवा दूध बारोबार ..." + item.NumberOfDays + " आठवडे";
+                                    quantity = 1 * item.NumberOfDays;
+                                    break;
+                                case "One Tablet Once A Week":
+                                    intakeAdv = " एक टॅब्लेट आठवड्यात एकदा ..." + item.NumberOfDays + " आठवडे";
+                                    quantity = 1 * item.NumberOfDays;
+                                    break;
+                                default:
+                                    intakeAdv = " ";
+                                    break;
+                            }
 
-                        <td width="60%">@medicineDetails <br/> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @intakeAdv</td>
+                            <td width="60%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @intakeAdv</td>
 
-                        <td width="10%">( @quantity )</td>
-
-                       
-                    }
-                </tr>
-                strComment = strComment + " " + @item.Comment;
-            }
-            <tr><td><br/></td></tr>
-            <tr>
-                <td colspan="3">
-                    @{var opointmentDateTime = ((string[]) (@Model.prscriptionList[0].NextOpointmentDate))[0];
-                        if (opointmentDateTime != "")
-                        {
-                            <label> पुढील तपासणी तारीख आणि वेळ :  @opointmentDateTime</label>
-                        }
-                      
-                    }
-                </td>
-            </tr>
-            <tr><td><label>@strComment</label></td></tr>
-            <tr>
-                <td colspan="3" style="text-align: end;">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <label> .... Sign</label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
+                            <td width="10%">( @quantity )</td>
 
 
-                    @*<input class="ad" type="submit" onclick="window.print();" name="Print" />*@
-                </td>
-            </tr>
-        }
+                        }
+                    </tr>
+                                strComment = strComment + " " + @item.Comment;
+                            }
+                            <tr><td><br /></td></tr>
+                            <tr>
+                                <td colspan="3">
+                                    @{var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
+                                        if (opointmentDateTime != "")
+                                        {
+                                            <label> पुढील तपासणी तारीख आणि वेळ :  @opointmentDateTime</label>
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+                            <tr><td><label>@strComment</label></td></tr>
+                            <tr>
+                                <td colspan="3" style="text-align: end;">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <label> .... Sign</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+
+
+                                    @*<input class="ad" type="submit" onclick="window.print();" name="Print" />*@
+                                </td>
+                            </tr>
+                                        }
         </tbody>
     </table>
 

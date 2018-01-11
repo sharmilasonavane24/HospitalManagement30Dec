@@ -23,8 +23,10 @@ namespace HospitalManagment
         public string MedcineName1 { get; set; }
         public Nullable<decimal> MedicineWeight { get; set; }
         public int TypeOfMedicineId { get; set; }
+        public bool IsDeleted { get; set; }
+        public Nullable<System.DateTime> DeletedDateTime { get; set; }
     
-        public virtual TypeOfMedcine TypeOfMedcine { get; set; }
         public virtual ICollection<Prescription> Prescriptions { get; set; }
+        public virtual TypeOfMedcine TypeOfMedcine { get; set; }
     }
 }

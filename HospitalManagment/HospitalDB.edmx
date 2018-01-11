@@ -77,6 +77,8 @@
           <Property Name="MedcineName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="MedicineWeight" Type="decimal" Precision="18" Scale="0" />
           <Property Name="TypeOfMedicineId" Type="int" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="OPD">
           <Key>
@@ -451,17 +453,8 @@
           </AssociationSet>
           <EntitySet Name="TypeofCheckUps" EntityType="HospitalModel.TypeofCheckUp" />
           <EntitySet Name="PaymentDetails" EntityType="HospitalModel.PaymentDetail" />
-          <EntitySet Name="MedcineNames" EntityType="HospitalModel.MedcineName" />
           <EntitySet Name="TypeOfMedcines" EntityType="HospitalModel.TypeOfMedcine" />
-          <AssociationSet Name="FK_TypeOfMedicine1" Association="HospitalModel.FK_TypeOfMedicine1">
-            <End Role="TypeOfMedcine" EntitySet="TypeOfMedcines" />
-            <End Role="MedcineName" EntitySet="MedcineNames" />
-          </AssociationSet>
           <EntitySet Name="Prescriptions" EntityType="HospitalModel.Prescription" />
-          <AssociationSet Name="FK_NameOfMedicine" Association="HospitalModel.FK_NameOfMedicine">
-            <End Role="MedcineName" EntitySet="MedcineNames" />
-            <End Role="Prescription" EntitySet="Prescriptions" />
-          </AssociationSet>
           <EntitySet Name="Histories" EntityType="HospitalModel.History" />
           <AssociationSet Name="PersonID_FK" Association="HospitalModel.PersonID_FK">
             <End Role="Person" EntitySet="People" />
@@ -493,6 +486,15 @@
           <AssociationSet Name="FK_Investigations_PersonId" Association="HospitalModel.FK_Investigations_PersonId">
             <End Role="Person" EntitySet="People" />
             <End Role="Investigation" EntitySet="Investigations" />
+          </AssociationSet>
+          <EntitySet Name="MedcineNames" EntityType="HospitalModel.MedcineName" />
+          <AssociationSet Name="FK_NameOfMedicine" Association="HospitalModel.FK_NameOfMedicine">
+            <End Role="MedcineName" EntitySet="MedcineNames" />
+            <End Role="Prescription" EntitySet="Prescriptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TypeOfMedicine" Association="HospitalModel.FK_TypeOfMedicine">
+            <End Role="TypeOfMedcine" EntitySet="TypeOfMedcines" />
+            <End Role="MedcineName" EntitySet="MedcineNames" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="User">
@@ -640,37 +642,14 @@
           <Property Name="MedicineCost" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="MedicalTest" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="MedcineName">
-          <Key>
-            <PropertyRef Name="MedcineNamesId" />
-          </Key>
-          <Property Name="MedcineNamesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MedcineName1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="MedicineWeight" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="TypeOfMedicineId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TypeOfMedcine" Relationship="HospitalModel.FK_TypeOfMedicine1" FromRole="MedcineName" ToRole="TypeOfMedcine" />
-          <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_NameOfMedicine" FromRole="MedcineName" ToRole="Prescription" />
-        </EntityType>
         <EntityType Name="TypeOfMedcine">
           <Key>
             <PropertyRef Name="TypeOfMedicineId" />
           </Key>
           <Property Name="TypeOfMedicineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MedcineNames" Relationship="HospitalModel.FK_TypeOfMedicine1" FromRole="TypeOfMedcine" ToRole="MedcineName" />
+          <NavigationProperty Name="MedcineNames" Relationship="HospitalModel.FK_TypeOfMedicine" FromRole="TypeOfMedcine" ToRole="MedcineName" />
         </EntityType>
-        <Association Name="FK_TypeOfMedicine1">
-          <End Type="HospitalModel.TypeOfMedcine" Role="TypeOfMedcine" Multiplicity="1" />
-          <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeOfMedcine">
-              <PropertyRef Name="TypeOfMedicineId" />
-            </Principal>
-            <Dependent Role="MedcineName">
-              <PropertyRef Name="TypeOfMedicineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Prescription">
           <Key>
             <PropertyRef Name="PrescriptionID" />
@@ -683,25 +662,13 @@
           <Property Name="comments" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="MedcineNamesId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MedcineName" Relationship="HospitalModel.FK_NameOfMedicine" FromRole="Prescription" ToRole="MedcineName" />
           <Property Name="NextAppoinmentDate" Type="DateTime" Precision="3" />
           <Property Name="ManagementPlan" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="TypeOfIntakeAdvId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TypeOfIntakeAdv" Relationship="HospitalModel.FK_Prescription_TypeOfIntakeAdvId" FromRole="Prescription" ToRole="TypeOfIntakeAdv" />
           <NavigationProperty Name="OPD" Relationship="HospitalModel.FK_OPD" FromRole="Prescription" ToRole="OPD" />
+          <NavigationProperty Name="MedcineName" Relationship="HospitalModel.FK_NameOfMedicine" FromRole="Prescription" ToRole="MedcineName" />
         </EntityType>
-        <Association Name="FK_NameOfMedicine">
-          <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="1" />
-          <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MedcineName">
-              <PropertyRef Name="MedcineNamesId" />
-            </Principal>
-            <Dependent Role="Prescription">
-              <PropertyRef Name="MedcineNamesId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="History">
           <Key>
             <PropertyRef Name="HistoryId" />
@@ -879,6 +846,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MedcineName">
+          <Key>
+            <PropertyRef Name="MedcineNamesId" />
+          </Key>
+          <Property Name="MedcineNamesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedcineName1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MedicineWeight" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TypeOfMedicineId" Type="Int32" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Prescriptions" Relationship="HospitalModel.FK_NameOfMedicine" FromRole="MedcineName" ToRole="Prescription" />
+          <NavigationProperty Name="TypeOfMedcine" Relationship="HospitalModel.FK_TypeOfMedicine" FromRole="MedcineName" ToRole="TypeOfMedcine" />
+        </EntityType>
+        <Association Name="FK_NameOfMedicine">
+          <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.Prescription" Role="Prescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedcineName">
+              <PropertyRef Name="MedcineNamesId" />
+            </Principal>
+            <Dependent Role="Prescription">
+              <PropertyRef Name="MedcineNamesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TypeOfMedicine">
+          <End Type="HospitalModel.TypeOfMedcine" Role="TypeOfMedcine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HospitalModel.MedcineName" Role="MedcineName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfMedcine">
+              <PropertyRef Name="TypeOfMedicineId" />
+            </Principal>
+            <Dependent Role="MedcineName">
+              <PropertyRef Name="TypeOfMedicineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -974,16 +982,6 @@
                 <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
                 <ScalarProperty Name="ConsultingFee" ColumnName="ConsultingFee" />
                 <ScalarProperty Name="PaymentDetailsID" ColumnName="PaymentDetailsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MedcineNames">
-            <EntityTypeMapping TypeName="HospitalModel.MedcineName">
-              <MappingFragment StoreEntitySet="MedcineNames">
-                <ScalarProperty Name="TypeOfMedicineId" ColumnName="TypeOfMedicineId" />
-                <ScalarProperty Name="MedicineWeight" ColumnName="MedicineWeight" />
-                <ScalarProperty Name="MedcineName1" ColumnName="MedcineName" />
-                <ScalarProperty Name="MedcineNamesId" ColumnName="MedcineNamesId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1092,6 +1090,18 @@
                 <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
                 <ScalarProperty Name="OpdId" ColumnName="OpdId" />
                 <ScalarProperty Name="InvestigationId" ColumnName="InvestigationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedcineNames">
+            <EntityTypeMapping TypeName="HospitalModel.MedcineName">
+              <MappingFragment StoreEntitySet="MedcineNames">
+                <ScalarProperty Name="DeletedDateTime" ColumnName="DeletedDateTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="TypeOfMedicineId" ColumnName="TypeOfMedicineId" />
+                <ScalarProperty Name="MedicineWeight" ColumnName="MedicineWeight" />
+                <ScalarProperty Name="MedcineName1" ColumnName="MedcineName" />
+                <ScalarProperty Name="MedcineNamesId" ColumnName="MedcineNamesId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
