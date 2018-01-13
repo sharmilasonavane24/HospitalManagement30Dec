@@ -1,8 +1,10 @@
 ﻿@model HospitalManagment.Models.OPD
+
 <style>
     .ui-dialog-titlebar-close {
         visibility: inherit;
     }
+
 </style>
 <script>
     $(function () {
@@ -271,13 +273,43 @@
 
 </div>
 
-<div class="form-horizontal">
+@*<div style="font-size: 20px">
 
+    I @Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } }) <br />daughter/wife 
+    
+    of @Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } }) 
+   <br/>
+    aged about @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "bottomBorderTextBoxXSmall" } })  years of 
+    
+    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } })
+    <br/>
+    (here state the permanent address) <br/>at present  residing at  @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } })
+    <br/><br/>
+    do hereby give my consent to the  termination of my pregnancy at Bharti Hospital
+    <br/><br/>
+    (State the name of place where the pregnancy is to be terminated) 
+    <br/><br />
+    Place: Phaltan
+    <br/><br />
+    Date: @DateTime.Now.Date.ToShortDateString()
+    <br/><br />
+    <div style="text-align: end">Signature </div><br />
+    <div style="font-weight: bold">( To be filled in by guardian where the woman is a <i>mentally ill person </i>or minor ) </div><br/>
+    <div>I_____________________________________________ son/daughter/wife of </div>
+    <div>@Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } }) </div>
+    <div>aged about @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "bottomBorderTextBoxXSmall" } }) years of___________________</div>
+    <div> _____________________________________________at present residing at </div><br/>
+    <div>(Permanent address ) ______________________________________________________<br/><br/></div>
+    <div>____________________________________________________________________________<br /></div>
+    <div><br/>do hereby give my consent to the termination of the pregnancy of my ward </div>
+    <div>@Html.EditorFor(model => model.PatientFullName, new { htmlAttributes = new { @class = "bottomBorderTextBoxMedium" } }) <br/><br/>who is a minor/lunatic  
+    at Bharti Hospital, Phaltan( Place of termination of my pregnancy) </div><br /><br />
 
+    <div>Place:Phaltan</div><br />
+    <div> Date: @DateTime.Now.Date.ToShortDateString()</div><br />
+    <div style="text-align: end">Signature</div>
 
-
-
-</div>
+</div>*@
 
 
 
