@@ -849,7 +849,7 @@ height :30px;
     content: " ("attr(href) ") ";
     font-size: 90%;
 }*/
-#loginInputButton{
+.loginInputButton{
     width:250px;
 }
 .bottomBorderTextBoxMedium {
