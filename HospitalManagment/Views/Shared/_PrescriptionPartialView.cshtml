@@ -195,30 +195,29 @@
     }
 
 
-
-    $(function () {
+    $(function() {
         //Dropdownlist Selectedchange event
 
-        $('#NameOfMedicine').change(function () {
+        $('#NameOfMedicine').change(function() {
 
             if ($("#NameOfMedicine option:selected").text() == "Other") {
 
                 $('#NewMedicine').attr('readonly', false);
-                $('#otherMedicine').attr("style", "display: inline")
-                $('#otherMedicineLbl').attr("style", "display: inline")
+                $('#otherMedicine').attr("style", "display: inline");
+                $('#otherMedicineLbl').attr("style", "display: inline");
 
 
             } else {
 
                 $('#NewMedicine').attr('readonly', true);
-                $('#otherMedicine').attr("style", "display: none")
-                $('#otherMedicineLbl').attr("style", "display: none")
+                $('#otherMedicine').attr("style", "display: none");
+                $('#otherMedicineLbl').attr("style", "display: none");
 
 
             }
 
-        })
-    })
+        });
+    });
 
 
 </script>
@@ -259,6 +258,11 @@
                 </div>
 
             </td>
+            <td>&nbsp;&nbsp;</td>
+            <td><input type="button" name="submit" value="Sonography"  /></td>
+            <td><input type="button" name="submit" value="MTP" /></td>
+            <td><input type="button" name="submit" value="Admit" /></td>
+
         </tr>
     </table>
     @Html.Label("Prescription")
