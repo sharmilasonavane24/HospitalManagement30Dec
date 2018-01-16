@@ -106,6 +106,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ConservativeDetail.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Contact.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
@@ -143,6 +146,12 @@
     <Compile Include="Investigation.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="IPD.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LabourDetail.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="MedcineName.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
@@ -162,6 +171,9 @@
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
     <Compile Include="OPD.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OperationDetail.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
     <Compile Include="PaymentDetail.cs">
@@ -184,6 +196,12 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TreatmentChart.cs">
+      <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeofCheckUp.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>

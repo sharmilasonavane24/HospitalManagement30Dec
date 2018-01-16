@@ -14,8 +14,15 @@ namespace HospitalManagment
     
     public partial class TypeOfRoomAndBed
     {
+        public TypeOfRoomAndBed()
+        {
+            this.IPDs = new HashSet<IPD>();
+        }
+    
         public int TypeOfRoomAndBedId { get; set; }
         public string RoomName { get; set; }
         public Nullable<short> BedNumber { get; set; }
+    
+        public virtual ICollection<IPD> IPDs { get; set; }
     }
 }
