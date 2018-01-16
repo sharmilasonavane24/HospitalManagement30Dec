@@ -11,7 +11,7 @@
 <h2>OPD</h2>
 <script type=text/javascript>
 
-    
+
 
     function printMe() {
         var w = window.open();
@@ -230,7 +230,7 @@
                         <td align="center">
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save History" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();" />
+                                    <input type="submit" value="Save History" name="submit" class="ui-button ui-widget ui-corner-all" />
                                 </div>
                             </div>
                         </td>
@@ -251,7 +251,7 @@
                         <td align="left">
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save Examination" name="submit" class="ui-button ui-widget ui-corner-all" onclick="return sendPrint();"  />
+                                    <input type="submit" value="Save Examination" name="submit" class="ui-button ui-widget ui-corner-all" />
                                 </div>
                             </div>
                         </td>
@@ -300,6 +300,11 @@
                                 </div>
                             </div>
                         </td>
+                         
+                        <td>
+                            <input type="button" name="submit" value="Previous Prescriptions" onclick="return PreviousPrescriptionDetails();" />
+                        </td>
+                        
                     </tr>
                 </table>
             </div>

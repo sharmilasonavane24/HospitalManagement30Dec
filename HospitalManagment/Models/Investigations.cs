@@ -38,6 +38,7 @@ namespace HospitalManagment.Models
         public string USG { get; set; }
         [Display(Name = "Other: ")]
         public string Other { get; set; }
+        [RegularExpression(@"^(([a-zA-Z]:)|(\\{2}\w+)\$?)(\\(\w[\w].*))(.pdf|.PDF)$", ErrorMessage = "Incorrect file format")]
         [Display(Name = "All Attachments in One PDF: ")]
         public string AllAttachmentinOnePDF { get; set; }
         public int PersonId { get; set; }

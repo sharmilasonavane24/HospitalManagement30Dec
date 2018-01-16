@@ -169,11 +169,16 @@ namespace HospitalManagment.Controllers
                                               where histry.HistoryId == opd.history.HistoryId
                                               select histry).FirstOrDefault();
                         }
-                        patientHistory.EDD = Convert.ToDateTime(((string[])opd.history.EDD)[0]);
-                        patientHistory.EDDCorrectedByUSG = Convert.ToDateTime(((string[])opd.history.EDDCorrectedByUSG)[0]);
-                        patientHistory.FirstTTInjection = Convert.ToDateTime(((string[])opd.history.FirstTTInjection)[0]);
-                        patientHistory.SecondTTInjection = Convert.ToDateTime(((string[])opd.history.SecondTTInjection)[0]);
-                        patientHistory.LMP = Convert.ToDateTime(((string[])opd.history.LMP)[0]);
+                        if (opd.history.EDD != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.EDD)) && !string.IsNullOrEmpty(((string[])opd.history.EDD)[0]))
+                        { patientHistory.EDD = Convert.ToDateTime(((string[])opd.history.EDD)[0]); }
+                        if (opd.history.EDDCorrectedByUSG != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.EDDCorrectedByUSG)) && !string.IsNullOrEmpty(((string[])opd.history.EDDCorrectedByUSG)[0]))
+                        { patientHistory.EDDCorrectedByUSG = Convert.ToDateTime(((string[])opd.history.EDDCorrectedByUSG)[0]); }
+                        if (opd.history.FirstTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.FirstTTInjection)) && !string.IsNullOrEmpty(((string[])opd.history.FirstTTInjection)[0]))
+                        { patientHistory.FirstTTInjection = Convert.ToDateTime(((string[])opd.history.FirstTTInjection)[0]); }
+                        if (opd.history.SecondTTInjection != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.SecondTTInjection)) && !string.IsNullOrEmpty(((string[])opd.history.SecondTTInjection)[0]))
+                        { patientHistory.SecondTTInjection = Convert.ToDateTime(((string[])opd.history.SecondTTInjection)[0]); }
+                        if (opd.history.LMP != null && !string.IsNullOrEmpty(Convert.ToString(opd.history.LMP)) && !string.IsNullOrEmpty(((string[])opd.history.LMP)[0]))
+                        { patientHistory.LMP = Convert.ToDateTime(((string[])opd.history.LMP)[0]); }
                         patientHistory.HighRiskFactor = opd.history.HighRiskFactor;
                         patientHistory.PositiveFindings = opd.history.PositiveFindings;
                         patientHistory.PersonId = opd.PersonId;
@@ -204,6 +209,12 @@ namespace HospitalManagment.Controllers
                     {
                         foreach (var item in opd.prscriptionList)
                         {
+                            DateTime? _NextAppoinmentDate = null;
+                            if (opd.prscriptionList[0].NextOpointmentDate != null && !string.IsNullOrEmpty(Convert.ToString(opd.prscriptionList[0].NextOpointmentDate)) &&
+                                !string.IsNullOrEmpty(((string[])opd.prscriptionList[0].NextOpointmentDate)[0]))
+                            {
+                                _NextAppoinmentDate = Convert.ToDateTime(((string[])opd.prscriptionList[0].NextOpointmentDate)[0]);
+                            }
                             if (item.PrescriptionID <= 0)
                             {
                                 MedcineName medcineName = new MedcineName();
@@ -236,6 +247,9 @@ namespace HospitalManagment.Controllers
                                 prescription.NumberOfDays = item.NumberOfDays;
                                 prescription.OpdID = opd.OPDID;
                                 prescription.CreatedDateTime = DateTime.Now;
+                                prescription.comments = item.Comment;
+                                prescription.ManagementPlan = item.ManagementPlan;
+                                prescription.NextAppoinmentDate = _NextAppoinmentDate;
                                 string[] array = new string[] { "Other", "Ointment", "Creame", "Syrup" };
                                 var isContains = array.Where(a => a.Equals(item.TypeOfMedicine, StringComparison.InvariantCultureIgnoreCase));
                                 if (isContains != null && isContains.Count() > 0)
@@ -436,33 +450,40 @@ namespace HospitalManagment.Controllers
         //HttpPostedFileBase file,
 
         [HttpPost]
-        public void UploadFile(HttpPostedFileBase file)
+        public void UploadFile(HttpPostedFileBase AllAttachmentinOnePDF)
         {
             try
             {
-
-                using (HospitalEntities ent = new HospitalEntities())
+                if (Path.GetExtension(AllAttachmentinOnePDF.FileName).Contains("pdf"))
                 {
-                    Investigation _investigation = new Investigation();
 
-                    if (file != null && file.ContentLength > 0)
+                    using (HospitalEntities ent = new HospitalEntities())
                     {
-                        string DateWsepath = Server.MapPath("~/" + DateTime.Today.ToString("ddMMyyyy") + "");
-                        if (!System.IO.Directory.Exists(DateWsepath))
+                        Investigation _investigation = new Investigation();
+
+                        if (AllAttachmentinOnePDF != null && AllAttachmentinOnePDF.ContentLength > 0)
                         {
-                            System.IO.Directory.CreateDirectory(DateWsepath);
+                            string DateWsepath = Server.MapPath("~/" + DateTime.Today.ToString("ddMMyyyy") + "");
+                            if (!System.IO.Directory.Exists(DateWsepath))
+                            {
+                                System.IO.Directory.CreateDirectory(DateWsepath);
+                            }
+
+                            string _FileName = Path.GetFileName(AllAttachmentinOnePDF.FileName);
+                            string _path = Path.Combine(DateWsepath, _FileName);
+
+                            TempData["AllAttachmentinOnePDFPath"] = _path;
+                            AllAttachmentinOnePDF.SaveAs(_path);
+                            ViewBag.MyValue = 3;
                         }
 
-                        string _FileName = Path.GetFileName(file.FileName);
-                        string _path = Path.Combine(DateWsepath, _FileName);
-
-                        TempData["AllAttachmentinOnePDFPath"] = _path;
-                        file.SaveAs(_path);
-                        ViewBag.MyValue = 3;
                     }
-
+                    ViewBag.Message = "File Uploaded Successfully!!";
                 }
-                ViewBag.Message = "File Uploaded Successfully!!";
+                else
+                {
+                    throw new Exception("Invalid file format");
+                }
 
             }
             catch (Exception ex)
@@ -475,13 +496,21 @@ namespace HospitalManagment.Controllers
         }
 
         [HttpPost]
-        public void SaveInvestigations(Investigations investigations)
+        public int SaveInvestigations(Investigations investigations)
         {
             try
             {
                 using (HospitalEntities ent = new HospitalEntities())
                 {
                     Investigation _investigation = new Investigation();
+                    if (investigations.InvestigationId > 0)
+                    {
+                        _investigation = (from investigat in ent.Investigations
+                                          where investigat.InvestigationId == investigations.InvestigationId
+                                          select investigat).FirstOrDefault();
+                    }
+
+
                     var path = TempData["AllAttachmentinOnePDFPath"];
                     if (path != null && !string.IsNullOrEmpty(Convert.ToString(path)))
                         _investigation.AllAttachmentinOnePDF = System.IO.File.ReadAllBytes(Convert.ToString(path));
@@ -502,17 +531,16 @@ namespace HospitalManagment.Controllers
                     _investigation.UrineRM = investigations.UrineRM;
                     _investigation.USG = investigations.USG;
                     _investigation.VDRL = investigations.VDRL;
-                    if (investigations.InvestigationId > 0)
-                    {
-                        // ent.Investigations.u
-                    }
-                    else
+                    if (investigations.InvestigationId <= 0)
                     {
                         _investigation.CreatedDateTime = DateTime.Now;
                         ent.Investigations.Add(_investigation);
+
                     }
+
                     ent.SaveChanges();
                     investigations.InvestigationId = _investigation.InvestigationId;
+
                 }
                 ViewBag.MyValue = 3;
                 ViewBag.Message = "File Uploaded Successfully!!";
@@ -523,37 +551,42 @@ namespace HospitalManagment.Controllers
                 ViewBag.Message = "File upload failed!!";
 
             }
+            return investigations.InvestigationId;
         }
 
-        public FileStreamResult OpdSavedAttachmet()
+        public ActionResult OpdSavedAttachmet(int InvestigationId)
         {
             string ToSaveFileTo = Server.MapPath("~\\Report.pdf");
 
             using (HospitalEntities ent = new HospitalEntities())
             {
                 var data = (from abc in ent.Investigations
-                            where abc.InvestigationId == 12
+                            where abc.InvestigationId == InvestigationId
                             select abc.AllAttachmentinOnePDF
                             ).FirstOrDefault();
-                byte[] fileData = (byte[])data;
-
-                using (System.IO.FileStream fs = new System.IO.FileStream(ToSaveFileTo, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+                if (data != null)
                 {
+                    byte[] fileData = (byte[])data;
 
-                    using (System.IO.BinaryWriter bw = new System.IO.BinaryWriter(fs))
-
+                    using (System.IO.FileStream fs = new System.IO.FileStream(ToSaveFileTo, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
                     {
-                        bw.Write(fileData);
 
-                        bw.Close();
+                        using (System.IO.BinaryWriter bw = new System.IO.BinaryWriter(fs))
+
+                        {
+                            bw.Write(fileData);
+
+                            bw.Close();
+                        }
                     }
+                    FileStream fst = new FileStream(ToSaveFileTo, FileMode.Open, FileAccess.Read);
+                    return File(fst, "application/pdf");
+
                 }
             }
 
-            FileStream fst = new FileStream(ToSaveFileTo, FileMode.Open, FileAccess.Read);
-            return File(fst, "application/pdf");
-            // Response.Redirect("~\\Report.pdf");
-
+            //ModelState.AddModelError("Error", "No attachment founds!");
+            return Content("No attachment founds!");
         }
 
         [HttpGet]
@@ -633,6 +666,41 @@ namespace HospitalManagment.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult GetPreviousPrescriptionDetails(int personId)
+        {
+            List<HospitalManagment.Models.Prescription> listPrescription = new List<Models.Prescription>();
+            using (HospitalEntities ent = new HospitalEntities())
+            {
+                var _Prescriptions = (from examinations in ent.Prescriptions
+                                      join opd in ent.OPDs on examinations.OpdID equals opd.OPDId
+                                      join medName in ent.MedcineNames on examinations.MedcineNamesId equals medName.MedcineNamesId
+                                      join typemedicine in ent.TypeOfMedcines on medName.TypeOfMedicineId equals typemedicine.TypeOfMedicineId
+                                      join adv in ent.TypeOfIntakeAdvs.DefaultIfEmpty() on examinations.TypeOfIntakeAdvId equals adv.TypeOfIntakeAdvId
+                                      where opd.PersonID == personId
+                                      select new { examinations, medName, adv, typemedicine, opd }).ToList();
+
+                foreach (var item in _Prescriptions)
+                {
+                    Models.Prescription prescription = new Models.Prescription();
+                    prescription.Comment = item.examinations.comments;
+                    prescription.Dosage = Convert.ToInt32(item.examinations.Dosage);
+                    prescription.ManagementPlan = item.examinations.ManagementPlan;
+                    prescription.NameOfMedicine = item.medName.MedcineName1;
+                    prescription.NextOpointmentDate = Convert.ToString(item.examinations.NextAppoinmentDate);
+                    prescription.NumberOfDays = item.examinations.NumberOfDays;
+                    prescription.PrescriptionID = item.examinations.PrescriptionID;
+                    prescription.TypeOfIntakeAdv = item.adv.TypeName;
+                    prescription.TypeOfMedicine = item.typemedicine.TypeName;
+                    prescription.OpdID = item.opd.OPDNumber;
+                    listPrescription.Add(prescription);
+                }              
+
+
+                return PartialView("previousPrescriptionDetails", listPrescription);
+            }
+        }
+
         [HttpPost]
         public void DeleteExistingMedicine(string MedicineId)
         {
@@ -647,7 +715,7 @@ namespace HospitalManagment.Controllers
                 {
                     DelMedicineNames.IsDeleted = true;
                     DelMedicineNames.DeletedDateTime = DateTime.Now;
-                    ent.SaveChanges(); 
+                    ent.SaveChanges();
                 }
                 Task.Factory.StartNew(() => AddDefaultMedicineName());
             }

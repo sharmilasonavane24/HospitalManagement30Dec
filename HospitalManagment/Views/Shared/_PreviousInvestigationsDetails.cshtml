@@ -59,73 +59,77 @@
         <th>
             @Html.DisplayNameFor(model => model.Other)
         </th>
-
-
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate) @*will update thhis*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PersonId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InvestigationId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OpdId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BloodGroup)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HB)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RBS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HIVNII)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HBSAvg)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VDRL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UrineRM)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SrCreat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SrUrea)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SrTSH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HSG)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SemenAnalysis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USG)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Other)
-        </td>
-
-
-        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        <th>
+            @Html.DisplayName("Attachment")
+        </th>
 
     </tr>
-}
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate) @*will update thhis*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvestigationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RBS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HIVNII)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HBSAvg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VDRL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UrineRM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SrCreat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SrUrea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SrTSH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HSG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SemenAnalysis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Other)
+            </td>
+            <td>
+                <a href="@Url.Action("OpdSavedAttachmet", "OPD", new { item.InvestigationId})"  target="_blank">Show Report</a>
+            </td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+        </tr>
+    }
 
 </table>
