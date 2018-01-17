@@ -72,7 +72,7 @@
             @Html.LabelFor(model => model.Email)
         </div>
         <div>
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "loginInputButton" } } )
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "loginInputButton" } })
             @Html.ValidationMessageFor(model => model.Email)
         </div>
         <div class="editor-label">
@@ -90,6 +90,20 @@
             @Html.ActionLink("Register Now!", "Index", "Registration")
             @*<input type="submit" value="Register Now!" />*@
         </p>
+        <div>
+            <table>
+                <tr>
+                    <td> @Html.ActionLink("ConservativeDetail", "ConservativeDetail", "ConservativeDetail")</td>
+                    <td> @Html.ActionLink("MonitoringChart", "MonitoringChart", "MonitoringChart")</td>
+                    <td> @Html.ActionLink("TypeOfRoomAndBed", "TypeOfRoomAndBed", "TypeOfRoomAndBed")</td>
+                    <td> @Html.ActionLink("OperationDetail", "OperationDetail", "OperationDetail")</td>
+                    <td> @Html.ActionLink("TypeOfOperation", "TypeOfOperation", "TypeOfOperation")</td>
+                    <td> @Html.ActionLink("LabourDetail", "LabourDetail", "LabourDetail")</td>
+                    <td> @Html.ActionLink("IPD", "IPD", "IPD")</td>
+                </tr>
+            </table>
+            
+        </div>
     </fieldset>
 }
 
