@@ -17,12 +17,12 @@
         [Display(Name = "Past/Personal/Family History")]
         public string AllergyDetails { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+       // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "First TT Injection: ")]
        // [Required]
         public object FirstTTInjection { get; set; }
 
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+       // [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Second TT Injection: ")]
        // [Required]
         public object SecondTTInjection { get; set; }
@@ -48,7 +48,7 @@
         [Display(Name = "High Risk Factor:")]
         public string HighRiskFactor { get; set; }
 
-        [Display(Name = "Positive Findings:")]
+        [Display(Name = "Positive History:")]
         public string PositiveFindings { get; set; }
 
         [Display(Name = "Current Cycle:")]

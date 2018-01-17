@@ -157,16 +157,23 @@
     </Compile>
     <Compile Include="Models\AllPatientDetails.cs" />
     <Compile Include="Models\ClinicalExamination.cs" />
+    <Compile Include="Models\ConservativeDetailModel.cs" />
     <Compile Include="Models\ContactDetails.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Models\Investigations.cs" />
+    <Compile Include="Models\IpdModel.cs" />
+    <Compile Include="Models\LabourDetailModel.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\MonitoringChartModel.cs" />
     <Compile Include="Models\OPD.cs" />
+    <Compile Include="Models\OperationDetailModel.cs" />
     <Compile Include="Models\PersonDetails.cs" />
     <Compile Include="Models\Prescription.cs" />
     <Compile Include="Models\PrintPresription.cs" />
     <Compile Include="Models\Registration.cs" />
     <Compile Include="Models\SearchPatient.cs" />
+    <Compile Include="Models\TypeOfOperationModel.cs" />
+    <Compile Include="Models\TypeOfRoomAndBedModel.cs" />
     <Compile Include="MonitoringChart.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
@@ -388,6 +395,7 @@
     <Content Include="Views\Shared\_CFormPartialView.cshtml" />
     <Content Include="Views\Shared\previousPrescriptionDetails.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <Content Include="Views\ConservativeDetail.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
