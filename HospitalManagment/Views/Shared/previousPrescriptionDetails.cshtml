@@ -1,7 +1,7 @@
-﻿@model IEnumerable<HospitalManagment.Models.Prescription>
+﻿@model IEnumerable<HospitalManagment.Models.OPD>
 
- 
-<table class="table">
+
+<table class="table" border="1">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OpdID)
@@ -39,43 +39,45 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OpdID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NameOfMedicine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Dosage)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TypeOfMedicine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Weight)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumberOfDays)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ManagementPlan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.newmedicine)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TypeOfIntakeAdv)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NextOpointmentDate)
-        </td>
-        
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td></td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.OpdID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameOfMedicine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfMedicine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagementPlan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.newmedicine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfIntakeAdv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NextOpointmentDate)
+            </td>
+
+        </tr>
+    }
 
 </table>
