@@ -29,7 +29,25 @@
         });
     });
 
+    $('#NameOfMedicine').selectmenu({
+        change: function (event, data) {
+            if ($("#NameOfMedicine option:selected").text() == "Other") {
 
+                $('#NewMedicine').attr('readonly', false);
+                $('#otherMedicine').attr("style", "display: inline")
+                $('#otherMedicineLbl').attr("style", "display: inline")
+
+
+            } else {
+
+                $('#NewMedicine').attr('readonly', true);
+                $('#otherMedicine').attr("style", "display: none")
+                $('#otherMedicineLbl').attr("style", "display: none")
+
+
+            }
+        }
+    }); 
 
     function addRow() {
         debugger;
@@ -284,6 +302,11 @@
                 </div>
 
             </td>
+            <td>&nbsp;&nbsp;</td>
+            <td><input type="button" name="submit" value="Sonography"  /></td>
+            <td><input type="button" name="submit" value="MTP" /></td>
+            <td><input type="button" name="submit" value="Admit" /></td>
+
         </tr>
     </table>
     @Html.Label("Prescription")
@@ -520,7 +543,8 @@
     <table style="width: 100%">
         <thead>
             <tr>
-                <td>Rx</td>
+                <td><span style ="font-size: 40px; font-family: sans-serif; color:blue">&#8478;</span>
+                </td>
 
             </tr>
         </thead>

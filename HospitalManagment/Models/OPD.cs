@@ -29,6 +29,9 @@ namespace HospitalManagment.Models
         [Display(Name = "Occupation: ")]
         public string Occupation { get; set; }
 
+        [Display(Name = "Father/Spouse Occupation: ")]
+        public string FatherOrSpouseProfession { get; set; }
+
         [Display(Name = "Referred By: ")]
         public string ReferredBy { get; set; }
 
@@ -40,6 +43,8 @@ namespace HospitalManagment.Models
 
         [Display(Name = "Height (Cm): ")]
         public int? Height { get; set; }
+
+
         //[Display(Name = "Allergy Details: ")]
         //public string AllergyDetails { get; set; }
 
