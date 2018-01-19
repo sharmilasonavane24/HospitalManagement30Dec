@@ -17,37 +17,45 @@
 
         });
 
-        //$('#NameOfMedicine').selectmenu();
-        $("#TypeOfIntakeAdv").blur(function () {
-            debugger;
+        $('#TypeOfMedicine').selectmenu();
 
-            $("#savePrescription").click();
-            //   SaveRow();
-            //var location = document.getElementById("TypeOfMedicine")
-            //location.focus();
-
-        });
-    });
-
-    $('#NameOfMedicine').selectmenu({
-        change: function (event, data) {
-            if ($("#NameOfMedicine option:selected").text() == "Other") {
-
-                $('#NewMedicine').attr('readonly', false);
-                $('#otherMedicine').attr("style", "display: inline")
-                $('#otherMedicineLbl').attr("style", "display: inline")
-
-
-            } else {
-
-                $('#NewMedicine').attr('readonly', true);
-                $('#otherMedicine').attr("style", "display: none")
-                $('#otherMedicineLbl').attr("style", "display: none")
-
+        $('#TypeOfIntakeAdv').selectmenu({
+            focusout: function (event, ui) {
 
             }
-        }
-    }); 
+        });
+
+
+        $("#focusleft")
+            .focusout(function () {
+                $("#savePrescription").click();
+            });
+
+        $('#NameOfMedicine').selectmenu({
+            change: function (event, data) {
+                if ($("#NameOfMedicine option:selected").text() == "Other") {
+
+                    $('#NewMedicine').attr('readonly', false);
+                    $('#otherMedicine').attr("style", "display: inline")
+                    $('#otherMedicineLbl').attr("style", "display: inline")
+
+
+                } else {
+
+                    $('#NewMedicine').attr('readonly', true);
+                    $('#otherMedicine').attr("style", "display: none")
+                    $('#otherMedicineLbl').attr("style", "display: none")
+
+
+                }
+            }
+        });
+
+
+
+
+    });
+
 
     function addRow() {
         debugger;
@@ -56,13 +64,10 @@
         var numberOfDays = $("#NumberOfDays").val();
         var comment = $("#Comment").val();
         var ManagementPlan = $("#ManagementPlan").val();
-
         var Medicine = $("#NewMedicine").val();
         var Weight = $("#NewWeight").val();
         var TypeOfMedicine = $("#TypeOfMedicine option:selected").text();
         var TypeOfIntakeAdv = $("#TypeOfIntakeAdv option:selected").text();
-        //var _valTypeOfIntakeAdv = $("#TypeOfIntakeAdv option:selected").val();
-        //var index = $('#tablePost tr:last').index() + 1;
         var index = $('#tablePost tr').length;
 
         if (medicineName != "Select Medicine" && TypeOfMedicine != "" && TypeOfMedicine != "Select Medicine Type") {
@@ -104,8 +109,6 @@
             var qtd = 0;
 
             if (addRow()) {
-
-
                 var index = 1;
 
                 $("#tablePost > tbody > tr").each(function () {
@@ -148,9 +151,6 @@
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].typeofmedicine' value= '" + $(this).find("td").eq(5).text().trim() + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].TypeOfIntakeAdv' value= '" + $(this).find("td").eq(8).text().trim() + "' > ");
                         $("#formPost").prepend("<input type='hidden' name= '" + listName + "[" + qtd + "].PrescriptionID' value= '" + hv + "' > ");
-
-
-
                     }
                     qtd += 1;
                 });
@@ -172,7 +172,7 @@
         debugger;
         var medicineID = $("#NameOfMedicine option:selected").val();
         var medicinename = $("#NameOfMedicine option:selected").text();
-        if (medicineID != "") {
+        if (medicineID != "" && medicinename != "Other") {
 
             $.ajax({
                 type: 'POST',
@@ -212,32 +212,6 @@
 
     }
 
-
-
-    $(function () {
-        //Dropdownlist Selectedchange event
-        debugger;
-        $('#NameOfMedicine').change(function () {
-
-            if ($("#NameOfMedicine option:selected").text() == "Other") {
-
-                $('#NewMedicine').attr('readonly', false);
-                $('#otherMedicine').attr("style", "display: inline")
-                $('#otherMedicineLbl').attr("style", "display: inline")
-
-
-            } else {
-
-                $('#NewMedicine').attr('readonly', true);
-                $('#otherMedicine').attr("style", "display: none")
-                $('#otherMedicineLbl').attr("style", "display: none")
-
-
-            }
-
-        })
-    })
-
     function PreviousPrescriptionDetails() {
         debugger;
         var personId = @Html.Raw(Json.Encode(Model.PersonId));
@@ -249,8 +223,7 @@
                     personId: personId
                 },
                 success: function (view) {
-                    debugger;
-                    //alert(view);
+                    debugger;                   
 
                     $('#PopUpDetailsResult').html(view);
                     $('#PopUpDetailsResult').dialog({ width: 1000, height: 300, title: "Previous Prescriptions" }).dialogNoClose();
@@ -258,8 +231,7 @@
 
                 },
                 error: function (view) {
-                    alert(view);
-                    //$('#loaderSelectProducts').css('display', 'none');
+                    alert(view);                     
                 }
             });
         }
@@ -303,7 +275,7 @@
 
             </td>
             <td>&nbsp;&nbsp;</td>
-            <td><input type="button" name="submit" value="Sonography"  /></td>
+            <td><input type="button" name="submit" value="Sonography" /></td>
             <td><input type="button" name="submit" value="MTP" /></td>
             <td><input type="button" name="submit" value="Admit" /></td>
 
@@ -390,7 +362,7 @@
             <td>
                 <div class="form-group">
 
-                    <div class="col-md-10">
+                    <div class="col-md-10" id="focusleft" onblur="clickme();">
                         @{
                             var typeOfIntakeAdv = TempData.Peek("TypeOfIntakeAdv") as SelectList;
                             if (typeOfIntakeAdv != null)
@@ -543,7 +515,8 @@
     <table style="width: 100%">
         <thead>
             <tr>
-                <td><span style ="font-size: 40px; font-family: sans-serif; color:blue">&#8478;</span>
+                <td>
+                    <span style="font-size: 40px; font-family: sans-serif; color:blue">&#8478;</span>
                 </td>
 
             </tr>
