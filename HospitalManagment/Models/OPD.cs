@@ -44,6 +44,13 @@ namespace HospitalManagment.Models
         [Display(Name = "Height (Cm): ")]
         public int? Height { get; set; }
 
+        [Display(Name = "Date of Birth: ")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public object BirthDate
+        {
+            get;
+            set;
+        }
 
         //[Display(Name = "Allergy Details: ")]
         //public string AllergyDetails { get; set; }

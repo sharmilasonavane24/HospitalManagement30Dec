@@ -16,36 +16,6 @@ namespace HospitalManagment.Controllers
     [HandleError]
     public class OPDController : Controller
     {
-        //[HttpGet]
-        //public ActionResult OPD()
-        //{
-
-        //    Models.OPD opd = new Models.OPD();
-        //    using (HospitalEntities ent = new HospitalEntities())
-        //    {
-        //        var lastOPDNumber = (from opdnumber in ent.OPDs
-        //                             where opdnumber.OPDDate.Value.Month == DateTime.Now.Month && opdnumber.OPDDate.Value.Year == DateTime.Now.Year
-        //                             orderby opdnumber.OPDId descending
-        //                             select opdnumber.OPDNumber).FirstOrDefault();
-        //        if (lastOPDNumber == null)
-        //        {
-        //            opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/1");
-        //        }
-        //        else
-        //        {
-        //            string[] split = lastOPDNumber.Split('/');
-        //            opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + Convert.ToString(Convert.ToInt32(split.Last()) + 1));
-        //        }
-        //        opd.history = new Models.History();
-        //        HospitalManagment.Models.History _history = new Models.History();
-
-        //        opd.history = _history;
-        //        AddDefaultMedicineName();
-        //    }
-
-        //    //return OPD(opd, "Save Examination");
-        //    return View(opd);
-        //}
 
         [HttpGet]
         public ActionResult OPD(int? PatientId)
@@ -99,7 +69,8 @@ namespace HospitalManagment.Controllers
                                             tbl.AdharCardNumber,
                                             tbl.Profession,
                                             tbl.Gender,
-                                            tbl.Height
+                                            tbl.Height,
+                                            tbl.FatherOrSpouseProfession
                                         }).FirstOrDefault();
                 var contact = (from test in ent.PersonDetails
                                where test.PersonID == PatientId
@@ -121,6 +92,8 @@ namespace HospitalManagment.Controllers
                     string[] split = lastOPDNumber.Split('/');
                     opd.MonthOPDNo = string.Concat(DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + Convert.ToString(Convert.ToInt32(split.Last()) + 1));
                 }
+                opd.BirthDate = Convert.ToDateTime(getPaientDetails.BirthDate).Date.ToString("dd-MMM-yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                opd.FatherOrSpouseProfession = getPaientDetails.FatherOrSpouseProfession;
 
                 opd.Age = GetAge(getPaientDetails.BirthDate);
                 opd.PatientFullName = string.Join(" ", getPaientDetails.Firstname, getPaientDetails.MiddleName, getPaientDetails.lastName);
@@ -128,9 +101,12 @@ namespace HospitalManagment.Controllers
                 opd.Gender = getPaientDetails.Gender;
                 opd.Occupation = getPaientDetails.Profession;
                 opd.ReferredBy = getPaientDetails.ReferredBy;
-                opd.Address = string.Concat(address.StreetName, " ,", address.City, " ,", address.District, " ,", address.State);
+                opd.Address = Convert.ToString(address.StreetName);// string.Concat(address.StreetName, " ,", address.City, " ,", address.District, " ,", address.State);
                 opd.Mobile = address.ContactNumber;
-                opd.Height = Convert.ToInt32(getPaientDetails.Height);
+                if (getPaientDetails.Height != null && string.IsNullOrEmpty(getPaientDetails.Height))
+                {
+                    opd.Height = Convert.ToInt32(getPaientDetails.Height);
+                }
                 opd.history = new Models.History();
                 var history = (from his in ent.Histories
                                where his.PersonId == PatientId
@@ -193,8 +169,9 @@ namespace HospitalManagment.Controllers
                     using (HospitalEntities ent = new HospitalEntities())
                     {
                         OPD patientOPD = new HospitalManagment.OPD();
-                        dynamic _per;
 
+
+                        dynamic _per;
                         if (opd.PersonId > 0)
                         {
                             _per = (from detail in ent.PersonDetails
@@ -205,21 +182,29 @@ namespace HospitalManagment.Controllers
                         }
                         else
                         {
-
-                            var ppl = new Person(); var con = new Contact(); var detail = new PersonDetail();
-                            _per = new { ppl, con, detail };
-
-
+                            _per = new { ppl = new Person(), con = new Contact(), detail = new PersonDetail() };
                         }
                         _per.ppl.Age = opd.Age;
-                        _per.ppl.Firstname = opd.PatientFullName.Split(' ')[0];
-                        _per.ppl.MiddleName = opd.PatientFullName.Split(' ')[1];
-                        _per.ppl.lastName = opd.PatientFullName.Split(' ')[2];
+                        if (opd.PatientFullName.Trim().Contains(' '))
+                        {
+                            _per.ppl.Firstname = opd.PatientFullName.Split(' ')[0];
+                            _per.ppl.MiddleName = opd.PatientFullName.Split(' ').Length >= 2 ? string.Empty : opd.PatientFullName.Split(' ')[1];
+                            _per.ppl.lastName = opd.PatientFullName.Split(' ').Length >= 3 ? string.Empty : opd.PatientFullName.Split(' ')[2];
+                        }
+                        else
+                        {
+                            _per.ppl.Firstname = opd.PatientFullName.Trim();
+                        }
                         _per.ppl.Gender = opd.Gender;
                         _per.ppl.Profession = opd.Occupation;
                         _per.ppl.FatherOrSpouseProfession = opd.FatherOrSpouseProfession;
                         _per.ppl.ReferredBy = opd.ReferredBy;
                         _per.ppl.Religion = opd.Religion;
+                        if (opd.BirthDate != null && !string.IsNullOrEmpty(Convert.ToString(opd.BirthDate)) && !string.IsNullOrEmpty(((string[])opd.BirthDate)[0]))
+                        {
+                            _per.ppl.BirthDate = Convert.ToDateTime(((string[])opd.BirthDate)[0]);
+                        }
+
 
                         _per.con.City = "Phaltan";
                         _per.con.ContactNumber = opd.Mobile;
@@ -241,17 +226,18 @@ namespace HospitalManagment.Controllers
                                 PersonID = _per.ppl.PersonId,
                                 PersonTypeID = 1
                             });
+                            ent.SaveChanges();
+                            opd.PersonId = _per.ppl.PersonId;
+                            ModelState.AddModelError("Error", "Patient details saved successfully!");
+                            return OPD(opd, "Save Examination");
                         }
 
                         ent.SaveChanges();
-                        opd.PersonId = _per.ppl.PersonId;
+
 
                     }
                     ModelState.AddModelError("Error", "Patient details saved successfully!");
-                    return OPD(opd, "Save Examination");
-
-
-
+                    return View(opd);
 
                 case "Save History":
                     using (HospitalEntities ent = new HospitalEntities())
@@ -451,12 +437,7 @@ namespace HospitalManagment.Controllers
                                    join per in ent.People on patientDetail.PersonID equals per.PersonId
                                    join opd in ent.OPDs on per.PersonId equals opd.PersonID into test
                                    from opd1 in test.DefaultIfEmpty()
-                                   join cont in ent.Contacts on patientDetail.ContactID equals cont.ContactId
-                                   //where per.Firstname.Contains(searchPatient.FirstName)
-                                   //|| cont.ContactNumber.Contains(searchPatient.ContactNumber)
-                                   //|| per.PersonId.Equals(person)
-                                   //|| t.OPDNumber.Contains(searchPatient.OPDNO)
-
+                                   join cont in ent.Contacts on patientDetail.ContactID equals cont.ContactId                                    
                                    select new { per, cont, opd1 }).ToList().Distinct();
 
 
@@ -474,7 +455,11 @@ namespace HospitalManagment.Controllers
 
                 if (searchPatient != null && searchPatient.OPDNO != null)
                 {
-                    showDetails = showDetails.Where(a => a.opd1.OPDNumber.Contains(searchPatient.OPDNO));
+                    if (showDetails != null)
+                    {
+                       
+                        showDetails = showDetails.Where(a => a.opd1  != null).Where(a => a.opd1.OPDNumber.Equals(searchPatient.OPDNO));
+                    }
                 }
 
                 showDetails = showDetails.Distinct();
@@ -532,7 +517,7 @@ namespace HospitalManagment.Controllers
                 // model.List = new List<ElementViewModelItem> { new ElementViewModelItem { IdElement = 1 }, new ElementViewModelItem { IdElement = 2 } };
                 return PartialView("_InvestigationsPartialView", model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
                 //ex.Message.ToString();
@@ -581,7 +566,7 @@ namespace HospitalManagment.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.Message = "File upload failed!!";
 
@@ -641,7 +626,7 @@ namespace HospitalManagment.Controllers
                 ViewBag.Message = "File Uploaded Successfully!!";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.Message = "File upload failed!!";
 
@@ -782,7 +767,11 @@ namespace HospitalManagment.Controllers
                     prescription.Dosage = Convert.ToInt32(item.examinations.Dosage);
                     prescription.ManagementPlan = item.examinations.ManagementPlan;
                     prescription.NameOfMedicine = item.medName.MedcineName1;
-                    prescription.NextOpointmentDate = Convert.ToString(item.examinations.NextAppoinmentDate);
+                    if (item.examinations.NextAppoinmentDate != null)
+                    {
+                        prescription.NextOpointmentDate = item.examinations.NextAppoinmentDate.Value.ToString("dd-MM-yyyy HH:mm");
+                    }
+                    // Convert.ToDateTime(item.examinations.NextAppoinmentDate).Date.ToString("dd-M-yyyy mm:ss", CultureInfo.CreateSpecificCulture("en-US"));
                     prescription.NumberOfDays = item.examinations.NumberOfDays;
                     prescription.PrescriptionID = item.examinations.PrescriptionID;
                     prescription.TypeOfIntakeAdv = item.adv.TypeName;
