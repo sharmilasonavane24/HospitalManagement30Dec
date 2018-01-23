@@ -8,13 +8,13 @@ namespace HospitalManagment.Models
         [Display(Name = "Medicine:")]
         public string NameOfMedicine { get; set; }
 
-        [Display(Name = "Dosage:")]
+        [Display(Name = "Duration:")]
         public int Dosage { get; set; }
 
         [Display(Name = "Type:")]
         public string TypeOfMedicine { get; set; }
 
-        [Display(Name = "Weight:")]
+        [Display(Name = "Dose (In mg)")]
         public decimal Weight { get; set; }
 
         [Display(Name = "Days:")]
