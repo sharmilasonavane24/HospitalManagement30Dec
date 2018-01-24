@@ -38,7 +38,7 @@
 
                     $('#NewMedicine').attr('readonly', false);
                     $('#otherMedicine').attr("style", "display: inline");
-                    $('#otherMedicineLbl').attr("style", "display: inline"); 
+                    $('#otherMedicineLbl').attr("style", "display: inline");
                     $('#btnRemoveMedicine').attr("style", "display: none");
 
                 } else {
@@ -47,7 +47,7 @@
                     $('#otherMedicine').attr("style", "display: none");
                     $('#otherMedicineLbl').attr("style", "display: none");
                     $('#btnRemoveMedicine').attr("style", "display: inline");
-                 
+
 
                 }
             }
@@ -225,7 +225,7 @@
                     personId: personId
                 },
                 success: function (view) {
-                    debugger;                   
+                    debugger;
 
                     $('#PopUpDetailsResult').html(view);
                     $('#PopUpDetailsResult').dialog({ width: 1000, height: 300, title: "Previous Prescriptions" }).dialogNoClose();
@@ -233,7 +233,7 @@
 
                 },
                 error: function (view) {
-                    alert(view);                     
+                    alert(view);
                 }
             });
         }
@@ -289,12 +289,13 @@
 
 
         <tr>
-         
+
             <td>Type:</td>
             <td>Medicine:</td>
             <td>&nbsp;</td>
             <td>
-                <div id="otherMedicineLbl" style="display: none">New Medicine Name:</div></td>
+                <div id="otherMedicineLbl" style="display: none">New Medicine Name:</div>
+            </td>
             <td>Dose (In mg):</td>
             <td>Duration:</td>
             <td>Days:</td>
@@ -312,10 +313,10 @@
                             if (typeOfMedicine != null)
                             {
                                 @Html.DropDownList("TypeOfMedicine", typeOfMedicine, "Tablet")
-                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new {@class = "text-danger"})
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
                             }
                         }
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new {@class = "text-danger"})
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfMedicine, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </td>
@@ -326,8 +327,8 @@
                             var data = TempData.Peek("MedicineNames") as SelectList;
                             if (data != null)
                             {
-                                @Html.DropDownList("NameOfMedicine", data, "Select Medicine", new {style = "width: 150px;"})
-                                @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new {@class = "text-danger"})
+                                @Html.DropDownList("NameOfMedicine", data, "Select Medicine", new { style = "width: 150px;" })
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].NameOfMedicine, "", new { @class = "text-danger" })
                             }
                         }
 
@@ -343,16 +344,23 @@
                 <div class="form-group" id="MedicinesWeight">
 
                     <div class="col-md-10">
-                        @Html.TextBox("NewWeight", null, new {@class = "medium"})
-
+                        @Html.TextBox("NewWeight", null, new { @class = "medium" })
+                        
                     </div>
                 </div>
             </td>
             <td>
                 <div class="form-group">
                     <div class="col-md-10">
-                        <input type="text" id="Dosage" class="medium"/>
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].Dosage, "", new {@class = "text-danger"})
+                        <input type="text" id="Dosage" class="medium" />
+                        <fieldset>
+                            @*<legend>Dosage?</legend>*@
+                            <input type="checkbox" name="DosageOption" value="Morning" />Morning  
+                            <input type="checkbox" name="DosageOption" value="Afternoon" />Afternoon
+                            <input type="checkbox" name="DosageOption" value="Night" />Night
+                            
+                        </fieldset>
+                        @*@Html.ValidationMessageFor(model => model.prscriptionList[0].Dosage, "", new {@class = "text-danger"})*@
                     </div>
                 </div>
             </td>
@@ -360,7 +368,7 @@
             <td>
                 <div class="form-group">
                     <div class="col-md-10">
-                        <input type="text" id="NumberOfDays" class="medium"/>
+                        <input type="text" id="NumberOfDays" class="medium" />
                     </div>
                 </div>
             </td>
@@ -372,20 +380,20 @@
                             var typeOfIntakeAdv = TempData.Peek("TypeOfIntakeAdv") as SelectList;
                             if (typeOfIntakeAdv != null)
                             {
-                                @Html.DropDownList("TypeOfIntakeAdv", typeOfIntakeAdv, (SelectList) ViewBag.DefaultTypeOfIntakeAdv)
-                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new {@class = "text-danger"})
+                                @Html.DropDownList("TypeOfIntakeAdv", typeOfIntakeAdv, (SelectList)ViewBag.DefaultTypeOfIntakeAdv)
+                                @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new { @class = "text-danger" })
                             }
                         }
-                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new {@class = "text-danger"})
+                        @Html.ValidationMessageFor(model => model.prscriptionList[0].TypeOfIntakeAdv, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </td>
 
         </tr>
         @*<tr>
-            <td></td>
-            <td><input type="button" name="submit" value="Remove" onclick="return DeleteExistingMedicine();" /></td>
-        </tr>*@
+                <td></td>
+                <td><input type="button" name="submit" value="Remove" onclick="return DeleteExistingMedicine();" /></td>
+            </tr>*@
     </table>
 
 
@@ -430,50 +438,50 @@
                         {
                             index++;
                             var trid = string.Concat("tablePost", index);
-                            <tr id="@trid">
-                                <td>
+                <tr id="@trid">
+                    <td>
 
-                                    @if (item.NameOfMedicine == "Other")
+                        @if (item.NameOfMedicine == "Other")
                                     {
-                                        @item.newmedicine
+                                    @item.newmedicine
                                     }
                                     else
                                     {
-                                        @item.NameOfMedicine
+                                    @item.NameOfMedicine
                                     }
-                                </td>
-                                <td>
-                                    @item.Dosage
+                    </td>
+                    <td>
+                        @item.Dosage
 
-                                </td>
-                                <td>
-                                    @item.NumberOfDays
-                                </td>
-                                <td>
-                                    @item.Comment
+                    </td>
+                    <td>
+                        @item.NumberOfDays
+                    </td>
+                    <td>
+                        @item.Comment
 
-                                </td>
-                                <td>
-                                    @item.ManagementPlan
-                                </td>
-                                <td>
-                                    @item.TypeOfMedicine
-                                </td>
-                                <td>
-                                    @item.Weight
+                    </td>
+                    <td>
+                        @item.ManagementPlan
+                    </td>
+                    <td>
+                        @item.TypeOfMedicine
+                    </td>
+                    <td>
+                        @item.Weight
 
-                                </td>
-                                <td>
-                                    @item.newmedicine
-                                </td>
-                                <td>
-                                    @item.TypeOfIntakeAdv
-                                </td>
-                                <td>
-                                    <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
-                                </td>
-                                @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
-                            </tr>
+                    </td>
+                    <td>
+                        @item.newmedicine
+                    </td>
+                    <td>
+                        @item.TypeOfIntakeAdv
+                    </td>
+                    <td>
+                        <input id='btnAddBook' type='button' value='Remove' onclick='return removeRow(  @index , @item.PrescriptionID );' />
+                    </td>
+                    @Html.Hidden("PrescriptionID" + index, item.PrescriptionID)
+                </tr>
                         }
                     }
                 }
@@ -484,46 +492,36 @@
 
 
 <div style="display: none;" id="divPrintPrescription" onload="window.print();">
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-    <table>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<table border="0"><tr><td style="width: 20%"></td> <td style="width: 80%">
+<table border="0"><tr><td>
+    <table border="0">
 
         <tr>
 
-            <td>OPD No:</td>
-            <td>@Model.MonthOPDNo</td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
-            <td>Date:</td>
-            <td>@DateTime.Now.ToString("dd-MMM-yyyy hh:mm")</td>
+            <td>OPD No: @Model.MonthOPDNo Date: @DateTime.Now.ToString("dd-MMM-yyyy hh:mm")</td>
         </tr>
-    </table>
-    <hr />
-    <table>
+       
         <tr>
-            <td>Name:</td>
-            <td>@Model.PatientFullName</td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td>@Model.Age Years-@Model.Gender</td>
-
-        </tr>
-    </table>
-    <hr />
-    <table>
+            <td>Name:@Model.PatientFullName | @Model.Age Years-@Model.Gender</td>
+            
+        </tr>   
         <tr>
-            <td>Address:</td>
-            <td>@Model.Address</td>
-            <td>Contact No. @Model.Mobile</td>
+            
+            <td>Address:@Model.Address | Contact No. @Model.Mobile</td>
+           
         </tr>
     </table>
+   
     <hr style="border-bottom: 3px solid black;" />
 
-    <table style="width: 100%">
+    <table style="width: 100%" border="0">
         <thead>
             <tr>
                 <td>
                     <span style="font-size: 40px; font-family: sans-serif; color:blue">&#8478;</span>
                 </td>
-
+                <td></td>
             </tr>
         </thead>
         <tbody style="width: 100%">
@@ -554,7 +552,15 @@
                                     break;
                                 case "Tablet":
                                 case "Capsule":
-                                    medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " mg";
+                                    if (item.Weight != 0)
+                                    {
+                                        medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine + "..." + item.Weight + " mg";
+                                    }
+                                    else
+                                    {
+                                        medicineDetails = item.TypeOfMedicine + "  " + nameOfMedicine;
+                                    }
+
                                     quantity = item.Dosage * item.NumberOfDays;
                                     break;
                                 case "Creame":
@@ -642,18 +648,18 @@
                                     break;
                             }
 
-                            <td width="60%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @intakeAdv</td>
+                                    <td width="60%">@medicineDetails <br /> @dosageDetails &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @intakeAdv</td>
 
-                            <td width="10%">( @quantity )</td>
+                                    <td width="10%">( @quantity )</td>
 
 
                         }
                     </tr>
                                 strComment = strComment + " " + @item.Comment;
                             }
-                            <tr><td><br /></td></tr>
+                             
                             <tr>
-                                <td colspan="3">
+                                <td>
                                     @{var opointmentDateTime = ((string[])(@Model.prscriptionList[0].NextOpointmentDate))[0];
                                         if (opointmentDateTime != "")
                                         {
@@ -662,26 +668,22 @@
 
                                     }
                                 </td>
+                                <td></td>
                             </tr>
-                            <tr><td><label>@strComment</label></td></tr>
-                            <tr>
-                                <td colspan="3" style="text-align: end;">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <label> .... Sign</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
+                                        <tr><td><label>@strComment</label></td><td></td></tr>
+                                        <tr>
+                                            <td style="text-align: end;">
+                                                <br />
+                                                <br />
+                                                <br />
+                                                <label> .... Sign</label>
+                                            </td>
+                                            <td></td>
+                                        </tr>
 
-
-                                    @*<input class="ad" type="submit" onclick="window.print();" name="Print" />*@
-                                </td>
-                            </tr>
                                         }
         </tbody>
     </table>
-
-
+</td></tr></table>
+</td></tr></table>
 </div>
