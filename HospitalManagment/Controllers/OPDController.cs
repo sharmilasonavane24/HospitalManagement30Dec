@@ -443,7 +443,7 @@ namespace HospitalManagment.Controllers
 
                 if (searchPatient != null && searchPatient.FirstName != null)
                 {
-                    showDetails = showDetails.Where(a => a.per.Firstname.Contains(searchPatient.FirstName));
+                    showDetails = showDetails.Where(a => a.per.Firstname.ToUpper().Contains(searchPatient.FirstName.ToUpper()));
                 }
 
                 if (searchPatient != null && searchPatient.ContactNumber != null)

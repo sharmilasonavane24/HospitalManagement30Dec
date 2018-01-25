@@ -615,6 +615,9 @@ input.small {
 input.medium {
     width: 60%;
 }
+input.extrasmall {
+    width: 1%;
+}
 /*.form-control {
 width:310px;
 height :30px;
