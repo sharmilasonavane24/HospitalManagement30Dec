@@ -23,6 +23,7 @@ namespace HospitalManagment
         }
     
         public int IPDId { get; set; }
+		public string IpdNumber { get; set; }
         public int TypeOfRoomAndBedId { get; set; }
         public Nullable<System.DateTime> AdmissionDate { get; set; }
     

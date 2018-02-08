@@ -113,6 +113,7 @@
     <Compile Include="Contact.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AdmitController.cs" />
     <Compile Include="Controllers\ConservativeDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IPDController.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="MedcineName.cs">
       <DependentUpon>HospitalDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdmitPatient.cs" />
     <Compile Include="Models\AllPatientDetails.cs" />
     <Compile Include="Models\ClinicalExamination.cs" />
     <Compile Include="Models\ConservativeDetailModel.cs" />
@@ -415,6 +417,7 @@
     <Content Include="Views\OperationDetail\OperationDetail.cshtml" />
     <Content Include="Views\TypeOfOperation\TypeOfOperation.cshtml" />
     <Content Include="Views\TypeOfRoomAndBed\TypeOfRoomAndBed.cshtml" />
+    <Content Include="Views\Admit\Admit.cshtml" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -2,8 +2,7 @@
     using System.Collections.Generic;
 namespace HospitalManagment.Models
 {
-   
-    
+      
     public   class OperationDetailModel
     {    
         public int OperationDetailId { get; set; }

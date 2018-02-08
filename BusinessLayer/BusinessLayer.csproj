@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdmitTypes.cs" />
     <Compile Include="IContact.cs" />
     <Compile Include="Gender.cs" />
     <Compile Include="IMembershipService.cs" />
